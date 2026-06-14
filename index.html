@@ -14,10 +14,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     
-    <!-- GSAP & Chart.js -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
@@ -32,7 +31,7 @@
             background-color: var(--dark-bg);
             color: #e5e7eb;
             overflow-x: hidden;
-            cursor: none; /* Custom cursor */
+            cursor: none;
         }
         
         .code-font { font-family: 'Fira Code', monospace; }
@@ -129,7 +128,6 @@
                 hpoddar<span class="text-cyan-400">.deploy()</span>
             </span>
             <div class="hidden md:flex space-x-8 text-xs code-font uppercase tracking-widest text-gray-400">
-                <a href="#metrics" class="hover:text-cyan-400 transition-colors interactive-hover">Metrics</a>
                 <a href="#terminal" class="hover:text-purple-400 transition-colors interactive-hover">Sys_Info</a>
                 <a href="#timeline" class="hover:text-pink-400 transition-colors interactive-hover">Timeline</a>
                 <a href="#projects" class="hover:text-cyan-400 transition-colors interactive-hover">Architectures</a>
@@ -142,7 +140,7 @@
         <div class="w-full relative z-10">
             <div class="gsap-hero inline-flex items-center space-x-2 glass-panel px-4 py-2 rounded-full text-xs text-cyan-400 code-font mb-8">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#06b6d4]"></span>
-                <span>SYSTEM ACTIVE // STOCKHOLM, SE <span class="hidden">[cite: 2]</span></span>
+                <span>SYSTEM ACTIVE // STOCKHOLM, SE</span>
             </div>
             
             <h1 class="gsap-hero cyber-title text-5xl md:text-8xl font-bold text-white mb-2 tracking-tighter">
@@ -155,7 +153,7 @@
             </div>
             
             <p class="gsap-hero text-gray-400 max-w-2xl leading-relaxed text-lg mb-10 border-l-2 border-cyan-500 pl-4 glass-panel p-4 rounded-r-xl">
-                Machine Learning Engineer specializing in computer vision, multimodal systems, and scalable MLOps. Dedicated to building robust pipelines and transitioning complex AI research into deployable solutions. <span class="hidden">[cite: 2]</span>
+                Machine Learning Engineer specializing in computer vision, multimodal systems, and scalable MLOps. Dedicated to building robust pipelines and transitioning complex AI research into deployable solutions.
             </p>
             
             <div class="gsap-hero flex flex-wrap gap-6 items-center">
@@ -184,60 +182,6 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-6 space-y-40 pb-32">
-
-        <!-- Live ML Metrics Dashboard -->
-        <section id="metrics" class="gsap-section scroll-mt-32">
-            <div class="mb-12 flex items-center gap-4">
-                <i class="fa-solid fa-chart-line text-3xl text-cyan-400"></i>
-                <h2 class="cyber-title text-3xl md:text-4xl text-white glow-text-cyan">Live Training Metrics</h2>
-            </div>
-            
-            <div class="grid lg:grid-cols-3 gap-6">
-                <!-- Chart.js Graph -->
-                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl perspective-container">
-                    <div class="layer-3d h-full">
-                        <div class="flex justify-between items-center mb-4 code-font text-sm">
-                            <span class="text-gray-400">Model: <span class="text-white">LungMate_EffNet_v3 <span class="hidden">[cite: 2]</span></span></span>
-                            <span class="text-green-400"><i class="fa-solid fa-circle-play animate-pulse mr-1"></i> Training Active</span>
-                        </div>
-                        <canvas id="lossChart" height="100"></canvas>
-                    </div>
-                </div>
-
-                <!-- Hardware Stats -->
-                <div class="flex flex-col gap-6">
-                    <div class="glass-panel p-6 rounded-2xl flex-1 flex flex-col justify-center relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/20 blur-2xl rounded-full group-hover:bg-purple-500/40 transition-all"></div>
-                        <h4 class="code-font text-gray-400 text-sm mb-2">GPU VRAM ALLOCATION</h4>
-                        <div class="text-4xl font-bold text-white mb-2 code-font">21.4 <span class="text-xl text-purple-400">GB</span></div>
-                        <div class="w-full bg-gray-800 rounded-full h-2 mb-1">
-                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full w-[89%]"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 text-right">89% of 24GB (RTX 4090)</div>
-                    </div>
-
-                    <!-- GitHub Mock Stats -->
-                    <div class="glass-panel p-6 rounded-2xl flex-1">
-                        <h4 class="code-font text-gray-400 text-sm mb-4"><i class="fa-brands fa-github text-white mr-2"></i> GITHUB TELEMETRY</h4>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center code-font text-sm">
-                                <span class="text-gray-300">Total Commits (2025)</span>
-                                <span class="text-cyan-400 font-bold">1,204</span>
-                            </div>
-                            <div class="flex justify-between items-center code-font text-sm">
-                                <span class="text-gray-300">PRs Merged</span>
-                                <span class="text-purple-400 font-bold">87</span>
-                            </div>
-                            <div class="flex gap-2 mt-4">
-                                <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs">Python 65%</span>
-                                <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded text-xs">Jupyter 20%</span>
-                                <span class="px-2 py-1 bg-orange-500/20 text-orange-300 rounded text-xs">MATLAB 15%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- AI Assistant Terminal & Neural Skills -->
         <section id="terminal" class="gsap-section scroll-mt-32">
@@ -281,11 +225,11 @@
                         </div>
                         <div class="glass-panel p-4 rounded-xl text-center z-10 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:scale-110 transition-transform">
                             <i class="fa-solid fa-fire text-2xl text-cyan-400 mb-2"></i>
-                            <div class="code-font text-xs text-white">PyTorch / YOLO <span class="hidden">[cite: 2]</span></div>
+                            <div class="code-font text-xs text-white">PyTorch / YOLO</div>
                         </div>
                         <div class="glass-panel p-4 rounded-xl text-center z-10 border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.2)] hover:scale-110 transition-transform">
                             <i class="fa-solid fa-brain text-2xl text-pink-400 mb-2"></i>
-                            <div class="code-font text-xs text-white">RAG / LangChain <span class="hidden">[cite: 2]</span></div>
+                            <div class="code-font text-xs text-white">RAG / LangChain</div>
                         </div>
                         
                         <!-- Center Node -->
@@ -296,11 +240,11 @@
 
                         <div class="col-start-1 glass-panel p-4 rounded-xl text-center z-10 border border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.2)] hover:scale-110 transition-transform">
                             <i class="fa-solid fa-cloud text-2xl text-pink-400 mb-2"></i>
-                            <div class="code-font text-xs text-white">GCP / MLflow <span class="hidden">[cite: 2]</span></div>
+                            <div class="code-font text-xs text-white">GCP / MLflow</div>
                         </div>
                         <div class="col-start-3 glass-panel p-4 rounded-xl text-center z-10 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:scale-110 transition-transform">
                             <i class="fa-brands fa-linux text-2xl text-cyan-400 mb-2"></i>
-                            <div class="code-font text-xs text-white">Linux / Git <span class="hidden">[cite: 2]</span></div>
+                            <div class="code-font text-xs text-white">Linux / Git</div>
                         </div>
                     </div>
                 </div>
@@ -320,10 +264,10 @@
                 <div class="timeline-item relative w-full md:w-1/2 md:-ml-[50%] md:pr-12 pl-10 md:pl-0 text-left md:text-right">
                     <div class="absolute top-0 md:top-2 left-[-11px] md:right-[-11px] md:left-auto w-5 h-5 bg-cyan-500 rounded-full shadow-[0_0_15px_#06b6d4]"></div>
                     <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500 transition-colors">
-                        <span class="code-font text-cyan-400 text-xs">Sep 2025 - Present <span class="hidden">[cite: 2]</span></span>
+                        <span class="code-font text-cyan-400 text-xs">Sep 2025 - Present</span>
                         <h3 class="text-xl font-bold text-white mt-1">Research Engineer</h3>
-                        <h4 class="text-sm text-gray-400 mb-3">Robotics Perception & Learning Lab <span class="hidden">[cite: 2]</span></h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Prototyping a real-time, multimodal AI navigation system integrating computer vision and audio. Constructing dynamic scene graphs for autonomous spatial reasoning. <span class="hidden">[cite: 2]</span></p>
+                        <h4 class="text-sm text-gray-400 mb-3">Robotics Perception & Learning Lab</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Prototyping a real-time, multimodal AI navigation system integrating computer vision and audio. Constructing dynamic scene graphs for autonomous spatial reasoning.</p>
                     </div>
                 </div>
 
@@ -331,10 +275,10 @@
                 <div class="timeline-item relative w-full md:w-1/2 md:ml-[50%] md:pl-12 pl-10">
                     <div class="absolute top-0 md:top-2 left-[-11px] w-5 h-5 bg-purple-500 rounded-full shadow-[0_0_15px_#8b5cf6]"></div>
                     <div class="glass-panel p-6 rounded-2xl hover:border-purple-500 transition-colors">
-                        <span class="code-font text-purple-400 text-xs">Sep 2025 - Present <span class="hidden">[cite: 2]</span></span>
+                        <span class="code-font text-purple-400 text-xs">Sep 2025 - Present</span>
                         <h3 class="text-xl font-bold text-white mt-1">Systems Simulation Engineer / M.Sc. ML</h3>
-                        <h4 class="text-sm text-gray-400 mb-3">AESIR & KTH Royal Institute of Technology <span class="hidden">[cite: 2]</span></h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Developing the Freyja HIL system to simulate real-time aerospace sub-systems. Conducting rigorous validation for embedded flight software. <span class="hidden">[cite: 2]</span></p>
+                        <h4 class="text-sm text-gray-400 mb-3">AESIR & KTH Royal Institute of Technology</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Developing the Freyja HIL system to simulate real-time aerospace sub-systems. Conducting rigorous validation for embedded flight software.</p>
                     </div>
                 </div>
 
@@ -342,10 +286,10 @@
                 <div class="timeline-item relative w-full md:w-1/2 md:-ml-[50%] md:pr-12 pl-10 md:pl-0 text-left md:text-right">
                     <div class="absolute top-0 md:top-2 left-[-11px] md:right-[-11px] md:left-auto w-5 h-5 bg-pink-500 rounded-full shadow-[0_0_15px_#ec4899]"></div>
                     <div class="glass-panel p-6 rounded-2xl hover:border-pink-500 transition-colors">
-                        <span class="code-font text-pink-400 text-xs">2023 - 2024 <span class="hidden">[cite: 2]</span></span>
+                        <span class="code-font text-pink-400 text-xs">2023 - 2024</span>
                         <h3 class="text-xl font-bold text-white mt-1">Core AI & Embedded Internships</h3>
-                        <h4 class="text-sm text-gray-400 mb-3">DRDO, ISRO & TATA Memorial Hospital <span class="hidden">[cite: 2]</span></h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Engineered phased array antennas (DRDO, ISRO) achieving massive SNR improvements. Deployed U-Net/YOLOv8 for multi-organ nuclei segmentation with 30% higher accuracy (TATA). <span class="hidden">[cite: 2]</span></p>
+                        <h4 class="text-sm text-gray-400 mb-3">DRDO, ISRO & TATA Memorial Hospital</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Engineered phased array antennas (DRDO, ISRO) achieving massive SNR improvements. Deployed U-Net/YOLOv8 for multi-organ nuclei segmentation with 30% higher accuracy (TATA).</p>
                     </div>
                 </div>
 
@@ -371,9 +315,9 @@
                             <i class="fa-solid fa-microchip text-4xl text-cyan-400"></i>
                             <a href="#" class="text-gray-400 hover:text-white"><i class="fa-brands fa-github text-xl"></i></a>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3 float-element">AI-Driven Protocol Diagnostic Suite <span class="hidden">[cite: 2]</span></h3>
+                        <h3 class="text-2xl font-bold text-white mb-3 float-element">AI-Driven Protocol Diagnostic Suite</h3>
                         <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow float-element">
-                            Architecting a Generative AI pipeline using LangChain and MLflow to automate the interpretation of LoRaWan/Physical layer anomalies in telemetry logs through RAG-based diagnostics. <span class="hidden">[cite: 2]</span>
+                            Architecting a Generative AI pipeline using LangChain and MLflow to automate the interpretation of LoRaWan/Physical layer anomalies in telemetry logs through RAG-based diagnostics.
                         </p>
                         <div class="flex gap-2 text-xs code-font float-element">
                             <span class="bg-cyan-900/40 text-cyan-300 px-2 py-1 border border-cyan-500/30 rounded">LangChain</span>
@@ -390,9 +334,9 @@
                             <i class="fa-solid fa-laptop-medical text-4xl text-purple-400"></i>
                             <a href="#" class="text-gray-400 hover:text-white"><i class="fa-brands fa-github text-xl"></i></a>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3 float-element">LungMate: AI Diagnosis <span class="hidden">[cite: 2]</span></h3>
+                        <h3 class="text-2xl font-bold text-white mb-3 float-element">LungMate: AI Diagnosis</h3>
                         <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow float-element">
-                            Hybrid Computer Vision system utilizing EfficientNet-B3, Swin Transformer, and YOLOv11 for multi-metric tumor quantification, integrated with a PyQt GUI for real-time visualization. <span class="hidden">[cite: 2]</span>
+                            Hybrid Computer Vision system utilizing EfficientNet-B3, Swin Transformer, and YOLOv11 for multi-metric tumor quantification, integrated with a PyQt GUI for real-time visualization.
                         </p>
                         <div class="flex gap-2 text-xs code-font float-element">
                             <span class="bg-purple-900/40 text-purple-300 px-2 py-1 border border-purple-500/30 rounded">PyTorch</span>
@@ -406,15 +350,15 @@
                     <div class="layer-3d glass-panel rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center border-t-2 border-t-pink-500">
                         <div class="flex-1 float-element">
                             <h3 class="text-2xl font-bold text-white mb-3 flex items-center gap-3">
-                                IoT Safety Systems <span class="text-xs bg-pink-500/20 text-pink-400 px-2 py-1 rounded border border-pink-500/50">2 Patents Filed <span class="hidden">[cite: 2]</span></span>
+                                IoT Safety Systems <span class="text-xs bg-pink-500/20 text-pink-400 px-2 py-1 rounded border border-pink-500/50">2 Patents Filed</span>
                             </h3>
                             <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                                Engineered real-time Embedded Systems on ESP32 utilizing Sensor Fusion (MQ2 Gas, GPS, Pulse) and LoRaWAN for high-altitude autonomous safety and hazardous environments. <span class="hidden">[cite: 2]</span>
+                                Engineered real-time Embedded Systems on ESP32 utilizing Sensor Fusion (MQ2 Gas, GPS, Pulse) and LoRaWAN for high-altitude autonomous safety and hazardous environments.
                             </p>
                             <div class="flex flex-wrap gap-4 code-font text-xs text-gray-300">
-                                <span><i class="fa-solid fa-trophy text-yellow-400 mr-1"></i> 2× Raman Award <span class="hidden">[cite: 2]</span></span>
-                                <span><i class="fa-solid fa-robot text-cyan-400 mr-1"></i> DeepMind LLM Eval <span class="hidden">[cite: 2]</span></span>
-                                <span><i class="fa-solid fa-book text-purple-400 mr-1"></i> 15+ Publications <span class="hidden">[cite: 2]</span></span>
+                                <span><i class="fa-solid fa-trophy text-yellow-400 mr-1"></i> 2× Raman Award</span>
+                                <span><i class="fa-solid fa-robot text-cyan-400 mr-1"></i> DeepMind LLM Eval</span>
+                                <span><i class="fa-solid fa-book text-purple-400 mr-1"></i> 15+ Publications</span>
                             </div>
                         </div>
                     </div>
@@ -550,41 +494,7 @@
             });
         }
 
-        // 4. CHART.JS (Live Metrics)
-        const ctxChart = document.getElementById('lossChart').getContext('2d');
-        const gradient = ctxChart.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
-        gradient.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
-
-        let epochLabels = Array.from({length: 20}, (_, i) => `Ep ${i+1}`);
-        let lossData = [2.5, 2.1, 1.8, 1.5, 1.2, 0.9, 0.75, 0.6, 0.5, 0.45, 0.4, 0.35, 0.3, 0.28, 0.25, 0.22, 0.2, 0.18, 0.15, 0.12];
-
-        new Chart(ctxChart, {
-            type: 'line',
-            data: {
-                labels: epochLabels,
-                datasets: [{
-                    label: 'Training Loss', data: lossData,
-                    borderColor: '#06b6d4', borderWidth: 2,
-                    backgroundColor: gradient, fill: true, tension: 0.4,
-                    pointBackgroundColor: '#fff', pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#6b7280' } },
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#6b7280' } }
-                },
-                animation: {
-                    x: { type: 'number', easing: 'linear', duration: 2000, from: NaN, delay(ctx) { if (ctx.type !== 'data' || ctx.xStarted) return 0; ctx.xStarted = true; return ctx.index * 100; } },
-                    y: { type: 'number', easing: 'linear', duration: 2000, from: (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y, delay(ctx) { if (ctx.type !== 'data' || ctx.yStarted) return 0; ctx.yStarted = true; return ctx.index * 100; } }
-                }
-            }
-        });
-
-        // 5. TYPING EFFECTS
+        // 4. TYPING EFFECTS
         const heroRoles = ["Computer Vision.", "Multimodal ML.", "Scalable Deployments."];
         let hIdx = 0, cIdx = 0, isDel = false;
         function startHeroTyping() {
@@ -601,7 +511,6 @@
         const aiText = "> Analysis complete.\n> Candidate possesses strong foundations in PyTorch, YOLOv11, and RAG architectures.\n> Demonstrated ability to optimize parameters for multi-organ segmentation (30% accuracy boost).\n> Excellent fit for complex scene graph and hardware-in-the-loop deployments.\n> Recommendation: HIRE.";
         let aiIdx = 0;
         function startAiTerminalTyping() {
-            // Only start when scrolled into view
             ScrollTrigger.create({
                 trigger: "#terminal",
                 start: "top 80%",
@@ -614,12 +523,12 @@
                             setTimeout(type, 30);
                         }
                     }
-                    setTimeout(type, 1000); // delay after section reveals
+                    setTimeout(type, 1000); 
                 }
             });
         }
 
-        // 6. NEURAL CANVAS (Background)
+        // 5. NEURAL CANVAS (Background)
         const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
