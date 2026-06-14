@@ -1,660 +1,499 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Harshit Poddar | Spatial AI Architecture</title>
     
-    <title>Harshit Poddar | Machine Learning Engineer & AI Researcher</title>
-    <meta name="description" content="Portfolio of Harshit Poddar. Machine Learning Engineer specializing in Computer Vision, Multimodal AI, LLMs, and scalable MLOps.">
-    <meta name="keywords" content="Harshit Poddar, AI Engineer, Machine Learning, Computer Vision, RAG, MLOps, Deep Learning, KTH">
-    <meta name="author" content="Harshit Poddar">
-    
-    <meta property="og:title" content="Harshit Poddar | AI Architect & ML Engineer">
-    <meta property="og:description" content="Explore advanced AI architectures, multimodal pipelines, and research by Harshit Poddar.">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@300;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --neon-cyan: #06b6d4;
+            --neon-purple: #8b5cf6;
+            --neon-pink: #ec4899;
+            --bg-glass: rgba(10, 15, 30, 0.4);
+            --border-glass: rgba(6, 182, 212, 0.3);
+            --font-cyber: 'Syncopate', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent native scrolling completely */
+            background-color: #030712;
+            color: #ffffff;
+            font-family: var(--font-body);
+            user-select: none;
+        }
+
+        /* Fixed WebGL Canvas */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* UI Layer Overlay */
+        #ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Let wheel events pass through to window */
+        }
+
+        /* Glassmorphism Panel Base */
+        .spatial-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centered initially */
+            width: 90%;
+            max-width: 800px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(6, 182, 212, 0.1);
+            opacity: 0; /* Hidden by default, JS controls this */
+            pointer-events: none; /* JS enables this when visible */
+            transition: border-color 0.3s ease;
+        }
+
+        .spatial-panel:hover {
+            border-color: var(--neon-purple);
+        }
+
+        /* Typography & Layouts */
+        .cyber-title {
+            font-family: var(--font-cyber);
+            font-size: clamp(2rem, 4vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .code-text {
+            font-family: var(--font-code);
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-content {
+            color: #94a3b8;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .flex-row { display: flex; gap: 2rem; align-items: flex-start; }
+        .flex-col { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+        
+        .tech-tag {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Interactive Buttons */
+        .cyber-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: var(--font-code);
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 1.5rem;
+        }
+
+        .cyber-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+        }
+
+        /* Persistent Navigation Overlay */
+        .hud-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            font-family: var(--font-code);
+            color: var(--neon-purple);
+            pointer-events: auto;
+        }
+
+        .scroll-instruction {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            font-family: var(--font-code);
+            color: var(--neon-cyan);
+            text-align: center;
+            animation: pulse 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Scroll Progress Bar */
+        #z-progress {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            z-index: 100;
+            border-radius: 4px;
+        }
+        #z-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--neon-cyan);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+    </style>
 </head>
 <body>
 
-    <div id="boot-screen">
-        <div class="boot-matrix-bg" id="boot-matrix"></div>
-        <div class="boot-terminal code-font">
-            <div id="boot-logs"></div>
-            <div class="boot-progress-bar">
-                <div id="boot-progress-fill"></div>
-            </div>
-            <div class="boot-percentage" id="boot-percentage">0%</div>
-        </div>
+    <!-- WebGL Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- HUD Elements -->
+    <div class="hud-nav">
+        hpoddar.sceneGraph();
     </div>
-
-    <div id="custom-cursor"></div>
-    <div id="cursor-trail-canvas-container">
-        <canvas id="cursor-trail-canvas"></canvas>
+    <div class="scroll-instruction">
+        <i class="fa-solid fa-computer-mouse mb-2"></i><br>
+        [ INITIATE SCROLL SEQUENCE ]
     </div>
+    <div id="z-progress"><div id="z-progress-fill"></div></div>
 
-    <div class="global-backgrounds">
-        <canvas id="three-ai-canvas"></canvas>
-        <div id="particles-container"></div>
-        <div class="aurora-gradient aurora-1"></div>
-        <div class="aurora-gradient aurora-2"></div>
-        <div class="noise-overlay"></div>
-    </div>
-
-    <div id="scroll-progress-bar"></div>
-    
-    <div class="os-controls">
-        <button id="theme-toggle" class="glass-btn" aria-label="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <button id="cmd-palette-trigger" class="glass-btn" aria-label="Command Palette" title="Cmd/Ctrl + K">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </div>
-
-    <button id="back-to-top" class="glass-btn glow-hover" aria-label="Back to Top">
-        <i class="fa-solid fa-rocket"></i>
-    </button>
-
-    <div id="command-palette" class="glass-modal hidden">
-        <div class="cmd-content">
-            <div class="cmd-input-wrapper">
-                <i class="fa-solid fa-terminal text-neon-blue"></i>
-                <input type="text" id="cmd-input" class="code-font" placeholder="Search portfolio, jump to section, or type command...">
-                <span class="cmd-esc code-font">ESC</span>
-            </div>
-            <ul id="cmd-results" class="cmd-results-list">
-                </ul>
-        </div>
-    </div>
-
-    <div id="live-ai-dashboard" class="glass-panel floating-dashboard draggable">
-        <div class="dash-header">
-            <i class="fa-solid fa-microchip pulse-icon"></i> <span class="code-font">SYSTEM.METRICS</span>
-        </div>
-        <div class="dash-grid code-font">
-            <div class="metric"><span class="label">GPU VRAM:</span> <span class="val gpu-val">22.4 GB</span></div>
-            <div class="metric"><span class="label">Inference:</span> <span class="val latency-val">12 ms</span></div>
-            <div class="metric"><span class="label">Accuracy:</span> <span class="val acc-val">98.7%</span></div>
-            <div class="metric"><span class="label">Tokens/s:</span> <span class="val tps-val">142</span></div>
-            <div class="metric"><span class="label">Loss Curve:</span> <canvas id="mini-loss-chart" width="60" height="20"></canvas></div>
-        </div>
-    </div>
-
-    <div id="ai-assistant">
-        <button id="chatbot-toggle" class="glass-btn glow-hover">
-            <i class="fa-solid fa-robot"></i>
-        </button>
-        <div id="chatbot-window" class="glass-panel hidden">
-            <div class="chat-header">
-                <div class="chat-title"><span class="pulse-dot"></span> Poddar.AI Agent</div>
-                <button id="chat-close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="chat-body code-font" id="chat-messages">
-                <div class="msg ai-msg">Greetings. I am the AI representation of Harshit Poddar. Query my knowledge base regarding research, deployments, or architecture.</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Initiate prompt...">
-                <button id="chat-send"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <header id="navbar" class="glass-nav">
-        <div class="nav-brand">
-            <a href="#hero" class="brand-text">hpoddar<span class="neon-accent">.engine()</span></a>
-        </div>
-        <nav class="nav-links code-font">
-            <a href="#about" class="nav-link" data-section="about">About</a>
-            <a href="#experience" class="nav-link" data-section="experience">Experience</a>
-            <a href="#projects" class="nav-link" data-section="projects">Architectures</a>
-            <a href="#skills" class="nav-link" data-section="skills">Tensor Weights</a>
-            <a href="#research" class="nav-link" data-section="research">Publications</a>
-            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
-        </nav>
-        <div class="mobile-menu-toggle">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-    </header>
-
-    <main>
+    <!-- UI Overlay Layer -->
+    <div id="ui-layer">
         
-        <section id="hero" class="fullscreen-section">
-            <div class="hero-content">
-                <div class="status-badge glass-panel fade-up">
-                    <span class="status-dot"></span> OPERATIONAL // STOCKHOLM, SE
-                </div>
-                <h1 class="glitch-title fade-up" data-text="HARSHIT PODDAR">HARSHIT <span class="neon-gradient-text">PODDAR</span></h1>
-                <h2 class="role-subtitle code-font fade-up">
-                    &gt; <span id="typed-roles"></span><span class="typed-cursor">|</span>
-                </h2>
+        <!-- Node 0: Hero (Mapped to Z = 0) -->
+        <div class="spatial-panel" data-zindex="0">
+            <h1 class="cyber-title">HARSHIT<br>PODDAR</h1>
+            <p class="code-text">&gt; M.Sc. Student | Machine Learning Engineer</p>
+            <p class="panel-content">
+                Welcome to my spatial architecture. I build robust pipelines, multimodal networks, and embedded safety systems. 
+                <br><br>Scroll to traverse the neural pathways of my experience.
+            </p>
+            <a href="mailto:harshit10233@gmail.com" class="cyber-btn"><i class="fa-solid fa-terminal"></i> Initialize Contact</a>
+        </div>
+
+        <!-- Node 1: Academics (Mapped to Z = -1500) -->
+        <div class="spatial-panel" data-zindex="1">
+            <h2 class="cyber-title" style="font-size: 2.5rem;">ACADEMIC BASE</h2>
+            <p class="code-text">// KTH ROYAL INSTITUTE OF TECHNOLOGY</p>
+            <div class="panel-content">
+                <p><strong>M.Sc. in Machine Learning</strong> (Stockholm, SE) <br>2025 - Present</p>
+                <p class="mt-4">Focused on spatial reasoning, multi-agent systems, and real-time computer vision deployments. Operating at the intersection of deep neural networks and hardware integration.</p>
                 
-                <div class="hero-cta fade-up">
-                    <a href="#projects" class="btn btn-primary premium-glow"><i class="fa-solid fa-network-wired"></i> View Architectures</a>
-                    <a href="CV_update.pdf" target="_blank" class="btn btn-glass"><i class="fa-solid fa-download"></i> Extract Weights (CV)</a>
+                <div class="mt-6">
+                    <span class="tech-tag">Advanced ML</span>
+                    <span class="tech-tag">Multi-Agent Systems</span>
+                    <span class="tech-tag">Scene Graphs</span>
                 </div>
-                
-                <div class="hero-socials fade-up">
-                    <a href="https://github.com" target="_blank" class="social-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="social-icon" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="mouse"></div>
-                <span class="code-font text-xs">SCROLL</span>
-            </div>
-        </section>
-
-        <section id="about" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 01. SYSTEM INITIALIZATION</span>
-                <h2 class="syncopate-title">About the Architect</h2>
-            </div>
-            
-            <div class="about-grid">
-                <div class="about-text glass-panel reveal-card">
-                    <p>Machine Learning Engineer specializing in computer vision, multimodal systems, and scalable MLOps. Dedicated to collaborating across teams to build robust pipelines and transition complex AI research into deployable solutions.</p>
-                    <p>Currently pursuing my M.Sc. in Machine Learning at KTH Royal Institute of Technology, operating at the intersection of deep neural networks and hardware-in-the-loop embedded systems.</p>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card glass-panel 3d-tilt reveal-card">
-                        <i class="fa-solid fa-book-journal-whills stat-icon"></i>
-                        <h3 class="counter" data-target="15">0</h3>
-                        <p class="code-font">Publications</p>
-                    </div>
-                    <div class="stat-card glass-panel 3d-tilt reveal-card">
-                        <i class="fa-solid fa-certificate stat-icon"></i>
-                        <h3 class="counter" data-target="2">0</h3>
-                        <p class="code-font">Patents Filed</p>
-                    </div>
-                    <div class="stat-card glass-panel 3d-tilt reveal-card">
-                        <i class="fa-solid fa-microchip stat-icon"></i>
-                        <h3 class="counter" data-target="5">0</h3>
-                        <p class="code-font">AI Architectures</p>
-                    </div>
-                    <div class="stat-card glass-panel 3d-tilt reveal-card">
-                        <i class="fa-solid fa-brain stat-icon"></i>
-                        <h3 class="counter" data-target="98">0</h3>
-                        <p class="code-font">% Inference Acc.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 02. KNOWLEDGE GRAPH</span>
-                <h2 class="syncopate-title">Academic Base</h2>
-            </div>
-            
-            <div class="cards-layout">
-                <div class="edu-card glass-panel 3d-tilt reveal-card">
-                    <div class="edu-header">
-                        <i class="fa-solid fa-building-columns text-neon-blue text-3xl"></i>
-                        <span class="code-font date-badge">2025 - Present</span>
-                    </div>
-                    <h3 class="font-bold text-2xl mt-4">M.Sc. in Machine Learning</h3>
-                    <h4 class="text-gray-400 mt-1">KTH Royal Institute of Technology | Stockholm, SE</h4>
-                </div>
-                
-                <div class="edu-card glass-panel 3d-tilt reveal-card delay-1">
-                    <div class="edu-header">
-                        <i class="fa-solid fa-microchip text-neon-purple text-3xl"></i>
-                        <span class="code-font date-badge">2021 - 2025</span>
-                    </div>
-                    <h3 class="font-bold text-2xl mt-4">B.Tech in Electronics & Communication</h3>
-                    <h4 class="text-gray-400 mt-1">Vellore Institute of Technology | Vellore, IN</h4>
-                    <p class="mt-2 code-font text-sm text-neon-pink">CGPA: 4.4/5</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 03. OPTIMIZATION LOGS</span>
-                <h2 class="syncopate-title">Career Trajectory</h2>
-            </div>
-            
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-blue"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Engineer</h3>
-                                <h4>Robotics Perception and Learning (RPL) Lab</h4>
-                            </div>
-                            <span class="code-font timeline-date">Sep 2025 - Present</span>
-                        </div>
-                        <p>Prototyping and optimizing a real-time, multimodal AI navigation system integrating computer vision and audio processing. Constructing dynamic scene graphs alongside researchers to enable spatial reasoning for autonomous agents.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-purple"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Systems Simulation Engineer</h3>
-                                <h4>AESIR (KTH Rocketry)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Sep 2025 - Present</span>
-                        </div>
-                        <p>Developing the Freyja HIL (Hardware-in-the-Loop) system to simulate real-time aerospace sub-systems; performing rigorous Test Development & System Validation for embedded flight software to ensure mission reliability.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-pink"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Summer Internship</h3>
-                                <h4>Defence Research & Development Organisation (DRDO)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Jun 2024 - Jul 2024</span>
-                        </div>
-                        <p>Engineered an 8x60 phased array antenna and real-time GUI in MATLAB, achieving 25% efficiency gain and 15% loss reduction while performing radar degradation analysis for fault-tolerant system design.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-blue"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Internship</h3>
-                                <h4>TATA Memorial Hospital, ACTREC</h4>
-                            </div>
-                            <span class="code-font timeline-date">Nov 2023 - Dec 2023</span>
-                        </div>
-                        <p>Deployed U-Net and YOLOv8L for multi-organ nuclei segmentation on the MoNuSeg dataset, achieving 30% higher accuracy with U-Net and 20% faster inference with YOLOv8L through performance trade-off analysis.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-purple"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Internship</h3>
-                                <h4>Indian Space Research Organisation (ISRO)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Sep 2023 - Oct 2023</span>
-                        </div>
-                        <p>Led the optimization of a 16x16 Phased Antenna Array for MEOSAR satellite signals, achieving >20% SNR improvement through Ansys HFSS simulations and beamforming algorithms (MVDR, LCMV).</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-pink"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Assistant</h3>
-                                <h4>Indian Institute of Management (IIM)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Mar 2023 - Jun 2023</span>
-                        </div>
-                        <p>Developed Python scripts for ETL processes for 5,000+ audience responses and 200+ TV ads; applied NLP sentiment scoring and statistical modelling to quantify emotional impact on 10+ persuasion metrics.</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="projects" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 04. DEPLOYED MODELS</span>
-                <h2 class="syncopate-title">AI Architectures</h2>
-            </div>
-            
-            <div class="projects-grid">
-                
-                <article class="project-card glass-panel 3d-tilt reveal-card">
-                    <div class="project-glow bg-blue"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-laptop-medical proj-icon"></i>
-                            <div class="proj-links">
-                                <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                            </div>
-                        </div>
-                        <h3>LungMate: AI-Driven Lung Cancer Diagnosis</h3>
-                        <p>Hybrid Computer Vision system for multi-metric tumor quantification, integrated with a PyQt GUI for real-time image enhancement and automated diagnostic visualization.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-chart-line"></i> Hybrid Vision</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">EfficientNet-B3</span>
-                            <span class="tag">Swin Transformer</span>
-                            <span class="tag">CBAM</span>
-                            <span class="tag">YOLOv11</span>
-                            <span class="tag">PyQt</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel 3d-tilt reveal-card delay-1">
-                    <div class="project-glow bg-purple"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-network-wired proj-icon"></i>
-                            <div class="proj-links">
-                                <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                            </div>
-                        </div>
-                        <h3>AI-Driven Protocol Diagnostic Suite</h3>
-                        <p>Architecting a Generative AI pipeline to automate the interpretation of LoRaWan/Physical layer anomalies in telemetry logs (Unstructured Data Processing) through RAG-based diagnostics.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-database"></i> RAG Pipeline</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">LangChain</span>
-                            <span class="tag">MLflow</span>
-                            <span class="tag">Generative AI</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel 3d-tilt reveal-card">
-                    <div class="project-glow bg-pink"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-helmet-safety proj-icon"></i>
-                            <div class="proj-links">
-                                <span class="patent-badge code-font"><i class="fa-solid fa-certificate"></i> Patent Filed</span>
-                            </div>
-                        </div>
-                        <h3>Industrial IoT Safety Wearable</h3>
-                        <p>Engineered a real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse Sensor) and LoRaWAN connectivity for critical safety telemetry in hazardous environments.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-tower-broadcast"></i> LoRaWAN</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">ESP32</span>
-                            <span class="tag">Sensor Fusion</span>
-                            <span class="tag">C++</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel 3d-tilt reveal-card delay-1">
-                    <div class="project-glow bg-blue"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-plane-departure proj-icon"></i>
-                            <div class="proj-links">
-                                <span class="patent-badge code-font"><i class="fa-solid fa-certificate"></i> Patent Filed</span>
-                            </div>
-                        </div>
-                        <h3>High-Altitude Autonomous Safety System</h3>
-                        <p>Designed a real-time Embedded System for fall detection utilizing Sensor Fusion and automated actuator deployment for high-reliability safety applications.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-gears"></i> Automated Actuation</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">Embedded Systems</span>
-                            <span class="tag">Hardware-in-the-Loop</span>
-                        </div>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-
-        <section id="pipeline" class="content-section full-width-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 05. ML WORKFLOW</span>
-                <h2 class="syncopate-title">Continuous Integration Pipeline</h2>
-            </div>
-            
-            <div class="pipeline-container">
-                <svg id="pipeline-svg-edges" class="pipeline-edges"></svg>
-                <div class="pipeline-track">
-                    <div class="pipe-node" data-node="data"><i class="fa-solid fa-database"></i> Dataset</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="prep"><i class="fa-solid fa-broom"></i> Feature Engineering</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node active-training" data-node="train"><i class="fa-solid fa-microchip pulse-icon"></i> Training</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="tune"><i class="fa-solid fa-sliders"></i> Hyperparameter Tuning</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="deploy"><i class="fa-solid fa-cloud-arrow-up"></i> Deployment</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node glow-endpoint" data-node="inference"><i class="fa-solid fa-bolt"></i> Inference & Monitoring</div>
-                </div>
-                <div id="pipeline-particles"></div>
-            </div>
-        </section>
-
-        <section id="skills" class="content-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 06. CAPABILITIES</span>
-                <h2 class="syncopate-title">Neural Knowledge Graph</h2>
-                <p class="code-font text-gray-400 mt-2 text-sm">Hover over nodes to illuminate pathways.</p>
-            </div>
-            
-            <div class="skills-network-wrapper glass-panel reveal-card">
-                <canvas id="skills-network-canvas"></canvas>
-                <div id="skills-html-nodes">
-                    <div class="skill-node" data-category="ai">PyTorch</div>
-                    <div class="skill-node" data-category="ai">YOLO (v8/v11)</div>
-                    <div class="skill-node" data-category="ai">U-Net</div>
-                    <div class="skill-node" data-category="ai">Transformers</div>
-                    <div class="skill-node" data-category="ai">Computer Vision</div>
-                    <div class="skill-node" data-category="ai">LangChain (RAG)</div>
-                    <div class="skill-node" data-category="ai">Hugging Face</div>
-                    <div class="skill-node" data-category="ai">LLMs</div>
-                    
-                    <div class="skill-node" data-category="data">Python</div>
-                    <div class="skill-node" data-category="data">MATLAB</div>
-                    <div class="skill-node" data-category="data">SQL</div>
-                    <div class="skill-node" data-category="data">Power BI</div>
-                    <div class="skill-node" data-category="data">Tableau</div>
-                    
-                    <div class="skill-node" data-category="ops">GCP</div>
-                    <div class="skill-node" data-category="ops">MLflow</div>
-                    <div class="skill-node" data-category="ops">Git/GitHub</div>
-                    <div class="skill-node" data-category="ops">Linux</div>
-                    <div class="skill-node" data-category="ops">Docker</div>
-                    <div class="skill-node" data-category="ops">System Validation</div>
-                    <div class="skill-node" data-category="ops">LaTeX</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="research" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 07. R&D OUTPUT</span>
-                <h2 class="syncopate-title">Patents & Publications</h2>
-            </div>
-            
-            <div class="rd-grid">
-                
-                <div class="patents-column">
-                    <h3 class="rd-col-title code-font"><i class="fa-solid fa-fingerprint"></i> Intellectual Property</h3>
-                    
-                    <div class="blueprint-card glass-panel reveal-card">
-                        <div class="blueprint-bg"></div>
-                        <div class="patent-seal"><i class="fa-solid fa-stamp"></i></div>
-                        <div class="blueprint-content">
-                            <span class="mono-tag">PATENT FILED</span>
-                            <h4>IoT Helmet & Safety Wearable</h4>
-                            <p>Real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse Sensor) and LoRaWAN connectivity.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="blueprint-card glass-panel reveal-card delay-1 mt-6">
-                        <div class="blueprint-bg"></div>
-                        <div class="patent-seal"><i class="fa-solid fa-stamp"></i></div>
-                        <div class="blueprint-content">
-                            <span class="mono-tag">PATENT FILED</span>
-                            <h4>High-Altitude Fall Protection</h4>
-                            <p>Real-time Embedded System for fall detection utilizing Sensor Fusion and automated actuator deployment for high-reliability safety applications.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pubs-column">
-                    <h3 class="rd-col-title code-font"><i class="fa-solid fa-book-open-reader"></i> Academic Literature</h3>
-                    
-                    <div class="pub-card glass-panel reveal-card">
-                        <div class="pub-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <div class="pub-details">
-                            <h4>15+ Published Research Papers</h4>
-                            <p class="pub-venues">Journals: <span class="highlight-blue">IEEE</span>, <span class="highlight-purple">Springer</span>, <span class="highlight-pink">Elsevier</span></p>
-                            <p class="mt-2 text-sm text-gray-400">Encompassing advanced signal processing, medical computer vision, array optimization, and neural network architectures.</p>
-                        </div>
-                    </div>
-
-                    <h3 class="rd-col-title code-font mt-10"><i class="fa-solid fa-trophy"></i> Recognitions</h3>
-                    
-                    <div class="achievements-list glass-panel reveal-card">
-                        <div class="achievement-item">
-                            <div class="achiev-icon glow-yellow"><i class="fa-solid fa-medal"></i></div>
-                            <div class="achiev-text">
-                                <strong>2× Raman Award Winner</strong>
-                                <span>Excellence in research and innovation.</span>
-                            </div>
-                        </div>
-                        <div class="achievement-item">
-                            <div class="achiev-icon glow-blue"><i class="fa-solid fa-robot"></i></div>
-                            <div class="achiev-text">
-                                <strong>LLM Evaluation Participant</strong>
-                                <span>Google DeepMind & Andon Labs (Paid Honorarium).</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-
-        <section id="terminal-section" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 08. EXECUTION ENVIRONMENT</span>
-                <h2 class="syncopate-title">Live Server Logs</h2>
-            </div>
-            
-            <div class="terminal-window glass-panel reveal-card">
-                <div class="term-header">
-                    <div class="term-buttons">
-                        <span class="close-btn"></span>
-                        <span class="min-btn"></span>
-                        <span class="max-btn"></span>
-                    </div>
-                    <div class="term-title code-font text-xs">harshit@kth-gpu-cluster: ~/workspace/LungMate</div>
-                </div>
-                <canvas id="terminal-matrix-canvas" class="term-matrix-bg"></canvas>
-                <div class="term-body code-font" id="terminal-output-container">
-                    </div>
-            </div>
-        </section>
-
-        <section id="contact" class="content-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 09. HANDSHAKE PROTOCOL</span>
-                <h2 class="syncopate-title">Initiate Contact</h2>
-            </div>
-            
-            <div class="contact-container">
-                <div class="contact-info reveal-card">
-                    <h3 class="text-3xl font-bold mb-6">Let's build the future of AI.</h3>
-                    <p class="text-gray-400 mb-8">Currently open to research collaborations, MLOps architect roles, and challenging engineering problems.</p>
-                    
-                    <ul class="contact-links-list code-font">
-                        <li><a href="mailto:harshit10233@gmail.com" class="magnetic-btn"><i class="fa-regular fa-envelope"></i> harshit10233@gmail.com</a></li>
-                        <li><span class="magnetic-btn"><i class="fa-solid fa-location-dot"></i> Stockholm, Sweden</span></li>
-                        <li><a href="https://linkedin.com" target="_blank" class="magnetic-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn Profile</a></li>
-                        <li><a href="https://github.com" target="_blank" class="magnetic-btn"><i class="fa-brands fa-github"></i> GitHub Repositories</a></li>
-                    </ul>
-                </div>
-                
-                <form id="contact-form" class="glass-form glass-panel reveal-card delay-1">
-                    <div class="form-group">
-                        <input type="text" id="sender-name" required placeholder=" ">
-                        <label for="sender-name">Identifier (Name)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="sender-email" required placeholder=" ">
-                        <label for="sender-email">Secure Address (Email)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="sender-subject" required placeholder=" ">
-                        <label for="sender-subject">Data Subject</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="sender-message" rows="4" required placeholder=" "></textarea>
-                        <label for="sender-message">Payload (Message)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary submit-btn">
-                        <span class="btn-text">Execute Transmission</span>
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <div class="form-success-msg hidden code-font text-neon-blue mt-4">
-                        <i class="fa-solid fa-check"></i> 200 OK: Payload Delivered Successfully.
-                    </div>
-                </form>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="glass-footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <span class="brand-text">hpoddar<span class="neon-accent">.engine()</span></span>
-                <p class="code-font mt-2 text-gray-400">Machine Learning Engineer | Researcher</p>
-            </div>
-            <div class="footer-tags code-font text-xs">
-                <span>Computer Vision</span>
-                <span>LLMs</span>
-                <span>RAG</span>
-                <span>Multimodal AI</span>
             </div>
         </div>
-        <div class="footer-bottom border-t border-white-10 mt-8 pt-8 flex justify-between items-center">
-            <p class="code-font text-xs text-gray-500">Made with <i class="fa-solid fa-heart text-neon-pink pulse-icon"></i> and Artificial Intelligence.</p>
-            <p class="code-font text-xs text-gray-500">&copy; 2026 Harshit Poddar. All weights converged.</p>
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <!-- Node 2: Experience (Mapped to Z = -3000) -->
+        <div class="spatial-panel" data-zindex="2">
+            <h2 class="cyber-title" style="font-size: 2.5rem;">TRAINING LOGS</h2>
+            <p class="code-text">// RESEARCH & OPTIMIZATION</p>
+            <div class="flex-row">
+                <div class="flex-col">
+                    <h3 style="color:#fff; margin:0;">Research Engineer @ RPL Lab</h3>
+                    <p style="margin:0; font-size:0.9rem;">Prototyping real-time, multimodal AI navigation systems fusing computer vision and audio. Constructing dynamic scene graphs for autonomous agents.</p>
+                </div>
+                <div class="flex-col">
+                    <h3 style="color:#fff; margin:0;">Simulation Eng @ AESIR</h3>
+                    <p style="margin:0; font-size:0.9rem;">Developing the Freyja Hardware-in-the-Loop (HIL) system to simulate aerospace sub-systems and validate embedded flight software.</p>
+                </div>
+            </div>
+            <div class="flex-row" style="margin-top: 1.5rem;">
+                <div class="flex-col">
+                    <h3 style="color:#fff; margin:0;">R&D Intern @ DRDO & ISRO</h3>
+                    <p style="margin:0; font-size:0.9rem;">Engineered phased array antennas achieving massive SNR improvements. Executed fault-tolerant radar degradation analyses.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Node 3: Projects (Mapped to Z = -4500) -->
+        <div class="spatial-panel" data-zindex="3">
+            <h2 class="cyber-title" style="font-size: 2.5rem;">DEPLOYED MODELS</h2>
+            <p class="code-text">// ARCHITECTURES IN PRODUCTION</p>
+            <div class="flex-row">
+                <div class="flex-col" style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius:8px; border:1px solid rgba(6, 182, 212, 0.2);">
+                    <h3 style="color:var(--neon-cyan); margin-top:0;"><i class="fa-solid fa-laptop-medical"></i> LungMate</h3>
+                    <p style="font-size:0.9rem;">Hybrid CV architecture utilizing EfficientNet-B3 and Swin Transformers for multi-metric tumor quantification. Integrated with PyQt GUI.</p>
+                    <div>
+                        <span class="tech-tag">PyTorch</span><span class="tech-tag">YOLOv11</span>
+                    </div>
+                </div>
+                <div class="flex-col" style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius:8px; border:1px solid rgba(139, 92, 246, 0.2);">
+                    <h3 style="color:var(--neon-purple); margin-top:0;"><i class="fa-solid fa-network-wired"></i> Diagnostics AI</h3>
+                    <p style="font-size:0.9rem;">Generative AI pipeline using LangChain to automate interpretation of physical layer anomalies in unstructured telemetry logs.</p>
+                    <div>
+                        <span class="tech-tag">LangChain</span><span class="tech-tag">MLflow</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Node 4: Patents & End (Mapped to Z = -6000) -->
+        <div class="spatial-panel" data-zindex="4">
+            <h2 class="cyber-title" style="font-size: 2.5rem;">INTELLECTUAL PROPERTY</h2>
+            <p class="code-text">// PATENTS & PUBLICATIONS</p>
+            <div class="panel-content">
+                <p><strong style="color: var(--neon-pink);"><i class="fa-solid fa-certificate"></i> 2 Patents Filed</strong><br>
+                Innovations in high-altitude autonomous safety systems and IoT industrial wearables utilizing ESP32 sensor fusion and LoRaWAN.</p>
+                
+                <p class="mt-4"><strong style="color: var(--neon-cyan);"><i class="fa-solid fa-book"></i> 15+ Publications</strong><br>
+                Research spanning IEEE, Springer, and Elsevier on medical computer vision and signal processing.</p>
+            </div>
+            <a href="CV_update.pdf" target="_blank" class="cyber-btn" style="border-color: var(--neon-pink); color: var(--neon-pink);">
+                <i class="fa-solid fa-download"></i> Extract Full Weights (CV)
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        /**
+         * SCROLL-LOCKED 3D SCENE GRAPH ARCHITECTURE
+         * Maps window wheel events to Three.js Camera Z-Position
+         * Synchronizes HTML DOM overlay opacity & scale based on distance
+         */
+
+        // 1. Core Variables & Configuration
+        const Z_STEP = 1500; // Distance between each panel in 3D space
+        const MAX_INDEX = 4; // Total number of panels - 1
+        const MIN_Z = -(MAX_INDEX * Z_STEP) - 500; // Furthest the camera can go
+        const MAX_Z = 600; // Starting position (pulled back slightly from Node 0)
+        
+        let currentZ = MAX_Z; // The actual camera position
+        let targetZ = MAX_Z;  // The position the camera is easing towards
+        const ease = 0.05;    // Smoothing factor for scroll
+
+        // 2. Three.js Setup
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x030712, 0.0006); // Deep space fade effect
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        camera.position.set(0, 0, currentZ);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // 3. Build the 3D Scene Graph
+        const nodes = [];
+        const nodeGeometry = new THREE.IcosahedronGeometry(40, 1);
+        const nodeMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0x06b6d4, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
+        });
+
+        const lineMaterial = new THREE.LineBasicMaterial({ 
+            color: 0x8b5cf6, 
+            transparent: true, 
+            opacity: 0.3 
+        });
+        const linePoints = [];
+
+        // Create abstract 3D nodes corresponding to HTML panels
+        for (let i = 0; i <= MAX_INDEX; i++) {
+            const zPos = -(i * Z_STEP);
+            // Slight random X/Y offset for a winding path effect
+            const xPos = (Math.random() - 0.5) * 400;
+            const yPos = (Math.random() - 0.5) * 200;
+
+            // Generate Node
+            const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
+            mesh.position.set(xPos, yPos, zPos);
+            scene.add(mesh);
+            nodes.push(mesh);
+
+            // Add to line path
+            linePoints.push(new THREE.Vector3(xPos, yPos, zPos));
+        }
+
+        // Draw connecting neural pathway
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints(linePoints);
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        scene.add(line);
+
+        // Add ambient space dust (Particles)
+        const dustGeometry = new THREE.BufferGeometry();
+        const dustCount = 3000;
+        const dustPos = new Float32Array(dustCount * 3);
+        for(let i = 0; i < dustCount * 3; i+=3) {
+            dustPos[i] = (Math.random() - 0.5) * 3000;
+            dustPos[i+1] = (Math.random() - 0.5) * 3000;
+            dustPos[i+2] = (Math.random() - 0.5) * 8000; // Spread deep into Z
+        }
+        dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+        const dustMaterial = new THREE.PointsMaterial({
+            size: 2,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+        });
+        const dustSystem = new THREE.Points(dustGeometry, dustMaterial);
+        scene.add(dustSystem);
+
+        // 4. Scroll Event Capture
+        window.addEventListener('wheel', (e) => {
+            // E.deltaY is positive when scrolling down, we want to move negative Z (forward)
+            targetZ -= e.deltaY * 2.5; 
+            
+            // Clamp camera limits
+            targetZ = Math.max(MIN_Z, Math.min(MAX_Z, targetZ));
+        });
+
+        // Optional: Touch/Trackpad support
+        let touchStartY = 0;
+        window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+        window.addEventListener('touchmove', e => {
+            const touchY = e.touches[0].clientY;
+            const delta = touchStartY - touchY;
+            targetZ -= delta * 5.0;
+            targetZ = Math.max(MIN_Z, Math.min(MAX_Z, targetZ));
+            touchStartY = touchY;
+        });
+
+        // 5. HTML Sync Logic & Render Loop
+        const panels = document.querySelectorAll('.spatial-panel');
+        const progressBar = document.getElementById('z-progress-fill');
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+
+            // Smooth interpolation for camera Z
+            currentZ += (targetZ - currentZ) * ease;
+            camera.position.z = currentZ;
+
+            // Optional: Slight camera sway based on Z to look at upcoming nodes
+            // camera.position.x = Math.sin(currentZ * 0.001) * 100;
+
+            // Rotate 3D nodes for life
+            nodes.forEach(node => {
+                node.rotation.x += 0.002;
+                node.rotation.y += 0.003;
+            });
+
+            // Slowly rotate dust
+            dustSystem.rotation.z += 0.0005;
+
+            // Update HTML Panels based on camera distance
+            panels.forEach((panel) => {
+                const index = parseInt(panel.getAttribute('data-zindex'));
+                const panelZ = -(index * Z_STEP);
+                
+                // Optimal viewing distance is when camera is ~400 units in front of the panel
+                const optimalDist = panelZ + 400;
+                
+                // Calculate distance from current camera to optimal viewing point
+                const distance = currentZ - optimalDist;
+                
+                // Math for Fade In/Out
+                // We want opacity 1 when distance is 0. 
+                // Fade out to 0 when distance > 600 or < -600
+                const spread = 800; 
+                let opacity = 1 - (Math.abs(distance) / spread);
+                opacity = Math.max(0, Math.min(1, opacity));
+
+                // Math for Scale (Slightly larger when far away, settling to 1)
+                // This creates the "flying past" illusion
+                let scale = 1 + (distance * 0.0005);
+                scale = Math.max(0.8, Math.min(1.5, scale));
+
+                // Apply transforms
+                panel.style.opacity = opacity;
+                panel.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                
+                // Enable interaction only when clearly visible
+                if (opacity > 0.8) {
+                    panel.style.pointerEvents = 'auto';
+                } else {
+                    panel.style.pointerEvents = 'none';
+                }
+            });
+
+            // Update Progress Bar
+            const totalTravel = MAX_Z - MIN_Z;
+            const currentTravel = MAX_Z - currentZ;
+            const progressPct = (currentTravel / totalTravel) * 100;
+            progressBar.style.height = `${progressPct}%`;
+
+            renderer.render(scene, camera);
+        };
+
+        // Handle Resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start Loop
+        animate();
+    </script>
 </body>
 </html>
