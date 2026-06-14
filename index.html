@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harshit Poddar | Machine Learning Engineer</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- AOS CSS for Scroll Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
@@ -41,7 +38,7 @@
 
         /* Glassmorphism Panels */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(59, 130, 246, 0.2);
@@ -57,155 +54,173 @@
 </head>
 <body class="antialiased selection:bg-blue-500 selection:text-white relative">
 
-    <!-- Interactive Neural Network Background -->
     <div id="particles-js"></div>
 
-    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-gray-800">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <span class="code-font text-blue-400 font-bold text-lg hover:text-blue-300 transition-colors cursor-pointer">&lt;hpoddar.ai /&gt;</span>
             <div class="hidden md:flex space-x-6 text-sm code-font">
                 <a href="#about" class="hover:text-blue-400 transition-colors">.about()</a>
                 <a href="#experience" class="hover:text-blue-400 transition-colors">.experience()</a>
                 <a href="#projects" class="hover:text-blue-400 transition-colors">.projects()</a>
+                <a href="#research" class="hover:text-blue-400 transition-colors">.research()</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative max-w-5xl mx-auto px-6 pt-32 pb-20 flex flex-col md:flex-row items-center justify-between gap-12 min-h-[90vh]">
+    <header class="relative max-w-6xl mx-auto px-6 pt-32 pb-20 flex flex-col md:flex-row items-center justify-between gap-12 min-h-[90vh]">
         <div class="flex-1 space-y-6" data-aos="fade-right" data-aos-duration="1000">
             <div class="inline-flex items-center space-x-2 bg-blue-950/40 border border-blue-800/60 px-3 py-1 rounded-full text-xs text-blue-400 code-font">
                 <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                <span>System Online</span>
+                <span>Stockholm, Sweden</span>
             </div>
             <h1 class="text-4xl md:text-7xl font-bold tracking-tight text-white drop-shadow-lg">
                 Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400">Harshit Poddar</span>
             </h1>
             <h2 class="text-xl md:text-2xl text-gray-400 font-medium h-8">
-                I build <span id="typing-text" class="text-cyan-400 code-font"></span><span class="animate-pulse text-cyan-400">_</span>
+                I specialize in <span id="typing-text" class="text-cyan-400 code-font"></span><span class="animate-pulse text-cyan-400">_</span>
             </h2>
             <p class="text-gray-400 max-w-2xl leading-relaxed text-lg backdrop-blur-sm">
-                Machine Learning Engineer specializing in computer vision, multimodal networks, and scalable MLOps. Focused on transforming complex AI research into deployable spatial reasoning systems.
+                Machine Learning Engineer dedicated to collaborating across teams to build robust pipelines and transition complex AI research into deployable solutions.
             </p>
             <div class="flex flex-wrap gap-4 pt-4 items-center">
                 <a href="mailto:harshit10233@gmail.com" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(37,99,235,0.5)]">
-                    <i class="fa-regular fa-envelope"></i> Initialize Contact
+                    <i class="fa-regular fa-envelope"></i> Contact Me
                 </a>
                 <a href="CV_update.pdf" target="_blank" class="glass-panel hover:bg-white/5 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-download"></i> Extract Resume
+                    <i class="fa-solid fa-download"></i> View CV
                 </a>
                 <div class="flex items-center space-x-5 ml-4 text-2xl text-gray-400">
-                    <a href="https://github.com" target="_blank" class="hover:text-white hover:scale-110 transition-all"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://linkedin.com" target="_blank" class="hover:text-blue-400 hover:scale-110 transition-all"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" target="_blank" class="hover:text-white hover:scale-110 transition-all"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" target="_blank" class="hover:text-blue-400 hover:scale-110 transition-all"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" target="_blank" class="hover:text-blue-300 hover:scale-110 transition-all"><i class="fa-brands fa-google"></i></a>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 space-y-32 pb-24">
+    <main class="max-w-6xl mx-auto px-6 space-y-32 pb-24">
 
-        <!-- Interactive Terminal (About) -->
         <section id="about" class="scroll-mt-24" data-aos="fade-up">
             <div class="glass-panel rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] border-gray-800">
                 <div class="bg-[#0f172a] px-4 py-3 flex items-center space-x-2 border-b border-gray-800/50">
                     <span class="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors cursor-pointer"></span>
                     <span class="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors cursor-pointer"></span>
                     <span class="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors cursor-pointer"></span>
-                    <span class="text-xs text-gray-400 code-font pl-2 select-none">~/harshit_profile.py</span>
+                    <span class="text-xs text-gray-400 code-font pl-2 select-none">~/harshit_poddar.py</span>
                 </div>
                 <div class="p-6 code-font text-xs md:text-sm space-y-3 text-green-400">
-                    <p><span class="text-purple-400 font-bold">import</span> ml_engineer</p>
-                    <p class="text-gray-500"># Compiling current education & parameters...</p>
-                    <p>student = ml_engineer.MasterStudent(<br>&nbsp;&nbsp;&nbsp;&nbsp;specialization=<span class="text-amber-300">"Machine Learning"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;location=<span class="text-amber-300">"Stockholm, Sweden"</span><br>)</p>
-                    <p>current_focus = [<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-amber-300">"Multimodal Systems"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-amber-300">"Real-Time Scene Understanding"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-amber-300">"Robust MLOps"</span><br>]</p>
-                    <p class="text-gray-400 mt-4 animate-pulse">&gt;&gt;&gt; student.get_objective()</p>
-                    <p class="text-white">"Dedicated to collaborating across teams to transition complex AI research into deployable, robust pipelines."</p>
+                    <p><span class="text-purple-400 font-bold">class</span> <span class="text-blue-300">MLEngineer</span>:</p>
+                    <p class="pl-4"><span class="text-purple-400 font-bold">def</span> <span class="text-blue-300">__init__</span>(<span class="text-orange-300">self</span>):</p>
+                    <p class="pl-8"><span class="text-orange-300">self</span>.education = {</p>
+                    <p class="pl-12"><span class="text-amber-300">"M.Sc. Machine Learning"</span>: <span class="text-amber-300">"KTH Royal Institute of Technology (2025-Present)"</span>,</p>
+                    <p class="pl-12"><span class="text-amber-300">"B.Tech Electronics & Comm"</span>: <span class="text-amber-300">"Vellore Institute of Technology (2021-2025)"</span></p>
+                    <p class="pl-8">}</p>
+                    <p class="pl-8"><span class="text-orange-300">self</span>.stack = {</p>
+                    <p class="pl-12"><span class="text-amber-300">"Languages"</span>: [<span class="text-amber-300">"Python"</span>, <span class="text-amber-300">"MATLAB"</span>, <span class="text-amber-300">"SQL"</span>],</p>
+                    <p class="pl-12"><span class="text-amber-300">"Deep_Learning"</span>: [<span class="text-amber-300">"PyTorch"</span>, <span class="text-amber-300">"YOLO"</span>, <span class="text-amber-300">"U-Net"</span>, <span class="text-amber-300">"LangChain (RAG)"</span>, <span class="text-amber-300">"Hugging Face"</span>],</p>
+                    <p class="pl-12"><span class="text-amber-300">"MLOps_Cloud"</span>: [<span class="text-amber-300">"GCP"</span>, <span class="text-amber-300">"MLflow"</span>, <span class="text-amber-300">"Git/GitHub"</span>, <span class="text-amber-300">"Linux"</span>]</p>
+                    <p class="pl-8">}</p>
+                    <p class="text-gray-400 mt-4 animate-pulse">&gt;&gt;&gt; engineer = MLEngineer()</p>
+                    <p class="text-gray-400 animate-pulse">&gt;&gt;&gt; engineer.deploy()</p>
+                    <p class="text-white">"System Ready. Initializing models..."</p>
                 </div>
             </div>
         </section>
 
-        <!-- Experience Timeline -->
         <section id="experience" class="scroll-mt-24">
             <div data-aos="fade-right">
                 <h3 class="code-font text-sm text-blue-400 mb-2">// PROFESSIONAL PATHWAY</h3>
-                <h2 class="text-3xl font-bold text-white mb-8">Work & Research</h2>
+                <h2 class="text-3xl font-bold text-white mb-8">Work & Research Experience</h2>
             </div>
             
             <div class="border-l border-gray-800 ml-4 space-y-12 relative">
-                <!-- RPL Lab -->
+                
                 <div class="relative pl-8" data-aos="fade-up" data-aos-delay="100">
                     <span class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-blue-500/20 border-4 border-[#050810] flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.5)]">
                         <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                     </span>
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2">
-                        <h4 class="text-xl font-semibold text-white">Research Engineer <span class="text-gray-400 text-base font-normal">| RPL Lab</span></h4>
-                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">2025 - Present</span>
+                        <h4 class="text-xl font-semibold text-white">Research Engineer <span class="text-gray-400 text-base font-normal">| RPL Lab, Stockholm</span></h4>
+                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">Sep 2025 - Present</span>
                     </div>
                     <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
-                        Prototyping real-time, multimodal AI navigation systems integrating computer vision and audio. Constructing dynamic scene graphs to enable advanced spatial reasoning for autonomous agents.
+                        Prototyping and optimizing a real-time, multimodal AI navigation system integrating computer vision and audio processing. Constructing dynamic scene graphs alongside researchers to enable spatial reasoning for autonomous agents.
                     </p>
                 </div>
 
-                <!-- AESIR Rocketry -->
-                <div class="relative pl-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative pl-8" data-aos="fade-up" data-aos-delay="150">
                     <span class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-indigo-500/20 border-4 border-[#050810] flex items-center justify-center">
                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
                     </span>
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2">
                         <h4 class="text-xl font-semibold text-white">Systems Simulation Engineer <span class="text-gray-400 text-base font-normal">| AESIR KTH Rocketry</span></h4>
-                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">2025 - Present</span>
+                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">Sep 2025 - Present</span>
                     </div>
                     <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
-                        Developing the Freyja Hardware-in-the-Loop (HIL) system to simulate aerospace subsystems; executing rigorous validation for embedded flight software.
+                        Developing the Freyja HIL (Hardware-in-the-Loop) system to simulate real-time aerospace sub-systems; performing rigorous Test Development & System Validation for embedded flight software.
+                    </p>
+                </div>
+
+                <div class="relative pl-8" data-aos="fade-up" data-aos-delay="200">
+                    <span class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-cyan-500/20 border-4 border-[#050810] flex items-center justify-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2">
+                        <h4 class="text-xl font-semibold text-white">Summer Intern <span class="text-gray-400 text-base font-normal">| Defence Research & Development Organisation</span></h4>
+                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">Jun 2024 - Jul 2024</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
+                        Engineered an 8x60 phased array antenna and real-time GUI in MATLAB, achieving 25% efficiency gain and 15% loss reduction while performing radar degradation analysis.
+                    </p>
+                </div>
+
+                <div class="relative pl-8" data-aos="fade-up" data-aos-delay="250">
+                    <span class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-purple-500/20 border-4 border-[#050810] flex items-center justify-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2">
+                        <h4 class="text-xl font-semibold text-white">Research Intern <span class="text-gray-400 text-base font-normal">| TATA Memorial Hospital, ACTREC</span></h4>
+                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">Nov 2023 - Dec 2023</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
+                        Deployed U-Net and YOLOv8L for multi-organ nuclei segmentation, achieving 30% higher accuracy with U-Net and 20% faster inference with YOLOv8L through trade-off analysis.
+                    </p>
+                </div>
+
+                <div class="relative pl-8" data-aos="fade-up" data-aos-delay="300">
+                    <span class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-orange-500/20 border-4 border-[#050810] flex items-center justify-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2">
+                        <h4 class="text-xl font-semibold text-white">Research Intern <span class="text-gray-400 text-base font-normal">| Indian Space Research Organisation (ISRO)</span></h4>
+                        <span class="text-xs code-font bg-gray-900/80 text-gray-300 px-3 py-1 rounded border border-gray-700 mt-1 md:mt-0">Sep 2023 - Oct 2023</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
+                        Led optimization of a 16x16 Phased Antenna Array for MEOSAR satellite signals, achieving >20% SNR improvement through Ansys HFSS and beamforming algorithms (MVDR, LCMV).
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Grid (With 3D Tilt) -->
         <section id="projects" class="scroll-mt-24">
             <div data-aos="fade-right">
-                <h3 class="code-font text-sm text-cyan-400 mb-2">// BUILT PIPELINES</h3>
+                <h3 class="code-font text-sm text-cyan-400 mb-2">// TECHNICAL PROJECTS</h3>
                 <h2 class="text-3xl font-bold text-white mb-8">Featured Architectures</h2>
             </div>
             
             <div class="grid md:grid-cols-2 gap-8">
                 
-                <!-- Project 1 -->
-                <div data-aos="zoom-in-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="p-3 bg-blue-900/30 rounded-xl text-blue-400 border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                            <i class="fa-solid fa-laptop-medical text-xl"></i>
-                        </div>
-                        <a href="https://github.com" target="_blank" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fa-brands fa-github text-xl"></i>
-                        </a>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">LungMate Suite</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Hybrid computer vision architecture fusing EfficientNet-B3 and Swin Transformers with YOLO modules for multi-metric tumor quantification and interactive diagnostic visualization.
-                    </p>
-                    <div class="flex flex-wrap gap-2 text-xs code-font text-blue-300">
-                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">PyTorch</span>
-                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">Swin Transformer</span>
-                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">PyQt</span>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div data-aos="zoom-in-up" data-aos-delay="200" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group">
+                <div data-aos="zoom-in-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group flex flex-col h-full">
                     <div class="flex items-center justify-between mb-6">
                         <div class="p-3 bg-indigo-900/30 rounded-xl text-indigo-400 border border-indigo-500/30 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                             <i class="fa-solid fa-network-wired text-xl"></i>
                         </div>
-                        <a href="https://github.com" target="_blank" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fa-brands fa-github text-xl"></i>
-                        </a>
+                        <span class="text-xs code-font text-gray-500">Dec 2025 - Present</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Protocol Diagnostic AI</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Intelligent automated diagnostics engine utilizing LangChain and MLflow to extract insights and isolate complex physical layer anomalies within unstructured telemetry logs.
+                    <h3 class="text-2xl font-bold text-white mb-3">AI-Driven Protocol Diagnostic Suite</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Architecting a Generative AI pipeline using LangChain and MLflow to automate the interpretation of LoRaWan/Physical layer anomalies in telemetry logs through RAG-based diagnostics.
                     </p>
                     <div class="flex flex-wrap gap-2 text-xs code-font text-indigo-300">
                         <span class="bg-indigo-950/60 border border-indigo-800/50 px-2 py-1 rounded shadow-inner">LangChain</span>
@@ -213,35 +228,102 @@
                         <span class="bg-indigo-950/60 border border-indigo-800/50 px-2 py-1 rounded shadow-inner">RAG</span>
                     </div>
                 </div>
+
+                <div data-aos="zoom-in-up" data-aos-delay="200" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="p-3 bg-blue-900/30 rounded-xl text-blue-400 border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-laptop-medical text-xl"></i>
+                        </div>
+                        <span class="text-xs code-font text-gray-500">Nov 2024 - Apr 2025</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">LungMate: AI Lung Cancer Diagnosis</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Developed a hybrid Computer Vision system utilizing EfficientNet-B3, Swin Transformer, and YOLOv11 for multi-metric tumor quantification. Integrated with a PyQt GUI for real-time visualization.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs code-font text-blue-300">
+                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">PyTorch</span>
+                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">Swin Transformer</span>
+                        <span class="bg-blue-950/60 border border-blue-800/50 px-2 py-1 rounded shadow-inner">YOLOv11</span>
+                    </div>
+                </div>
+
+                <div data-aos="zoom-in-up" data-aos-delay="300" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="p-3 bg-green-900/30 rounded-xl text-green-400 border border-green-500/30 group-hover:bg-green-600 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-microchip text-xl"></i>
+                        </div>
+                        <span class="text-xs code-font text-gray-500">Jun 2024 - Dec 2024</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Autonomous Safety System <span class="text-sm font-normal text-yellow-400 ml-2">(Patent Filed)</span></h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Designed a real-time Embedded System for fall detection utilizing Sensor Fusion and automated actuator deployment for high-reliability safety applications at high altitudes.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs code-font text-green-300">
+                        <span class="bg-green-950/60 border border-green-800/50 px-2 py-1 rounded shadow-inner">Embedded Systems</span>
+                        <span class="bg-green-950/60 border border-green-800/50 px-2 py-1 rounded shadow-inner">Sensor Fusion</span>
+                    </div>
+                </div>
+
+                <div data-aos="zoom-in-up" data-aos-delay="400" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="glass-panel rounded-2xl p-6 cursor-pointer group flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="p-3 bg-orange-900/30 rounded-xl text-orange-400 border border-orange-500/30 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-helmet-safety text-xl"></i>
+                        </div>
+                        <span class="text-xs code-font text-gray-500">Jan 2024 - May 2024</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Industrial IoT Safety Wearable <span class="text-sm font-normal text-yellow-400 ml-2">(Patent Filed)</span></h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Engineered a real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse) and LoRaWAN connectivity for critical safety telemetry in hazardous environments.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs code-font text-orange-300">
+                        <span class="bg-orange-950/60 border border-orange-800/50 px-2 py-1 rounded shadow-inner">ESP32</span>
+                        <span class="bg-orange-950/60 border border-orange-800/50 px-2 py-1 rounded shadow-inner">LoRaWAN</span>
+                        <span class="bg-orange-950/60 border border-orange-800/50 px-2 py-1 rounded shadow-inner">Telemetry</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="scroll-mt-24">
+            <div data-aos="fade-right">
+                <h3 class="code-font text-sm text-purple-400 mb-2">// RECOGNITION</h3>
+                <h2 class="text-3xl font-bold text-white mb-8">Awards, Publications & Patents</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div data-aos="fade-up" data-aos-delay="100" class="glass-panel p-6 rounded-xl border-t-4 border-t-blue-500">
+                    <i class="fa-solid fa-certificate text-3xl text-blue-400 mb-4"></i>
+                    <h4 class="text-xl font-bold text-white mb-2">2 Filed Patents</h4>
+                    <p class="text-gray-400 text-sm">Innovations in high-reliability safety engineering, specifically an IoT Helmet and advanced Fall Protection systems utilizing embedded sensor fusion.</p>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="200" class="glass-panel p-6 rounded-xl border-t-4 border-t-indigo-500">
+                    <i class="fa-solid fa-book-journal-whills text-3xl text-indigo-400 mb-4"></i>
+                    <h4 class="text-xl font-bold text-white mb-2">15+ Publications</h4>
+                    <p class="text-gray-400 text-sm">Authored and co-authored extensive research papers published across high-impact journals including IEEE, Springer, and Elsevier.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300" class="glass-panel p-6 rounded-xl border-t-4 border-t-purple-500">
+                    <i class="fa-solid fa-trophy text-3xl text-purple-400 mb-4"></i>
+                    <h4 class="text-xl font-bold text-white mb-2">Industry Recognition</h4>
+                    <p class="text-gray-400 text-sm">2× Raman Award Winner. Selected as an LLM Evaluation Participant at Google DeepMind & Andon Labs, contributing to state-of-the-art AI assessment.</p>
+                </div>
             </div>
         </section>
 
     </main>
 
     <footer class="border-t border-gray-800/50 bg-[#050810]/80 backdrop-blur-md py-8 text-center text-xs text-gray-500 code-font">
-        <p>&copy; 2026 Harshit Poddar. System operational.</p>
+        <p>&copy; 2026 Harshit Poddar. Deployed for production.</p>
     </footer>
 
-    <!-- Scripts Integration -->
-    
-    <!-- 1. Vanilla-Tilt.js for 3D Card Hover -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    
-    <!-- 2. AOS.js for Scroll Animations -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- 3. Particles.js for Network Background -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <!-- Initializers -->
     <script>
         // Initialize Scroll Animations
-        AOS.init({
-            once: true,
-            offset: 50,
-            duration: 800,
-            easing: 'ease-out-cubic',
-        });
+        AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
 
         // Initialize Neural Network Particles
         particlesJS('particles-js', {
@@ -251,38 +333,19 @@
                 "shape": { "type": "circle" },
                 "opacity": { "value": 0.5, "random": true },
                 "size": { "value": 3, "random": true },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#3b82f6",
-                    "opacity": 0.3,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1.5,
-                    "direction": "none",
-                    "random": true,
-                    "out_mode": "out"
-                }
+                "line_linked": { "enable": true, "distance": 150, "color": "#3b82f6", "opacity": 0.3, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "out_mode": "out" }
             },
             "interact": {
                 "detect_on": "canvas",
-                "events": {
-                    "onhover": { "enable": true, "mode": "grab" },
-                    "onclick": { "enable": true, "mode": "push" },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": { "distance": 200, "line_linked": { "opacity": 0.8 } },
-                    "push": { "particles_nb": 3 }
-                }
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 3 } }
             },
             "retina_detect": true
         });
 
         // Custom Typing Effect
-        const words = ["Computer Vision Models.", "Audio-Visual Fusion.", "Multi-Agent Simulations."];
+        const words = ["Computer Vision.", "Multimodal Systems.", "Scalable MLOps."];
         let i = 0;
         let timer;
 
