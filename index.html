@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --text: #1f2937;
+            --background: #ffffff;
+            --light-bg: #f3f4f6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: var(--light-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h1 { margin: 0; font-size: 2.5rem; color: #111827; }
+        h2 { border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; color: #111827; }
+        h3 { margin-bottom: 0.25rem; color: #111827; }
+        .subtitle { color: #4b5563; font-size: 1.2rem; margin-top: 0.5rem; }
+        .contact-links { margin-top: 1rem; }
+        .contact-links a { margin: 0 10px; color: var(--primary); text-decoration: none; font-weight: bold; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .skill-category { background: var(--light-bg); padding: 1rem; border-radius: 6px; }
+        .item { margin-bottom: 1.5rem; }
+        .item-header { display: flex; justify-content: space-between; font-weight: bold; }
+        .meta { color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        ul { padding-left: 1.2rem; }
+        li { margin-bottom: 0.25rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Your Name</h1>
+        <div class="subtitle">Machine Learning Engineer | Multimodal Systems & Computer Vision</div>
+        <div class="contact-links">
+            <a href="mailto:your.email@example.com">Email</a> |
+            <a href="https://github.com/yourusername" target="_blank">GitHub</a> |
+            <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a> |
+            <a href="#">Google Scholar</a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Write a brief, powerful summary of your expertise here. Focus on your specialization in training deep learning models, building automated perception pipelines, real-time embedded systems, or transitioning complex research into deployable software solutions.</p>
+        </section>
+
+        <section id="education">
+            <h2>Education</h2>
+            <div class="item">
+                <div class="item-header">
+                    <span>M.Sc. in Machine Learning</span>
+                    <span>Expected 2027</span>
+                </div>
+                <div class="meta">University Name, Location</div>
+            </div>
+            <div class="item">
+                <div class="item-header">
+                    <span>B.Tech in Electronics & Communication Engineering</span>
+                    <span>2021 - 2025</span>
+                </div>
+                <div class="meta">University Name, Location</div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>AI & Machine Learning</h3>
+                    <p>PyTorch, YOLO, Computer Vision, Audio-Visual Fusion, NLP, Sequence Modeling</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Cloud & MLOps</h3>
+                    <p>Git/GitHub, MLflow, GCP, Linux, CI/CD pipelines</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Languages & Tools</h3>
+                    <p>Python, MATLAB, SQL, C#, Unity, LaTeX</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Work & Research Experience</h2>
+            <div class="item">
+                <div class="item-header">
+                    <span>Research Engineer / Intern</span>
+                    <span>2025 - Present</span>
+                </div>
+                <div class="meta">Lab or Organization Name, Location</div>
+                <ul>
+                    <li>Developed and optimized real-time multimodal AI systems integrating vision and audio data.</li>
+                    <li>Constructed dynamic scene graphs to enhance spatial reasoning for autonomous systems.</li>
+                </ul>
+            </div>
+            <!-- Add more experience items here -->
+        </section>
+
+        <section id="projects">
+            <h2>Key Projects</h2>
+            <div class="item">
+                <h3>LungMate: AI-Driven Lung Cancer Diagnosis</h3>
+                <div class="meta">Hybrid Computer Vision System</div>
+                <ul>
+                    <li>Built an end-to-end classification and segmentation pipeline utilizing EfficientNet and Swin Transformers.</li>
+                    <li>Integrated real-time image enhancement metrics into a standalone interactive desktop application.</li>
+                </ul>
+            </div>
+            <!-- Add more project items here -->
+        </section>
+
+        <section id="publications">
+            <h2>Patents & Publications</h2>
+            <ul>
+                <li><strong>Patent Filed:</strong> High-Reliability Safety Wearable using Sensor Fusion and LoRaWAN Telemetry.</li>
+                <li>Published multiple peer-reviewed papers focusing on signal processing, array optimization, and medical computer vision.</li>
+            </ul>
+        </section>
+
+    </div>
+
+</body>
+</html>
