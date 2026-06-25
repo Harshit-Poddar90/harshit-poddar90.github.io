@@ -524,7 +524,7 @@ body.custom-cursor-active #custom-cursor.hovering {
 .cards-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
 .edu-card { padding: 2.5rem; }
 .edu-header { display: flex; justify-content: space-between; align-items: flex-start; }
-.date-badge { padding: 0.3rem 0.8rem; background: rgba(255,255,255,0.05); border-radius: 4px; font-size: 0.8rem; }
+.date-badge { padding: 0.4rem 1rem; background: rgba(255,255,255,0.05); border-radius: 50px; font-size: 0.8rem; border: 1px solid var(--border-glass-highlight); }
 
 /* ==========================================================================
    09. TIMELINE
@@ -750,4 +750,31 @@ body.custom-cursor-active #custom-cursor.hovering {
 
 @media (max-width: 768px) {
     .dot-navigation { display: none; } /* Hides dots on mobile so they don't block text */
+}
+
+/* Clean Skills Section */
+.skills-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.skill-category { padding: 2rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.text-neon-cyan { color: var(--neon-cyan); }
+.text-neon-purple { color: var(--neon-purple); }
+.text-neon-pink { color: var(--neon-pink); }
+.text-neon-blue { color: var(--neon-blue); }
+
+/* Patent Granted Styles */
+.granted-blueprint { border-color: #22c55e; }
+.granted-blueprint .blueprint-bg {
+    background-image: linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #22c55e 1px, transparent 1px);
+}
+.granted-seal { color: #22c55e; opacity: 0.3; }
+.granted-tag {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid #22c55e;
 }

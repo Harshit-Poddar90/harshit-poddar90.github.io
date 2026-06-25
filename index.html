@@ -178,7 +178,7 @@
                 <div class="edu-card glass-panel 3d-tilt reveal-card">
                     <div class="edu-header">
                         <i class="fa-solid fa-building-columns text-neon-blue text-3xl"></i>
-                        <span class="code-font date-badge"><span class="ongoing-dot"></span> Ongoing</span>
+                        <span class="code-font date-badge badge-pill"><span class="ongoing-dot"></span> 2025 - 2027 (Ongoing)</span>
                     </div>
                     <h3 class="font-bold text-2xl mt-4">M.Sc. in Machine Learning</h3>
                     <h4 class="text-gray-400 mt-1">KTH Royal Institute of Technology | Stockholm, SE</h4>
@@ -210,12 +210,12 @@
                     <div class="timeline-content glass-panel expand-on-hover">
                         <div class="exp-header">
                             <div>
-                                <h3>Research Engineer</h3>
+                                <h3>Student Researcher</h3>
                                 <h4>Robotics Perception and Learning (RPL) Lab</h4>
                             </div>
-                            <span class="code-font timeline-date">Sep 2025 - Present</span>
+                            <span class="code-font timeline-date"><span class="ongoing-dot"></span> Sep 2025 - Ongoing</span>
                         </div>
-                        <p>Prototyping and optimizing a real-time, multimodal AI navigation system integrating computer vision and audio processing. Constructing dynamic scene graphs alongside researchers to enable spatial reasoning for autonomous agents.</p>
+                        <p>Prototyping and optimizing a real-time, multimodal AI navigation system integrating computer vision and audio processing. Constructing dynamic scene graphs alongside researchers to enable spatial reasoning for autonomous agents. This is in collaboration with KTH AI Society</p>
                     </div>
                 </div>
 
@@ -227,7 +227,7 @@
                                 <h3>Systems Simulation Engineer</h3>
                                 <h4>AESIR (KTH Rocketry)</h4>
                             </div>
-                            <span class="code-font timeline-date">Sep 2025 - Present</span>
+                            <span class="code-font timeline-date"><span class="ongoing-dot"></span> Sep 2025 - Ongoing</span>
                         </div>
                         <p>Developing the Freyja HIL (Hardware-in-the-Loop) system to simulate real-time aerospace sub-systems; performing rigorous Test Development & System Validation for embedded flight software to ensure mission reliability.</p>
                     </div>
@@ -400,67 +400,53 @@
             </div>
         </section>
 
-        <section id="pipeline" class="content-section full-width-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 05. ML WORKFLOW</span>
-                <h2 class="syncopate-title">Continuous Integration Pipeline</h2>
-            </div>
-            
-            <div class="pipeline-container">
-                <svg id="pipeline-svg-edges" class="pipeline-edges"></svg>
-                <div class="pipeline-track">
-                    <div class="pipe-node" data-node="data"><i class="fa-solid fa-database"></i> Dataset</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="prep"><i class="fa-solid fa-broom"></i> Feature Engineering</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node active-training" data-node="train"><i class="fa-solid fa-microchip pulse-icon"></i> Training</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="tune"><i class="fa-solid fa-sliders"></i> Hyperparameter Tuning</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node" data-node="deploy"><i class="fa-solid fa-cloud-arrow-up"></i> Deployment</div>
-                    <div class="pipe-arrow"><i class="fa-solid fa-angle-right"></i></div>
-                    
-                    <div class="pipe-node glow-endpoint" data-node="inference"><i class="fa-solid fa-bolt"></i> Inference & Monitoring</div>
-                </div>
-            </div>
-        </section>
-
         <section id="skills" class="content-section">
             <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 06. CAPABILITIES</span>
-                <h2 class="syncopate-title">Neural Knowledge Graph</h2>
-                <p class="code-font text-gray-400 mt-2 text-sm">Hover over nodes to illuminate pathways.</p>
+                <span class="code-font accent-color">// 05. CAPABILITIES</span>
+                <h2 class="syncopate-title">Tensor Weights</h2>
             </div>
             
-            <div class="skills-network-wrapper glass-panel reveal-card">
-                <canvas id="skills-network-canvas"></canvas>
-                <div id="skills-html-nodes">
-                    <div class="skill-node" data-category="ai">PyTorch</div>
-                    <div class="skill-node" data-category="ai">YOLO (v8/v11)</div>
-                    <div class="skill-node" data-category="ai">U-Net</div>
-                    <div class="skill-node" data-category="ai">Transformers</div>
-                    <div class="skill-node" data-category="ai">Computer Vision</div>
-                    <div class="skill-node" data-category="ai">LangChain (RAG)</div>
-                    <div class="skill-node" data-category="ai">Hugging Face</div>
-                    <div class="skill-node" data-category="ai">LLMs</div>
-                    
-                    <div class="skill-node" data-category="data">Python</div>
-                    <div class="skill-node" data-category="data">MATLAB</div>
-                    <div class="skill-node" data-category="data">SQL</div>
-                    <div class="skill-node" data-category="data">Power BI</div>
-                    <div class="skill-node" data-category="data">Tableau</div>
-                    
-                    <div class="skill-node" data-category="ops">GCP</div>
-                    <div class="skill-node" data-category="ops">MLflow</div>
-                    <div class="skill-node" data-category="ops">Git/GitHub</div>
-                    <div class="skill-node" data-category="ops">Linux</div>
-                    <div class="skill-node" data-category="ops">Docker</div>
-                    <div class="skill-node" data-category="ops">System Validation</div>
-                    <div class="skill-node" data-category="ops">LaTeX</div>
+            <div class="skills-layout">
+                <div class="skill-category glass-panel reveal-card">
+                    <h3 class="code-font text-neon-cyan mb-4"><i class="fa-solid fa-code"></i> Languages</h3>
+                    <div class="tech-stack">
+                        <span class="tag">Python</span>
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-category glass-panel reveal-card delay-1">
+                    <h3 class="code-font text-neon-purple mb-4"><i class="fa-solid fa-brain"></i> AI & Machine Learning</h3>
+                    <div class="tech-stack">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">YOLO (v8/v11)</span>
+                        <span class="tag">U-Net</span>
+                        <span class="tag">LangChain (RAG)</span>
+                        <span class="tag">Hugging Face</span>
+                        <span class="tag">Computer Vision</span>
+                    </div>
+                </div>
+
+                <div class="skill-category glass-panel reveal-card">
+                    <h3 class="code-font text-neon-pink mb-4"><i class="fa-solid fa-cloud"></i> Cloud & MLOps</h3>
+                    <div class="tech-stack">
+                        <span class="tag">GCP</span>
+                        <span class="tag">MLflow</span>
+                        <span class="tag">Git/GitHub</span>
+                        <span class="tag">Linux</span>
+                    </div>
+                </div>
+
+                <div class="skill-category glass-panel reveal-card delay-1">
+                    <h3 class="code-font text-neon-blue mb-4"><i class="fa-solid fa-database"></i> Data & Engineering</h3>
+                    <div class="tech-stack">
+                        <span class="tag">Agile Methodologies</span>
+                        <span class="tag">System Validation</span>
+                        <span class="tag">Power BI</span>
+                        <span class="tag">Tableau</span>
+                        <span class="tag">LaTeX</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -476,11 +462,11 @@
                 <div class="patents-column">
                     <h3 class="rd-col-title code-font"><i class="fa-solid fa-fingerprint"></i> Intellectual Property</h3>
                     
-                    <div class="blueprint-card glass-panel reveal-card">
+                    <div class="blueprint-card glass-panel reveal-card granted-blueprint">
                         <div class="blueprint-bg"></div>
-                        <div class="patent-seal"><i class="fa-solid fa-stamp"></i></div>
+                        <div class="patent-seal granted-seal"><i class="fa-solid fa-stamp"></i></div>
                         <div class="blueprint-content">
-                            <span class="mono-tag">PATENT FILED</span>
+                            <span class="mono-tag granted-tag"><i class="fa-solid fa-check-double"></i> PATENT GRANTED</span>
                             <h4>IoT Helmet & Safety Wearable</h4>
                             <p>Real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse Sensor) and LoRaWAN connectivity.</p>
                         </div>
@@ -532,27 +518,7 @@
             </div>
         </section>
 
-        <section id="terminal-section" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 08. EXECUTION ENVIRONMENT</span>
-                <h2 class="syncopate-title">Live Server Logs</h2>
-            </div>
-            
-            <div class="terminal-window glass-panel reveal-card">
-                <div class="term-header">
-                    <div class="term-buttons">
-                        <span class="close-btn"></span>
-                        <span class="min-btn"></span>
-                        <span class="max-btn"></span>
-                    </div>
-                    <div class="term-title code-font text-xs">harshit@kth-gpu-cluster: ~/workspace/LungMate</div>
-                </div>
-                <div class="term-body code-font" id="terminal-output-container">
-                    </div>
-            </div>
-        </section>
-
-        <section id="contact" class="content-section">
+                <section id="contact" class="content-section">
             <div class="section-heading text-center reveal-text">
                 <span class="code-font accent-color">// 09. HANDSHAKE PROTOCOL</span>
                 <h2 class="syncopate-title">Initiate Contact</h2>
