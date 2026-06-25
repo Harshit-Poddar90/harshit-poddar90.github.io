@@ -386,16 +386,17 @@ body.custom-cursor-active #custom-cursor.hovering {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding: 0 4%;
+    padding: 0 8%; /* Increased padding slightly for balance */
     position: relative;
+    max-width: 1600px; /* Constrain overall width so it doesn't stretch too far */
+    margin: 0 auto;
 }
 
 .hero-content {
-    max-width: 900px;
+    max-width: 650px; /* Restrict text width so it doesn't hit the canvas */
     z-index: var(--z-base);
     padding-top: 80px;
 }
-
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -821,14 +822,14 @@ body.custom-cursor-active #custom-cursor.hovering {
 
 .hero-canvas-container {
     position: absolute;
-    right: 5%;
+    right: 5%; /* Try changing this to 10% or 15% to pull it toward the center */
     top: 50%;
     transform: translateY(-50%);
-    width: 500px;
-    height: 500px;
+    width: 450px; /* Slightly smaller to feel more integrated */
+    height: 450px;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.8;
+    opacity: 0.7; /* Lowered opacity slightly to let it sit 'behind' the content */
 }
 
 #hero-model-canvas {
