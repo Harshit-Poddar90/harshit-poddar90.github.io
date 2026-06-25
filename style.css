@@ -710,3 +710,44 @@ body.custom-cursor-active #custom-cursor.hovering {
     .hero-cta { flex-direction: column; width: 100%; }
     .hero-cta .btn { justify-content: center; width: 100%; }
 }
+
+/* Blinking Ongoing Dot */
+.ongoing-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 8px #22c55e;
+    animation: blink 2s infinite;
+}
+
+/* Vertical Dot Scroll Navigation */
+.dot-navigation {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: var(--z-widgets);
+}
+.dot-link {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--border-glass-highlight);
+    background: transparent;
+    transition: var(--transition-fast);
+}
+.dot-link:hover { border-color: var(--neon-pink); }
+.dot-link.active {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 12px var(--neon-pink);
+    transform: scale(1.3);
+}
+
+@media (max-width: 768px) {
+    .dot-navigation { display: none; } /* Hides dots on mobile so they don't block text */
+}

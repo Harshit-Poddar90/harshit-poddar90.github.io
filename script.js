@@ -301,10 +301,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     current = section.getAttribute('id');
                 }
             });
-            document.querySelectorAll('.nav-link').forEach(li => {
-                li.classList.remove('active');
-                if (li.getAttribute('href').includes(current)) {
-                    li.classList.add('active');
+            // Update Vertical Dot Nav
+            document.querySelectorAll('.dot-link').forEach(dot => {
+                dot.classList.remove('active');
+                if (current && dot.getAttribute('href').includes(current)) {
+                    dot.classList.add('active');
                 }
             });
         });
