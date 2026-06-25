@@ -1,10 +1,13 @@
 /**
  * HARSHIT PODDAR - AI/ML ENGINEER PORTFOLIO
- * Core JavaScript Architecture
+ * Core JavaScript Architecture (Optimized Build)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
     
+    // Safe-mount custom cursor to prevent blocking navigation if CDN fails
+    document.body.classList.add('custom-cursor-active');
+
     /* ==========================================================================
        01. BOOT SEQUENCE & MATRIX RAIN
        ========================================================================== */
@@ -13,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const bootProgress = document.getElementById('boot-progress-fill');
     const bootPercentage = document.getElementById('boot-percentage');
     
-    // Matrix Rain Background
     const createMatrixRain = () => {
         const matrixContainer = document.getElementById('boot-matrix');
         const canvas = document.createElement('canvas');
@@ -44,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const matrixInterval = createMatrixRain();
 
-    // Boot Logs Sequence
     const logs = [
         "Initializing Neural Network...",
         "Loading EfficientNet-B3 Model... [OK]",
@@ -85,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Start Boot
     runBootSequence();
 
     /* ==========================================================================
@@ -109,15 +109,12 @@ document.addEventListener("DOMContentLoaded", () => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         
-        // Update main cursor
         cursor.style.left = `${mouse.x}px`;
         cursor.style.top = `${mouse.y}px`;
         
-        // Add to trail
         trail.push({ x: mouse.x, y: mouse.y, alpha: 1, size: 3 });
     });
 
-    // Hover effects for links/buttons
     document.querySelectorAll('a, button, .interactive, .skill-node').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -151,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Create particles
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 700;
         const posArray = new Float32Array(particlesCount * 3);
@@ -163,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMaterial = new THREE.PointsMaterial({
             size: 0.015,
-            color: 0x06b6d4, // Neon Cyan
+            color: 0x06b6d4,
             transparent: true,
             opacity: 0.8,
             blending: THREE.AdditiveBlending
@@ -173,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
         scene.add(particlesMesh);
         camera.position.z = 3;
 
-        // Mouse interaction for Three.js
         let mouseX = 0;
         let mouseY = 0;
         window.addEventListener('mousemove', (event) => {
@@ -186,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
             particlesMesh.rotation.y += 0.001;
             particlesMesh.rotation.x += 0.0005;
             
-            // Parallax effect
             particlesMesh.position.x += (mouseX * 0.5 - particlesMesh.position.x) * 0.05;
             particlesMesh.position.y += (-mouseY * 0.5 - particlesMesh.position.y) * 0.05;
             
@@ -202,34 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     initThreeJS();
 
-    // Initialize Particles.js overlay
-    if (window.particlesJS) {
-        particlesJS("particles-container", {
-            "particles": {
-                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": ["#8b5cf6", "#ec4899"] },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.3, "random": true },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#8b5cf6", "opacity": 0.2, "width": 1 },
-                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "out_mode": "out" }
-            },
-            "interact": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
-                "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.5 } } }
-            },
-            "retina_detect": true
-        });
-    }
-
     /* ==========================================================================
        04. GSAP ANIMATIONS & SCROLL TRIGGER
        ========================================================================== */
     gsap.registerPlugin(ScrollTrigger);
 
     const initHeroAnimations = () => {
-        // Init Typed.js
         new Typed('#typed-roles', {
             strings: [
                 'Computer Vision Engineer', 
@@ -258,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const initScrollAnimations = () => {
-        // Reveal Cards
         gsap.utils.toArray('.reveal-card').forEach(card => {
             gsap.to(card, {
                 scrollTrigger: { trigger: card, start: "top 85%" },
@@ -266,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Reveal Text (Clip Path)
         gsap.utils.toArray('.reveal-text').forEach(text => {
             gsap.to(text, {
                 scrollTrigger: { trigger: text, start: "top 85%" },
@@ -275,15 +245,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Timeline Items
-        gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+        gsap.utils.toArray('.timeline-item').forEach((item) => {
             gsap.from(item, {
                 scrollTrigger: { trigger: item, start: "top 85%" },
                 x: -50, opacity: 0, duration: 0.8, ease: "power3.out"
             });
         });
 
-        // Counters
         gsap.utils.toArray('.counter').forEach(counter => {
             ScrollTrigger.create({
                 trigger: counter,
@@ -301,7 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Navbar Blur & Hide on Scroll down
         let lastScroll = 0;
         const navbar = document.getElementById('navbar');
         const scrollProgress = document.getElementById('scroll-progress-bar');
@@ -310,11 +277,9 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
             
-            // Scroll Progress
             const totalScroll = document.body.scrollHeight - window.innerHeight;
             scrollProgress.style.width = `${(currentScroll / totalScroll) * 100}%`;
 
-            // Navbar hide/show
             if (currentScroll > 100) {
                 if (currentScroll > lastScroll) {
                     navbar.style.transform = 'translateY(-100%)';
@@ -323,13 +288,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             
-            // Back to top button
             if (currentScroll > 500) backToTop.classList.add('visible');
             else backToTop.classList.remove('visible');
 
             lastScroll = currentScroll;
             
-            // Active Nav Link updating
             const sections = document.querySelectorAll('section');
             let current = '';
             sections.forEach(section => {
@@ -347,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Smooth Scroll for Nav Links & Back to Top
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -366,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ==========================================================================
-       05. 3D TILT EFFECT (Vanilla JS Fallback)
+       05. 3D TILT EFFECT
        ========================================================================== */
     const tiltElements = document.querySelectorAll('.3d-tilt');
     tiltElements.forEach(el => {
@@ -377,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
+            const rotateX = ((y - centerY) / centerY) * -10;
             const rotateY = ((x - centerX) / centerX) * 10;
             
             el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
@@ -394,22 +356,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ==========================================================================
-       06. LIVE AI DASHBOARD & DRAGGABLE
+       06. LIVE AI DASHBOARD & CONVERGENT LOSS CURVE
        ========================================================================== */
     const dashboard = document.getElementById('live-ai-dashboard');
     
-    // Show dashboard after scroll
     ScrollTrigger.create({
         trigger: "#about",
         start: "top center",
         onEnter: () => { dashboard.style.display = 'block'; gsap.from(dashboard, {x: 100, opacity: 0, duration: 0.5}); }
     });
 
-    // Mock Live Metrics Updates
+    // Simulated convergent loss history (asymptotically approaching ~0.08 loss)
+    let chartData = [0.85, 0.62, 0.45, 0.31, 0.22, 0.16, 0.12, 0.10, 0.09];
+    
     setInterval(() => {
         const vram = (22.0 + Math.random() * 0.8).toFixed(1);
-        const latency = Math.floor(10 + Math.random() * 5);
-        const tps = Math.floor(130 + Math.random() * 20);
+        const latency = Math.floor(10 + Math.random() * 4);
+        const tps = Math.floor(138 + Math.random() * 10);
         
         document.querySelector('.gpu-val').textContent = `${vram} GB`;
         document.querySelector('.latency-val').textContent = `${latency} ms`;
@@ -418,8 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
         drawMiniChart();
     }, 2000);
 
-    // Mini Chart drawing
-    let chartData = [1.0, 0.8, 0.6, 0.4, 0.3, 0.25, 0.2];
     const drawMiniChart = () => {
         const c = document.getElementById('mini-loss-chart');
         if(!c) return;
@@ -429,8 +390,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.strokeStyle = '#06b6d4';
         ctx.lineWidth = 2;
         
-        chartData.push(0.15 + Math.random() * 0.05);
-        if(chartData.length > 10) chartData.shift();
+        // Push micro-fluctuations around converged 0.08 threshold
+        const nextLoss = 0.078 + (Math.random() * 0.012);
+        chartData.push(nextLoss);
+        if(chartData.length > 14) chartData.shift();
         
         const step = c.width / (chartData.length - 1);
         chartData.forEach((val, i) => {
@@ -443,123 +406,25 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     /* ==========================================================================
-       07. COMMAND PALETTE (CMD + K)
+       07. DEBOUNCED NEURAL SKILLS GRAPH
        ========================================================================== */
-    const cmdPalette = document.getElementById('command-palette');
-    const cmdInput = document.getElementById('cmd-input');
-    const cmdTrigger = document.getElementById('cmd-palette-trigger');
-    const cmdResults = document.getElementById('cmd-results');
-
-    const commands = [
-        { name: "Go to About", action: () => window.location.hash = "#about" },
-        { name: "View Projects/Architectures", action: () => window.location.hash = "#projects" },
-        { name: "Download CV", action: () => window.open('CV_update.pdf', '_blank') },
-        { name: "Toggle Light/Dark Theme", action: () => document.getElementById('theme-toggle').click() },
-        { name: "Send Email", action: () => window.location.hash = "#contact" }
-    ];
-
-    const toggleCmd = () => {
-        cmdPalette.classList.toggle('hidden');
-        if(!cmdPalette.classList.contains('hidden')) {
-            cmdInput.focus();
-            renderCmdResults(commands);
-        }
+    const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
     };
 
-    window.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            toggleCmd();
-        }
-        if (e.key === 'Escape' && !cmdPalette.classList.contains('hidden')) {
-            toggleCmd();
-        }
-    });
-
-    cmdTrigger.addEventListener('click', toggleCmd);
-    cmdPalette.addEventListener('click', (e) => {
-        if(e.target === cmdPalette) toggleCmd();
-    });
-
-    const renderCmdResults = (results) => {
-        cmdResults.innerHTML = '';
-        results.forEach(cmd => {
-            const li = document.createElement('li');
-            li.className = 'padding-1rem border-bottom-glass cursor-pointer hover-bg-glass text-sm code-font';
-            li.style.padding = "1rem"; li.style.borderBottom = "1px solid rgba(255,255,255,0.1)"; li.style.cursor = "pointer";
-            li.textContent = `> ${cmd.name}`;
-            li.addEventListener('click', () => {
-                cmd.action();
-                toggleCmd();
-            });
-            cmdResults.appendChild(li);
-        });
-    };
-
-    cmdInput.addEventListener('input', (e) => {
-        const val = e.target.value.toLowerCase();
-        const filtered = commands.filter(c => c.name.toLowerCase().includes(val));
-        renderCmdResults(filtered);
-    });
-
-    /* ==========================================================================
-       08. AI ASSISTANT CHATBOT
-       ========================================================================== */
-    const chatToggle = document.getElementById('chatbot-toggle');
-    const chatWindow = document.getElementById('chatbot-window');
-    const chatClose = document.getElementById('chat-close');
-    const chatInput = document.getElementById('chat-input');
-    const chatSend = document.getElementById('chat-send');
-    const chatMessages = document.getElementById('chat-messages');
-
-    chatToggle.addEventListener('click', () => chatWindow.classList.remove('hidden'));
-    chatClose.addEventListener('click', () => chatWindow.classList.add('hidden'));
-
-    const addMessage = (text, isAi = false) => {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `msg ${isAi ? 'ai-msg' : 'user-msg'}`;
-        msgDiv.textContent = text;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
-
-    const getAIResponse = (input) => {
-        input = input.toLowerCase();
-        if (input.includes('lungmate')) return "LungMate is my hybrid Computer Vision system utilizing EfficientNet-B3, Swin Transformers, and YOLOv11 for multi-metric tumor quantification, integrated with a PyQt GUI.";
-        if (input.includes('skills') || input.includes('tech')) return "My primary stack includes PyTorch, YOLOv11, LangChain (RAG), Python, GCP, and MLflow.";
-        if (input.includes('hire') || input.includes('why')) return "I transition complex AI research into deployable solutions. I have 15+ publications, 2 patents, and hands-on experience building multimodal systems at KTH and ISRO.";
-        if (input.includes('education') || input.includes('kth')) return "I am currently an M.Sc. Machine Learning student at KTH Royal Institute of Technology in Stockholm.";
-        return "I am processing your query. Please refer to the specific sections above or contact Harshit directly via the secure form.";
-    };
-
-    const handleChat = () => {
-        const val = chatInput.value.trim();
-        if(!val) return;
-        addMessage(val, false);
-        chatInput.value = '';
-        
-        // Typing indicator simulation
-        setTimeout(() => {
-            addMessage(getAIResponse(val), true);
-        }, 600);
-    };
-
-    chatSend.addEventListener('click', handleChat);
-    chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
-
-    /* ==========================================================================
-       09. NEURAL SKILLS GRAPH (Canvas connecting DOM nodes)
-       ========================================================================== */
     const skillsCanvas = document.getElementById('skills-network-canvas');
     const htmlNodes = document.querySelectorAll('.skill-node');
     
     if (skillsCanvas && htmlNodes.length > 0) {
         const sCtx = skillsCanvas.getContext('2d');
-        
-        // Randomly position nodes within the container initially
         const container = document.querySelector('.skills-network-wrapper');
+        
         htmlNodes.forEach(node => {
-            const x = 10 + Math.random() * 80; // percentage
+            const x = 10 + Math.random() * 80;
             const y = 10 + Math.random() * 80;
             node.style.left = `${x}%`;
             node.style.top = `${y}%`;
@@ -582,7 +447,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
             });
 
-            // Draw lines between same categories
             for(let i=0; i<nodePositions.length; i++) {
                 for(let j=i+1; j<nodePositions.length; j++) {
                     const n1 = nodePositions[i];
@@ -599,7 +463,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             else if(n1.cat === 'data') sCtx.strokeStyle = `rgba(139, 92, 246, ${1 - dist/250})`;
                             else sCtx.strokeStyle = `rgba(236, 72, 153, ${1 - dist/250})`;
                         } else {
-                            sCtx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist/2500})`; // faint cross-connections
+                            sCtx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist/2500})`;
                         }
                         sCtx.stroke();
                     }
@@ -607,17 +471,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        // Redraw on window resize or when hovering (since they scale)
-        window.addEventListener('resize', drawSkillConnections);
+        // Debounced resize handler prevents frame dropping
+        window.addEventListener('resize', debounce(drawSkillConnections, 150));
         htmlNodes.forEach(n => n.addEventListener('mouseenter', () => setTimeout(drawSkillConnections, 300)));
         htmlNodes.forEach(n => n.addEventListener('mouseleave', () => setTimeout(drawSkillConnections, 300)));
         
-        // Initial draw
         setTimeout(drawSkillConnections, 500);
     }
 
     /* ==========================================================================
-       10. TERMINAL TYPING ANIMATION
+       08. TERMINAL TYPING ANIMATION
        ========================================================================== */
     const terminalOutput = document.getElementById('terminal-output-container');
     const termLines = [
@@ -645,7 +508,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 p.innerHTML = `<span class="prompt-user">harshit@macbook</span>:<span class="prompt-dir">~</span>$ <span class="typing-text"></span>`;
                 terminalOutput.appendChild(p);
                 
-                // Type character by character
                 const textSpan = p.querySelector('.typing-text');
                 let charIdx = 0;
                 const typeChar = () => {
@@ -685,29 +547,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ==========================================================================
-       11. DARK/LIGHT THEME TOGGLE & FORM SUBMISSION
+       09. CONTACT FORM TRANSMISSION
        ========================================================================== */
-    const themeBtn = document.getElementById('theme-toggle');
-    const htmlEl = document.documentElement;
-    
-    // Check local storage
-    const savedTheme = localStorage.getItem('theme');
-    if(savedTheme) {
-        htmlEl.setAttribute('data-theme', savedTheme);
-        themeBtn.innerHTML = savedTheme === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-    }
-
-    themeBtn.addEventListener('click', () => {
-        const currTheme = htmlEl.getAttribute('data-theme');
-        const newTheme = currTheme === 'dark' ? 'light' : 'dark';
-        
-        htmlEl.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        themeBtn.innerHTML = newTheme === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-    });
-
-    // Contact Form
     const form = document.getElementById('contact-form');
     const successMsg = document.querySelector('.form-success-msg');
     const submitBtn = document.querySelector('.submit-btn .btn-text');
@@ -717,20 +558,18 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             submitBtn.textContent = 'Transmitting...';
             
-            // Mock API call delay
             setTimeout(() => {
                 submitBtn.textContent = 'Execute Transmission';
                 form.reset();
                 successMsg.classList.remove('hidden');
                 
-                // Hide message after 5 seconds
                 setTimeout(() => successMsg.classList.add('hidden'), 5000);
             }, 1500);
         });
     }
 
     /* ==========================================================================
-       12. MOBILE MENU TOGGLE
+       10. MOBILE MENU TOGGLE
        ========================================================================== */
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     const navLinksContainer = document.querySelector('.nav-links');

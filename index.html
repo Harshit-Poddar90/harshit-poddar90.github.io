@@ -25,7 +25,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -49,38 +48,16 @@
 
     <div class="global-backgrounds">
         <canvas id="three-ai-canvas"></canvas>
-        <div id="particles-container"></div>
         <div class="aurora-gradient aurora-1"></div>
         <div class="aurora-gradient aurora-2"></div>
         <div class="noise-overlay"></div>
     </div>
 
     <div id="scroll-progress-bar"></div>
-    
-    <div class="os-controls">
-        <button id="theme-toggle" class="glass-btn" aria-label="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <button id="cmd-palette-trigger" class="glass-btn" aria-label="Command Palette" title="Cmd/Ctrl + K">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </div>
 
     <button id="back-to-top" class="glass-btn glow-hover" aria-label="Back to Top">
         <i class="fa-solid fa-rocket"></i>
     </button>
-
-    <div id="command-palette" class="glass-modal hidden">
-        <div class="cmd-content">
-            <div class="cmd-input-wrapper">
-                <i class="fa-solid fa-terminal text-neon-blue"></i>
-                <input type="text" id="cmd-input" class="code-font" placeholder="Search portfolio, jump to section, or type command...">
-                <span class="cmd-esc code-font">ESC</span>
-            </div>
-            <ul id="cmd-results" class="cmd-results-list">
-                </ul>
-        </div>
-    </div>
 
     <div id="live-ai-dashboard" class="glass-panel floating-dashboard draggable">
         <div class="dash-header">
@@ -92,25 +69,6 @@
             <div class="metric"><span class="label">Accuracy:</span> <span class="val acc-val">98.7%</span></div>
             <div class="metric"><span class="label">Tokens/s:</span> <span class="val tps-val">142</span></div>
             <div class="metric"><span class="label">Loss Curve:</span> <canvas id="mini-loss-chart" width="60" height="20"></canvas></div>
-        </div>
-    </div>
-
-    <div id="ai-assistant">
-        <button id="chatbot-toggle" class="glass-btn glow-hover">
-            <i class="fa-solid fa-robot"></i>
-        </button>
-        <div id="chatbot-window" class="glass-panel hidden">
-            <div class="chat-header">
-                <div class="chat-title"><span class="pulse-dot"></span> Poddar.AI Agent</div>
-                <button id="chat-close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="chat-body code-font" id="chat-messages">
-                <div class="msg ai-msg">Greetings. I am the AI representation of Harshit Poddar. Query my knowledge base regarding research, deployments, or architecture.</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Initiate prompt...">
-                <button id="chat-send"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
         </div>
     </div>
 
@@ -455,7 +413,6 @@
                     
                     <div class="pipe-node glow-endpoint" data-node="inference"><i class="fa-solid fa-bolt"></i> Inference & Monitoring</div>
                 </div>
-                <div id="pipeline-particles"></div>
             </div>
         </section>
 
@@ -577,7 +534,6 @@
                     </div>
                     <div class="term-title code-font text-xs">harshit@kth-gpu-cluster: ~/workspace/LungMate</div>
                 </div>
-                <canvas id="terminal-matrix-canvas" class="term-matrix-bg"></canvas>
                 <div class="term-body code-font" id="terminal-output-container">
                     </div>
             </div>
