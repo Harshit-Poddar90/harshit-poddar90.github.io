@@ -139,7 +139,49 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ==========================================================================
        03. THREE.JS AI BACKGROUND
        ========================================================================== */
-    const initThreeJS = () => {
+    /* ==========================================================================
+   HERO 3D WIREFRAME MESH
+   ========================================================================== */
+const initHeroModel = () => {
+    const canvas = document.getElementById('hero-model-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(500, 500);
+
+    // Create a Knot Geometry
+    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 16);
+    const material = new THREE.MeshPhongMaterial({
+        color: 0x06b6d4,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.4
+    });
+    const knot = new THREE.Mesh(geometry, material);
+    scene.add(knot);
+
+    // Lighting
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+    scene.add(new THREE.AmbientLight(0x404040));
+
+    camera.position.z = 5;
+
+    const animate = () => {
+        requestAnimationFrame(animate);
+        knot.rotation.x += 0.005;
+        knot.rotation.y += 0.005;
+        renderer.render(scene, camera);
+    };
+    animate();
+};
+
+// Add this call inside your DOMContentLoaded function
+initHeroModel();
+    
+    
+       const initThreeJS = () => {
         const canvas = document.getElementById('three-ai-canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);

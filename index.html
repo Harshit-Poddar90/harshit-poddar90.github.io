@@ -105,6 +105,12 @@
         
         <section id="hero" class="fullscreen-section">
             <div class="hero-content">
+
+                <div class="hero-canvas-container">
+                    <canvas id="hero-model-canvas"></canvas>
+                </div>
+
+
                 <div class="status-badge glass-panel fade-up">
                     <span class="status-dot"></span> OPERATIONAL // STOCKHOLM, SE
                 </div>
@@ -403,51 +409,35 @@
         <section id="skills" class="content-section">
             <div class="section-heading text-center reveal-text">
                 <span class="code-font accent-color">// 05. CAPABILITIES</span>
-                <h2 class="syncopate-title">Tensor Weights</h2>
+                <h2 class="syncopate-title" style="font-size: 1.5rem; letter-spacing: 0.2em;">TOOLS & TECHNOLOGIES</h2>
             </div>
             
-            <div class="skills-layout">
-                <div class="skill-category glass-panel reveal-card">
-                    <h3 class="code-font text-neon-cyan mb-4"><i class="fa-solid fa-code"></i> Languages</h3>
-                    <div class="tech-stack">
-                        <span class="tag">Python</span>
-                        <span class="tag">MATLAB</span>
-                        <span class="tag">SQL</span>
-                    </div>
-                </div>
-
-                <div class="skill-category glass-panel reveal-card delay-1">
-                    <h3 class="code-font text-neon-purple mb-4"><i class="fa-solid fa-brain"></i> AI & Machine Learning</h3>
-                    <div class="tech-stack">
-                        <span class="tag">PyTorch</span>
-                        <span class="tag">YOLO (v8/v11)</span>
-                        <span class="tag">U-Net</span>
-                        <span class="tag">LangChain (RAG)</span>
-                        <span class="tag">Hugging Face</span>
-                        <span class="tag">Computer Vision</span>
-                    </div>
-                </div>
-
-                <div class="skill-category glass-panel reveal-card">
-                    <h3 class="code-font text-neon-pink mb-4"><i class="fa-solid fa-cloud"></i> Cloud & MLOps</h3>
-                    <div class="tech-stack">
-                        <span class="tag">GCP</span>
-                        <span class="tag">MLflow</span>
-                        <span class="tag">Git/GitHub</span>
-                        <span class="tag">Linux</span>
-                    </div>
-                </div>
-
-                <div class="skill-category glass-panel reveal-card delay-1">
-                    <h3 class="code-font text-neon-blue mb-4"><i class="fa-solid fa-database"></i> Data & Engineering</h3>
-                    <div class="tech-stack">
-                        <span class="tag">Agile Methodologies</span>
-                        <span class="tag">System Validation</span>
-                        <span class="tag">Power BI</span>
-                        <span class="tag">Tableau</span>
-                        <span class="tag">LaTeX</span>
-                    </div>
-                </div>
+            <div class="floating-skills-container reveal-card">
+                <!-- Languages -->
+                <div class="skill-pill"><i class="fa-brands fa-python" style="color: #4ade80;"></i> Python</div>
+                <div class="skill-pill"><i class="fa-solid fa-calculator" style="color: #f87171;"></i> MATLAB</div>
+                <div class="skill-pill"><i class="fa-solid fa-database" style="color: #60a5fa;"></i> SQL</div>
+                
+                <!-- AI & ML -->
+                <div class="skill-pill"><i class="fa-solid fa-fire-flame-curved" style="color: #f97316;"></i> PyTorch</div>
+                <div class="skill-pill"><i class="fa-solid fa-eye" style="color: #a855f7;"></i> YOLO (v8/v11)</div>
+                <div class="skill-pill"><i class="fa-solid fa-network-wired" style="color: #ec4899;"></i> U-Net</div>
+                <div class="skill-pill"><i class="fa-solid fa-link" style="color: #3b82f6;"></i> LangChain (RAG)</div>
+                <div class="skill-pill"><i class="fa-solid fa-face-smile" style="color: #facc15;"></i> Hugging Face</div>
+                <div class="skill-pill"><i class="fa-solid fa-camera-retro" style="color: #14b8a6;"></i> Computer Vision</div>
+                
+                <!-- Cloud & MLOps -->
+                <div class="skill-pill"><i class="fa-brands fa-google" style="color: #ef4444;"></i> GCP</div>
+                <div class="skill-pill"><i class="fa-solid fa-chart-line" style="color: #3b82f6;"></i> MLflow</div>
+                <div class="skill-pill"><i class="fa-brands fa-github" style="color: #e2e8f0;"></i> Git/GitHub</div>
+                <div class="skill-pill"><i class="fa-brands fa-linux" style="color: #fcd34d;"></i> Linux</div>
+                
+                <!-- Data & Engineering -->
+                <div class="skill-pill"><i class="fa-solid fa-arrows-spin" style="color: #8b5cf6;"></i> Agile</div>
+                <div class="skill-pill"><i class="fa-solid fa-shield-check" style="color: #10b981;"></i> System Validation</div>
+                <div class="skill-pill"><i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Power BI</div>
+                <div class="skill-pill"><i class="fa-solid fa-chart-bar" style="color: #3b82f6;"></i> Tableau</div>
+                <div class="skill-pill"><i class="fa-solid fa-file-code" style="color: #cbd5e1;"></i> LaTeX</div>
             </div>
         </section>
 

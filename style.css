@@ -778,3 +778,64 @@ body.custom-cursor-active #custom-cursor.hovering {
     color: #22c55e;
     border: 1px solid #22c55e;
 }
+
+/* Floating Pill Skills Layout */
+.floating-skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.skill-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.5rem;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass-highlight);
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: none; /* Keeps custom cursor active */
+}
+
+.skill-pill i {
+    font-size: 1.2rem;
+}
+
+.skill-pill:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: var(--bg-elevated);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(6, 182, 212, 0.2);
+    z-index: 10;
+}
+
+.hero-canvas-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+#hero-model-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .hero-canvas-container { display: none; } /* Clean hide on mobile/tablet */
+}
