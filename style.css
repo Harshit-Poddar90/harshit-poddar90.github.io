@@ -609,7 +609,13 @@ body.custom-cursor-active #custom-cursor.hovering {
    ========================================================================== */
 .rd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
 .rd-col-title { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem; }
+.blueprint-card {
+    margin-bottom: 2rem;
+}
 
+.blueprint-card:last-child {
+    margin-bottom: 0;
+}
 .blueprint-card { padding: 2rem; position: relative; overflow: hidden; border: 1px solid var(--neon-blue); }
 .blueprint-bg { position: absolute; inset: 0; opacity: 0.05; z-index: 0; background-image: linear-gradient(var(--neon-blue) 1px, transparent 1px), linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px); background-size: 20px 20px; }
 .patent-seal { position: absolute; top: 1rem; right: 1rem; font-size: 3rem; color: var(--neon-blue); opacity: 0.2; transform: rotate(-15deg); }
