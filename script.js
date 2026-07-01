@@ -453,22 +453,47 @@ initHeroModel();
     /* ==========================================================================
        09. CONTACT FORM TRANSMISSION
        ========================================================================== */
+    /* ==========================================================================
+       09. CONTACT FORM TRANSMISSION (API INTEGRATION)
+       ========================================================================== */
     const form = document.getElementById('contact-form');
     const successMsg = document.querySelector('.form-success-msg');
     const submitBtn = document.querySelector('.submit-btn .btn-text');
 
     if(form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent page reload
             submitBtn.textContent = 'Transmitting...';
             
-            setTimeout(() => {
-                submitBtn.textContent = 'Execute Transmission';
-                form.reset();
-                successMsg.classList.remove('hidden');
-                
-                setTimeout(() => successMsg.classList.add('hidden'), 5000);
-            }, 1500);
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success protocol
+                    submitBtn.textContent = 'Execute Transmission';
+                    form.reset();
+                    successMsg.classList.remove('hidden');
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => successMsg.classList.add('hidden'), 5000);
+                } else {
+                    // Error protocol from server
+                    submitBtn.textContent = 'Transmission Failed';
+                    setTimeout(() => submitBtn.textContent = 'Execute Transmission', 3000);
+                }
+            } catch (error) {
+                // Network error protocol
+                submitBtn.textContent = 'Network Error';
+                setTimeout(() => submitBtn.textContent = 'Execute Transmission', 3000);
+            }
         });
     }
 
