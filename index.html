@@ -639,6 +639,11 @@
             // Fires your custom greeting
             if(isHidden && chatHistory.children.length === 0) {
                 addChatMessage("Hello visitor, I am Harshit's personal assistant. What would you like to know about him?", "AI");
+                
+                // Adds the 60-second Render warning after a 1.5 second delay
+                setTimeout(() => {
+                    addChatMessage("⏳ Note: My brain is hosted on a free server. If I haven't been asked a question recently, it might take me about 50 seconds to wake up and answer your first question!", "AI");
+                }, 1500);
             }
         }
 
@@ -666,10 +671,24 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ question: question })
                 });
+                
                 const data = await response.json();
-                addChatMessage(data.answer, "AI");
+                
+                // THE FIX: If the backend throws an error (like a 500 status), catch it!
+                if (!response.ok) {
+                    addChatMessage(`Backend Error: ${data.detail || "Something crashed on Render."}`, "AI");
+                    return;
+                }
+                
+                // If it's successful, print the answer
+                if (data.answer) {
+                    addChatMessage(data.answer, "AI");
+                } else {
+                    addChatMessage("Error: Received an empty response.", "AI");
+                }
+                
             } catch (e) {
-                addChatMessage("Transmission error. Please try again.", "AI");
+                addChatMessage("Transmission error. The server might still be waking up. Try again in a few seconds!", "AI");
             }
         }
 
