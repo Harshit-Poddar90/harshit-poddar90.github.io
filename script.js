@@ -532,3 +532,32 @@ initHeroModel();
     }
 
 });
+/* ==========================================================================
+   11. RAG CHATBOT INTEGRATION
+   ========================================================================== */
+const chatInput = document.getElementById('chat-input');
+const chatHistory = document.getElementById('chat-history');
+
+chatInput.addEventListener('keypress', async (e) => {
+    if (e.key === 'Enter') {
+        const question = chatInput.value;
+        chatInput.value = '';
+        
+        // Display user message
+        chatHistory.innerHTML += `<p style="color: var(--neon-pink);">You: ${question}</p>`;
+        
+        try {
+            const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+            
+            const data = await response.json();
+            chatHistory.innerHTML += `<p style="color: var(--neon-cyan);">AI: ${data.answer}</p>`;
+            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll
+        } catch (error) {
+            chatHistory.innerHTML += `<p style="color: red;">Error: Could not reach backend.</p>`;
+        }
+    }
+});
