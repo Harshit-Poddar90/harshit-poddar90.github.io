@@ -6,7 +6,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // Safe-mount custom cursor to prevent blocking navigation if CDN fails
+    // Only mount custom cursor if the device has a physical mouse
+if (window.matchMedia('(pointer: fine)').matches) {
     document.body.classList.add('custom-cursor-active');
+}
 
     /* ==========================================================================
        01. BOOT SEQUENCE & MATRIX RAIN
@@ -134,7 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
         trail = trail.filter(p => p.alpha > 0);
         requestAnimationFrame(animateTrail);
     };
-    animateTrail();
+    // Only animate the heavy trail if on a desktop/laptop
+    if (window.innerWidth > 1024 && window.matchMedia('(pointer: fine)').matches) {
+        animateTrail();
+}
 
     /* ==========================================================================
        03. THREE.JS AI BACKGROUND
@@ -236,7 +242,15 @@ initHeroModel();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
     };
-    initThreeJS();
+    // Only load Three.js and Hero Model on larger screens with hardware acceleration
+    if (window.innerWidth > 1024 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        initHeroModel();
+        initThreeJS();
+    } else {
+        // Optional: Hide the canvases completely on mobile to free up memory
+        document.getElementById('three-ai-canvas').style.display = 'none';
+        document.getElementById('hero-model-canvas').style.display = 'none';
+}
 
     /* ==========================================================================
        04. GSAP ANIMATIONS & SCROLL TRIGGER

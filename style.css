@@ -246,15 +246,25 @@ body.custom-cursor-active #custom-cursor.hovering {
    05. GLASSMORPHISM & PANELS
    ========================================================================== */
 .glass-panel {
-    background: var(--bg-glass);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* Solid fallback for lower-end devices */
+    background: rgba(15, 23, 42, 0.95);
     border: 1px solid var(--border-glass);
     border-top: 1px solid var(--border-glass-highlight);
     border-left: 1px solid var(--border-glass-highlight);
     box-shadow: var(--shadow-glass);
     border-radius: var(--border-radius);
     transition: var(--transition-normal);
+}
+
+/* Only apply the heavy blur effect on screens wider than 768px */
+@media (min-width: 768px) {
+    @supports (backdrop-filter: blur(16px)) {
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    }
 }
 
 .glass-panel:hover {
@@ -329,13 +339,24 @@ body.custom-cursor-active #custom-cursor.hovering {
     justify-content: space-between;
     align-items: center;
     padding: 0 4%;
-    background: rgba(3, 7, 18, 0.5);
+    background: rgba(3, 7, 18, 0.95); /* Solid dark fallback */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-glass);
     z-index: var(--z-nav);
     transition: transform 0.4s ease;
 }
+
+@media (min-width: 768px) {
+    @supports (backdrop-filter: blur(20px)) {
+        .glass-nav {
+            background: rgba(3, 7, 18, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    }
+}
+
 
 .brand-text {
     font-family: var(--font-code);
