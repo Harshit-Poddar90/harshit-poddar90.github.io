@@ -603,23 +603,23 @@
 
 
     <div id="ai-chat-widget">
-    <button id="chat-fab" class="glass-btn">
-        <i class="fa-solid fa-comment-dots"></i>
-    </button>
+        <button id="chat-fab" class="glass-btn">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
 
-    <div id="chat-box" class="glass-panel" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 350px; height: 500px; flex-direction: column; z-index: 50000; overflow: hidden;">
-        <div class="dash-header" style="padding: 1rem; border-bottom: 1px solid var(--border-glass);">
-            <i class="fa-solid fa-robot"></i> <span>HARSHIT_ASSISTANT</span>
-            <button id="close-chat" style="margin-left: auto; cursor: pointer; background: transparent; border: none; color: white;">&times;</button>
-        </div>
-        <div id="chat-history" style="flex: 1; padding: 1rem; overflow-y: auto; color: var(--text-muted);">
+        <div id="chat-box" class="glass-panel" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 350px; height: 500px; flex-direction: column; z-index: 5000; overflow: hidden;">
+            <div class="dash-header" style="padding: 1rem; border-bottom: 1px solid var(--border-glass);">
+                <i class="fa-solid fa-robot"></i> <span>HARSHIT_ASSISTANT</span>
+                <button id="close-chat" style="margin-left: auto; cursor: pointer; background: transparent; border: none; color: white;">&times;</button>
             </div>
-        <div style="padding: 1rem; border-top: 1px solid var(--border-glass); display: flex; gap: 5px;">
-            <input type="text" id="chat-input" placeholder="How can I help?" style="flex: 1; background: var(--bg-base); border: 1px solid var(--border-glass); padding: 0.5rem; color: white; border-radius: 4px;">
-            <button id="send-btn" class="glass-btn" style="width: 40px; height: 40px;"><i class="fa-solid fa-paper-plane"></i></button>
+            <div id="chat-history" style="flex: 1; padding: 1rem; overflow-y: auto; color: var(--text-muted);">
+            </div>
+            <div style="padding: 1rem; border-top: 1px solid var(--border-glass); display: flex; gap: 5px;">
+                <input type="text" id="chat-input" placeholder="How can I help?" style="flex: 1; background: var(--bg-base); border: 1px solid var(--border-glass); padding: 0.5rem; color: white; border-radius: 4px;">
+                <button id="send-btn" class="glass-btn" style="width: 40px; height: 40px;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
         </div>
-    </div>
+    </div> <script src="script.js"></script>
 
-    
 </body>
 </html>
