@@ -547,11 +547,12 @@ const sendBtn = document.getElementById('send-btn');
 const toggleChat = () => {
     const isHidden = chatBox.style.display === 'none';
     chatBox.style.display = isHidden ? 'flex' : 'none';
-    if(isHidden && chatHistory.children.length === 1) {
-        addMessage("Hey! I'm Harshit's personal assistant. How can I help you?", "AI");
+    
+    // THE FIX: Change 1 to 0, because the chat is empty at first!
+    if(isHidden && chatHistory.children.length === 0) {
+        addMessage("Hello visitor, I am Harshit's personal assistant. What would you like to know about him?", "AI");
     }
 };
-
 // Event Listeners
 chatFab.addEventListener('click', toggleChat);
 closeChatBtn.addEventListener('click', toggleChat); // Handle the 'X' button
