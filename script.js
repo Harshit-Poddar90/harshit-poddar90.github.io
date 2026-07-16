@@ -531,7 +531,7 @@ initHeroModel();
         });
     }
 
-});
+
 /* ==========================================================================
    11. RAG CHATBOT REFINED
    ========================================================================== */
@@ -541,6 +541,7 @@ const closeChatBtn = document.getElementById('close-chat'); // New selector
 const chatInput = document.getElementById('chat-input');
 const chatHistory = document.getElementById('chat-history');
 const sendBtn = document.getElementById('send-btn');
+
 
 // Toggle function
 const toggleChat = () => {
@@ -591,7 +592,7 @@ chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSend
 
 
 
-
+});
 
 
 
