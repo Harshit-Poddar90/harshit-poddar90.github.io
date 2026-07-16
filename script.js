@@ -387,7 +387,7 @@ initHeroModel();
     /* ==========================================================================
        05. 3D TILT EFFECT
        ========================================================================== */
-    const tiltElements = document.querySelectorAll('.3d-tilt');
+    const tiltElements = document.querySelectorAll('.tilt-3d');
     tiltElements.forEach(el => {
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
@@ -531,79 +531,67 @@ initHeroModel();
         });
     }
 
-
 /* ==========================================================================
    11. RAG CHATBOT REFINED
    ========================================================================== */
-const chatFab = document.getElementById('chat-fab');
-const chatBox = document.getElementById('chat-box');
-const closeChatBtn = document.getElementById('close-chat'); // New selector
-const chatInput = document.getElementById('chat-input');
-const chatHistory = document.getElementById('chat-history');
-const sendBtn = document.getElementById('send-btn');
+// Wrapping everything forces JS to wait for the HTML to load first
+document.addEventListener("DOMContentLoaded", () => {
+    const chatFab = document.getElementById('chat-fab');
+    const chatBox = document.getElementById('chat-box');
+    const closeChatBtn = document.getElementById('close-chat'); 
+    const chatInput = document.getElementById('chat-input');
+    const chatHistory = document.getElementById('chat-history');
+    const sendBtn = document.getElementById('send-btn');
 
+    // Toggle function
+    const toggleChat = () => {
+        const isHidden = chatBox.style.display === 'none';
+        chatBox.style.display = isHidden ? 'flex' : 'none';
+        
+        // Triggers your custom greeting if the chat is opened for the first time
+        if(isHidden && chatHistory.children.length === 0) {
+            addMessage("Hello visitor, I am Harshit's personal assistant. What would you like to know about him?", "AI");
+        }
+    };
 
-// Toggle function
-const toggleChat = () => {
-    const isHidden = chatBox.style.display === 'none';
-    chatBox.style.display = isHidden ? 'flex' : 'none';
-    
-    // THE FIX: Change 1 to 0, because the chat is empty at first!
-    if(isHidden && chatHistory.children.length === 0) {
-        addMessage("Hello visitor, I am Harshit's personal assistant. What would you like to know about him?", "AI");
+    // Safely attach Event Listeners
+    if (chatFab) chatFab.addEventListener('click', toggleChat);
+    if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChat);
+
+    function addMessage(text, sender) {
+        const p = document.createElement('p');
+        p.style.marginBottom = '10px';
+        p.style.color = sender === "You" ? 'var(--neon-pink)' : 'var(--neon-cyan)';
+        p.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatHistory.appendChild(p);
+        chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scrolls to newest message
     }
-};
-// Event Listeners
-chatFab.addEventListener('click', toggleChat);
-closeChatBtn.addEventListener('click', toggleChat); // Handle the 'X' button
 
-function addMessage(text, sender) {
-    const p = document.createElement('p');
-    p.style.marginBottom = '10px';
-    p.style.color = sender === "You" ? 'var(--neon-pink)' : 'var(--neon-cyan)';
-    p.innerHTML = `<strong>${sender}:</strong> ${text}`;
-    chatHistory.appendChild(p);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-}
-
-async function handleSend() {
-    const question = chatInput.value;
-    if(!question) return;
-    
-    chatInput.value = '';
-    addMessage(question, "You");
-    
-    try {
-        const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: question })
-        });
-        const data = await response.json();
-        addMessage(data.answer, "AI");
-    } catch (e) {
-        addMessage("Transmission error. Please try again.", "AI");
+    async function handleSend() {
+        const question = chatInput.value;
+        if(!question) return;
+        
+        chatInput.value = '';
+        addMessage(question, "You");
+        
+        try {
+            const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+            const data = await response.json();
+            addMessage(data.answer, "AI");
+        } catch (e) {
+            addMessage("Transmission error. Please try again.", "AI");
+        }
     }
-}
 
-sendBtn.addEventListener('click', handleSend);
-chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSend(); });
-
-
-
-
-
+    if (sendBtn) sendBtn.addEventListener('click', handleSend);
+    if (chatInput) chatInput.addEventListener('keypress', (e) => { 
+        if(e.key === 'Enter') handleSend(); 
+    });
 });
 
-
-
-
-
-
-
-
-
-
-
-
+});
 

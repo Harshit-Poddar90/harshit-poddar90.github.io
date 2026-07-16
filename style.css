@@ -712,8 +712,8 @@ body.custom-cursor-active #custom-cursor.hovering {
 .footer-tags span { color: var(--text-muted); }
 
 .hidden { display: none !important; }
-.3d-tilt { transform-style: preserve-3d; transform: perspective(1000px); }
-.3d-tilt > * { transform: translateZ(30px); }
+.tilt-3d { transform-style: preserve-3d; transform: perspective(1000px); }
+.tilt-3d > * { transform: translateZ(30px); }
 .fade-up { opacity: 0; transform: translateY(30px); }
 .reveal-card { opacity: 0; transform: translateY(50px); }
 .reveal-text { opacity: 0; clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
