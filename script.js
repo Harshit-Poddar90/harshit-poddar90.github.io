@@ -533,31 +533,75 @@ initHeroModel();
 
 });
 /* ==========================================================================
-   11. RAG CHATBOT INTEGRATION
+   11. RAG CHATBOT REFINED
    ========================================================================== */
+const chatFab = document.getElementById('chat-fab');
+const chatBox = document.getElementById('chat-box');
+const closeChatBtn = document.getElementById('close-chat'); // New selector
 const chatInput = document.getElementById('chat-input');
 const chatHistory = document.getElementById('chat-history');
+const sendBtn = document.getElementById('send-btn');
 
-chatInput.addEventListener('keypress', async (e) => {
-    if (e.key === 'Enter') {
-        const question = chatInput.value;
-        chatInput.value = '';
-        
-        // Display user message
-        chatHistory.innerHTML += `<p style="color: var(--neon-pink);">You: ${question}</p>`;
-        
-        try {
-            const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question: question })
-            });
-            
-            const data = await response.json();
-            chatHistory.innerHTML += `<p style="color: var(--neon-cyan);">AI: ${data.answer}</p>`;
-            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll
-        } catch (error) {
-            chatHistory.innerHTML += `<p style="color: red;">Error: Could not reach backend.</p>`;
-        }
+// Toggle function
+const toggleChat = () => {
+    const isHidden = chatBox.style.display === 'none';
+    chatBox.style.display = isHidden ? 'flex' : 'none';
+    if(isHidden && chatHistory.children.length === 1) {
+        addMessage("Hey! I'm Harshit's personal assistant. How can I help you?", "AI");
     }
-});
+};
+
+// Event Listeners
+chatFab.addEventListener('click', toggleChat);
+closeChatBtn.addEventListener('click', toggleChat); // Handle the 'X' button
+
+function addMessage(text, sender) {
+    const p = document.createElement('p');
+    p.style.marginBottom = '10px';
+    p.style.color = sender === "You" ? 'var(--neon-pink)' : 'var(--neon-cyan)';
+    p.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    chatHistory.appendChild(p);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+async function handleSend() {
+    const question = chatInput.value;
+    if(!question) return;
+    
+    chatInput.value = '';
+    addMessage(question, "You");
+    
+    try {
+        const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: question })
+        });
+        const data = await response.json();
+        addMessage(data.answer, "AI");
+    } catch (e) {
+        addMessage("Transmission error. Please try again.", "AI");
+    }
+}
+
+sendBtn.addEventListener('click', handleSend);
+chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSend(); });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
