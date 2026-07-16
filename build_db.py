@@ -1,24 +1,47 @@
+import os
 import chromadb
-from chromadb.utils import embedding_functions
+from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from dotenv import load_dotenv
+
+# Load your local Google API Key
+load_dotenv()
+
+
+class LangchainGeminiEmbeddingFunction(EmbeddingFunction):
+    def __init__(self):
+        api_key = os.environ.get("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY is missing! Check your .env file.")
+            
+        # FIX: Use the new standard model gemini-embedding-001
+        self.encoder = GoogleGenerativeAIEmbeddings(
+            model="gemini-embedding-001",
+            google_api_key=api_key
+        )
+        
+    def __call__(self, input: Documents) -> Embeddings:
+        return self.encoder.embed_documents(input)
 
 def build_knowledge_base():
-    # 1. Initialize ChromaDB to save to a local folder
     client = chromadb.PersistentClient(path="./portfolio_db")
     
-    # 2. Set up the embedding model (Chroma will automatically download all-MiniLM-L6-v2)
-    embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="all-MiniLM-L6-v2"
-    )
+    # Use our custom LangChain wrapper instead!
+    embedding_func = LangchainGeminiEmbeddingFunction()
     
-    # 3. Create or load the collection
-    collection = client.get_or_create_collection(
+    # Wipe the old database if it exists
+    try:
+        client.delete_collection("harshit_portfolio")
+    except Exception:
+        pass
+
+    collection = client.create_collection(
         name="harshit_portfolio",
         embedding_function=embedding_func
     )
 
-    # 4. Your raw portfolio and CV data 
-    #[cite: 1, 4]
+    # Your raw portfolio data
     raw_data = [
         "Harshit Poddar is a Machine Learning Engineer and M.Sc. student at KTH Royal Institute of Technology in Stockholm. He specializes in Computer Vision, Multimodal AI, LLMs, and scalable MLOps.",
         "Harshit works as a Systems Simulation Engineer at AESIR (KTH Rocketry), developing the Freyja HIL system to simulate aerospace sub-systems and validate embedded flight software.",
@@ -29,7 +52,6 @@ def build_knowledge_base():
         "Harshit engineered an Industrial IoT Safety Wearable using an ESP32, Sensor Fusion (MQ2 Gas, NEO-6M GPS), and LoRaWAN connectivity. A patent has been filed for this device."
     ]
 
-    # 5. Split the text into optimal chunks for the LLM
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
     
     documents = []
@@ -43,14 +65,9 @@ def build_knowledge_base():
             metadatas.append({"source": f"portfolio_section_{i}"})
             ids.append(f"doc_{i}_chunk_{j}")
 
-    # 6. Insert into ChromaDB
-    print(f"Adding {len(documents)} chunks to ChromaDB...")
-    collection.upsert(
-        documents=documents,
-        metadatas=metadatas,
-        ids=ids
-    )
-    print("Knowledge base successfully built and saved to ./portfolio_db!")
+    print("Sending text to Google Gemini for vector embedding...")
+    collection.upsert(documents=documents, metadatas=metadatas, ids=ids)
+    print("Database successfully rebuilt using Google Embeddings via LangChain!")
 
 if __name__ == "__main__":
     build_knowledge_base()
