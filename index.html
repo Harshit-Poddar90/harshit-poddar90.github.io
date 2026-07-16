@@ -70,19 +70,6 @@
         <i class="fa-solid fa-rocket"></i>
     </button>
 
-    <div id="live-ai-dashboard" class="glass-panel floating-dashboard draggable">
-        <div class="dash-header">
-            <i class="fa-solid fa-microchip pulse-icon"></i> <span class="code-font">SYSTEM.METRICS</span>
-        </div>
-        <div class="dash-grid code-font">
-            <div class="metric"><span class="label">GPU VRAM:</span> <span class="val gpu-val">22.4 GB</span></div>
-            <div class="metric"><span class="label">Inference:</span> <span class="val latency-val">12 ms</span></div>
-            <div class="metric"><span class="label">Accuracy:</span> <span class="val acc-val">98.7%</span></div>
-            <div class="metric"><span class="label">Tokens/s:</span> <span class="val tps-val">142</span></div>
-            <div class="metric"><span class="label">Loss Curve:</span> <canvas id="mini-loss-chart" width="60" height="20"></canvas></div>
-        </div>
-    </div>
-
     <header id="navbar" class="glass-nav">
         <div class="nav-brand">
             <a href="#hero" class="brand-text">hpoddar<span class="neon-accent">.engine()</span></a>
@@ -627,7 +614,7 @@
         </div>
     </div>
 
-    <!-- 4. STANDALONE CHATBOT SCRIPT -->
+    <!-- 4. STANDALONE CHATBOT SCRIPT (TOKEN STREAMING UPGRADE) -->
     <script>
         function toggleChatWindow() {
             const chatBox = document.getElementById('chat-box');
@@ -636,25 +623,77 @@
             const isHidden = chatBox.style.display === 'none';
             chatBox.style.display = isHidden ? 'flex' : 'none';
             
-            // Fires your custom greeting
             if(isHidden && chatHistory.children.length === 0) {
-                addChatMessage("Hello visitor, I am Harshit's personal assistant. What would you like to know about him?", "AI");
+                // Instantly type out the first greeting
+                addChatMessage("SYSTEM INITIATED. I am the AI architect acting on behalf of Harshit. Ask me about his tech stack, models, or research.", "AI", true);
                 
-                // Adds the 60-second Render warning after a 1.5 second delay
                 setTimeout(() => {
-                    addChatMessage("⏳ Note: My brain is hosted on a free server. If I haven't been asked a question recently, it might take me about 50 seconds to wake up and answer your first question!", "AI");
+                    addChatMessage("⏳ Cold Start Protocol: My inference engine runs on a serverless tier. My first generation might take ~50 seconds.", "AI", true);
                 }, 1500);
             }
         }
 
-        function addChatMessage(text, sender) {
+        // Asynchronous Typewriter Effect for Token Streaming
+        async function typeWriterEffect(element, text, speed = 15) {
+            element.innerHTML = ''; 
             const chatHistory = document.getElementById('chat-history');
-            const p = document.createElement('p');
-            p.style.marginBottom = '10px';
-            p.style.color = sender === "You" ? 'var(--neon-pink)' : 'var(--neon-cyan)';
-            p.innerHTML = `<strong>${sender}:</strong> ${text}`;
-            chatHistory.appendChild(p);
+            
+            for (let i = 0; i < text.length; i++) {
+                element.innerHTML += text.charAt(i);
+                chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll as it types
+                await new Promise(r => setTimeout(r, speed));
+            }
+        }
+
+        function addChatMessage(text, sender, animate = false) {
+            const chatHistory = document.getElementById('chat-history');
+            const isBot = sender === "AI";
+            
+            const wrapper = document.createElement('div');
+            wrapper.style.display = 'flex';
+            wrapper.style.marginBottom = '15px';
+            wrapper.style.justifyContent = isBot ? 'flex-start' : 'flex-end';
+
+            const bubble = document.createElement('div');
+            bubble.style.maxWidth = '85%';
+            bubble.style.padding = '12px 16px';
+            bubble.style.borderRadius = '12px';
+            bubble.style.fontSize = '0.9rem';
+            bubble.style.lineHeight = '1.5';
+            bubble.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+            bubble.style.fontFamily = 'var(--font-body)';
+
+            const header = `<strong style="font-family: var(--font-code); font-size: 0.75rem; opacity: 0.7; display: block; margin-bottom: 4px; color: ${isBot ? 'var(--neon-cyan)' : 'var(--neon-pink)'};">${sender}</strong>`;
+            
+            const textContainer = document.createElement('span');
+
+            if (!isBot) {
+                bubble.style.background = 'rgba(236, 72, 153, 0.1)'; 
+                bubble.style.border = '1px solid rgba(236, 72, 153, 0.3)';
+                bubble.style.color = '#fff';
+                bubble.style.borderBottomRightRadius = '2px';
+                textContainer.innerHTML = text; // User text appears instantly
+            } else {
+                bubble.style.background = 'rgba(6, 182, 212, 0.1)'; 
+                bubble.style.border = '1px solid rgba(6, 182, 212, 0.3)';
+                bubble.style.color = '#fff';
+                bubble.style.borderTopLeftRadius = '2px';
+                
+                // Trigger the typing animation if it's the bot
+                if (animate) {
+                    typeWriterEffect(textContainer, text);
+                } else {
+                    textContainer.innerHTML = text;
+                }
+            }
+
+            bubble.innerHTML = header;
+            bubble.appendChild(textContainer);
+            wrapper.appendChild(bubble);
+            chatHistory.appendChild(wrapper);
             chatHistory.scrollTop = chatHistory.scrollHeight;
+            
+            return wrapper; // Return the wrapper so we can delete the "Thinking..." bubble later
         }
 
         async function handleChatSend() {
@@ -663,7 +702,10 @@
             if(!question) return;
             
             chatInput.value = '';
-            addChatMessage(question, "You");
+            addChatMessage(question, "You", false);
+            
+            // Add a temporary "Thinking..." bubble
+            const thinkingBubble = addChatMessage("Processing vector embeddings...", "AI", false);
             
             try {
                 const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
@@ -674,25 +716,27 @@
                 
                 const data = await response.json();
                 
-                // THE FIX: If the backend throws an error (like a 500 status), catch it!
+                // Remove the thinking bubble
+                thinkingBubble.remove();
+                
                 if (!response.ok) {
-                    addChatMessage(`Backend Error: ${data.detail || "Something crashed on Render."}`, "AI");
+                    addChatMessage(`Exception caught: ${data.detail || "Server unavailable."}`, "AI", true);
                     return;
                 }
                 
-                // If it's successful, print the answer
                 if (data.answer) {
-                    addChatMessage(data.answer, "AI");
+                    // Pass 'true' to trigger the token streaming typewriter!
+                    addChatMessage(data.answer, "AI", true);
                 } else {
-                    addChatMessage("Error: Received an empty response.", "AI");
+                    addChatMessage("Null response from model.", "AI", true);
                 }
                 
             } catch (e) {
-                addChatMessage("Transmission error. The server might still be waking up. Try again in a few seconds!", "AI");
+                thinkingBubble.remove();
+                addChatMessage("Transmission error. Connection to backend failed. Try again.", "AI", true);
             }
         }
 
-        // Attach the Enter key so hitting enter still sends the message
         document.getElementById('chat-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') handleChatSend();
         });

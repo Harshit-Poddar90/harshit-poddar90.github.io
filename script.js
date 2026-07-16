@@ -6,10 +6,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // Safe-mount custom cursor to prevent blocking navigation if CDN fails
-    // Only mount custom cursor if the device has a physical mouse
-if (window.matchMedia('(pointer: fine)').matches) {
-    document.body.classList.add('custom-cursor-active');
-}
+    if (window.matchMedia('(pointer: fine)').matches) {
+        document.body.classList.add('custom-cursor-active');
+    }
 
     /* ==========================================================================
        01. BOOT SEQUENCE & MATRIX RAIN
@@ -21,6 +20,8 @@ if (window.matchMedia('(pointer: fine)').matches) {
     
     const createMatrixRain = () => {
         const matrixContainer = document.getElementById('boot-matrix');
+        if (!matrixContainer) return null;
+        
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         matrixContainer.appendChild(canvas);
@@ -63,28 +64,34 @@ if (window.matchMedia('(pointer: fine)').matches) {
     let logIndex = 0;
     const runBootSequence = () => {
         if (logIndex < logs.length) {
-            const p = document.createElement('p');
-            p.textContent = `> ${logs[logIndex]}`;
-            bootLogs.appendChild(p);
+            if (bootLogs) {
+                const p = document.createElement('p');
+                p.textContent = `> ${logs[logIndex]}`;
+                bootLogs.appendChild(p);
+            }
             
             const progress = ((logIndex + 1) / logs.length) * 100;
-            bootProgress.style.width = `${progress}%`;
-            bootPercentage.textContent = `${Math.floor(progress)}%`;
+            if (bootProgress) bootProgress.style.width = `${progress}%`;
+            if (bootPercentage) bootPercentage.textContent = `${Math.floor(progress)}%`;
             
             logIndex++;
             setTimeout(runBootSequence, Math.random() * 300 + 150);
         } else {
             setTimeout(() => {
                 clearInterval(matrixInterval);
-                gsap.to(bootScreen, { 
-                    opacity: 0, 
-                    duration: 1, 
-                    ease: "power2.out",
-                    onComplete: () => {
-                        bootScreen.style.display = 'none';
-                        initHeroAnimations();
-                    }
-                });
+                if (bootScreen) {
+                    gsap.to(bootScreen, { 
+                        opacity: 0, 
+                        duration: 1, 
+                        ease: "power2.out",
+                        onComplete: () => {
+                            bootScreen.style.display = 'none';
+                            initHeroAnimations();
+                        }
+                    });
+                } else {
+                    initHeroAnimations();
+                }
             }, 800);
         }
     };
@@ -96,14 +103,17 @@ if (window.matchMedia('(pointer: fine)').matches) {
        ========================================================================== */
     const cursor = document.getElementById('custom-cursor');
     const trailCanvas = document.getElementById('cursor-trail-canvas');
-    const tCtx = trailCanvas.getContext('2d');
+    let tCtx = null;
     
-    const resizeTrail = () => {
-        trailCanvas.width = window.innerWidth;
-        trailCanvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', resizeTrail);
-    resizeTrail();
+    if (trailCanvas) {
+        tCtx = trailCanvas.getContext('2d');
+        const resizeTrail = () => {
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resizeTrail);
+        resizeTrail();
+    }
 
     let mouse = { x: -100, y: -100 };
     let trail = [];
@@ -112,18 +122,21 @@ if (window.matchMedia('(pointer: fine)').matches) {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         
-        cursor.style.left = `${mouse.x}px`;
-        cursor.style.top = `${mouse.y}px`;
+        if (cursor) {
+            cursor.style.left = `${mouse.x}px`;
+            cursor.style.top = `${mouse.y}px`;
+        }
         
         trail.push({ x: mouse.x, y: mouse.y, alpha: 1, size: 3 });
     });
 
     document.querySelectorAll('a, button, .interactive, .skill-node').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        el.addEventListener('mouseenter', () => { if (cursor) cursor.classList.add('hovering') });
+        el.addEventListener('mouseleave', () => { if (cursor) cursor.classList.remove('hovering') });
     });
 
     const animateTrail = () => {
+        if (!tCtx) return;
         tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
         for (let i = 0; i < trail.length; i++) {
             let p = trail[i];
@@ -137,120 +150,126 @@ if (window.matchMedia('(pointer: fine)').matches) {
         trail = trail.filter(p => p.alpha > 0);
         requestAnimationFrame(animateTrail);
     };
-    // Only animate the heavy trail if on a desktop/laptop
+    
     if (window.innerWidth > 1024 && window.matchMedia('(pointer: fine)').matches) {
         animateTrail();
-}
+    }
 
     /* ==========================================================================
        03. THREE.JS AI BACKGROUND
        ========================================================================== */
-    /* ==========================================================================
-   HERO 3D WIREFRAME MESH
-   ========================================================================== */
-const initHeroModel = () => {
-    const canvas = document.getElementById('hero-model-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setSize(500, 500);
+    const initHeroModel = () => {
+        try {
+            const canvas = document.getElementById('hero-model-canvas');
+            if (!canvas) return;
+            if (typeof THREE === 'undefined') return;
 
-    // Create a Knot Geometry
-    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 16);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0x06b6d4,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-    const knot = new THREE.Mesh(geometry, material);
-    scene.add(knot);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(500, 500);
 
-    // Lighting
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(1, 1, 1);
-    scene.add(light);
-    scene.add(new THREE.AmbientLight(0x404040));
+            const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 16);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x06b6d4,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.4
+            });
+            const knot = new THREE.Mesh(geometry, material);
+            scene.add(knot);
 
-    camera.position.z = 5;
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(1, 1, 1);
+            scene.add(light);
+            scene.add(new THREE.AmbientLight(0x404040));
 
-    const animate = () => {
-        requestAnimationFrame(animate);
-        knot.rotation.x += 0.005;
-        knot.rotation.y += 0.005;
-        renderer.render(scene, camera);
-    };
-    animate();
-};
+            camera.position.z = 5;
 
-// Add this call inside your DOMContentLoaded function
-initHeroModel();
-    
-    
-       const initThreeJS = () => {
-        const canvas = document.getElementById('three-ai-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 700;
-        const posArray = new Float32Array(particlesCount * 3);
-        
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+            const animate = () => {
+                requestAnimationFrame(animate);
+                knot.rotation.x += 0.005;
+                knot.rotation.y += 0.005;
+                renderer.render(scene, camera);
+            };
+            animate();
+        } catch (e) {
+            console.error("Hero model initialization bypassed.");
         }
-        
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            color: 0x06b6d4,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-        
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-        camera.position.z = 3;
-
-        let mouseX = 0;
-        let mouseY = 0;
-        window.addEventListener('mousemove', (event) => {
-            mouseX = event.clientX / window.innerWidth - 0.5;
-            mouseY = event.clientY / window.innerHeight - 0.5;
-        });
-
-        const animateThree = () => {
-            requestAnimationFrame(animateThree);
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.0005;
-            
-            particlesMesh.position.x += (mouseX * 0.5 - particlesMesh.position.x) * 0.05;
-            particlesMesh.position.y += (-mouseY * 0.5 - particlesMesh.position.y) * 0.05;
-            
-            renderer.render(scene, camera);
-        };
-        animateThree();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
     };
-    // Only load Three.js and Hero Model on larger screens with hardware acceleration
+    
+    const initThreeJS = () => {
+        try {
+            const canvas = document.getElementById('three-ai-canvas');
+            if (!canvas) return;
+            if (typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 700;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.015,
+                color: 0x06b6d4,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            camera.position.z = 3;
+
+            let mouseX = 0;
+            let mouseY = 0;
+            window.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animateThree = () => {
+                requestAnimationFrame(animateThree);
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.rotation.x += 0.0005;
+                
+                particlesMesh.position.x += (mouseX * 0.5 - particlesMesh.position.x) * 0.05;
+                particlesMesh.position.y += (-mouseY * 0.5 - particlesMesh.position.y) * 0.05;
+                
+                renderer.render(scene, camera);
+            };
+            animateThree();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        } catch (e) {
+            console.error("Background AI canvas initialization bypassed.");
+        }
+    };
+
     if (window.innerWidth > 1024 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         initHeroModel();
         initThreeJS();
     } else {
-        // Optional: Hide the canvases completely on mobile to free up memory
-        document.getElementById('three-ai-canvas').style.display = 'none';
-        document.getElementById('hero-model-canvas').style.display = 'none';
-}
+        const canvasBg = document.getElementById('three-ai-canvas');
+        const canvasHero = document.getElementById('hero-model-canvas');
+        if (canvasBg) canvasBg.style.display = 'none';
+        if (canvasHero) canvasHero.style.display = 'none';
+    }
 
     /* ==========================================================================
        04. GSAP ANIMATIONS & SCROLL TRIGGER
@@ -258,20 +277,22 @@ initHeroModel();
     gsap.registerPlugin(ScrollTrigger);
 
     const initHeroAnimations = () => {
-        new Typed('#typed-roles', {
-            strings: [
-                'Computer Vision Engineer', 
-                'Multimodal AI Specialist', 
-                'MLOps Architect',
-                'RAG Systems Developer',
-                'LLM Researcher'
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            backDelay: 2000,
-            loop: true,
-            cursorChar: ''
-        });
+        if (document.getElementById('typed-roles')) {
+            new Typed('#typed-roles', {
+                strings: [
+                    'Computer Vision Engineer', 
+                    'Multimodal AI Specialist', 
+                    'MLOps Architect',
+                    'RAG Systems Developer',
+                    'LLM Researcher'
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                backDelay: 2000,
+                loop: true,
+                cursorChar: ''
+            });
+        }
 
         const tl = gsap.timeline();
         tl.to(".fade-up", {
@@ -302,9 +323,9 @@ initHeroModel();
         });
 
         gsap.utils.toArray('.timeline-item').forEach((item) => {
-            gsap.from(item, {
+            gsap.to(item, {
                 scrollTrigger: { trigger: item, start: "top 85%" },
-                x: -50, opacity: 0, duration: 0.8, ease: "power3.out"
+                x: 0, opacity: 1, duration: 0.8, ease: "power3.out"
             });
         });
 
@@ -332,11 +353,11 @@ initHeroModel();
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
-            
             const totalScroll = document.body.scrollHeight - window.innerHeight;
-            scrollProgress.style.width = `${(currentScroll / totalScroll) * 100}%`;
+            
+            if (scrollProgress) scrollProgress.style.width = `${(currentScroll / totalScroll) * 100}%`;
 
-            if (currentScroll > 100) {
+            if (navbar && currentScroll > 100) {
                 if (currentScroll > lastScroll) {
                     navbar.style.transform = 'translateY(-100%)';
                 } else {
@@ -344,8 +365,10 @@ initHeroModel();
                 }
             }
             
-            if (currentScroll > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
+            if (backToTop) {
+                if (currentScroll > 500) backToTop.classList.add('visible');
+                else backToTop.classList.remove('visible');
+            }
 
             lastScroll = currentScroll;
             
@@ -357,7 +380,7 @@ initHeroModel();
                     current = section.getAttribute('id');
                 }
             });
-            // Update Vertical Dot Nav
+            
             document.querySelectorAll('.dot-link').forEach(dot => {
                 dot.classList.remove('active');
                 if (current && dot.getAttribute('href').includes(current)) {
@@ -380,9 +403,12 @@ initHeroModel();
         });
     });
 
-    document.getElementById('back-to-top').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    const b2t = document.getElementById('back-to-top');
+    if (b2t) {
+        b2t.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     /* ==========================================================================
        05. 3D TILT EFFECT
@@ -413,61 +439,6 @@ initHeroModel();
     });
 
     /* ==========================================================================
-       06. LIVE AI DASHBOARD & CONVERGENT LOSS CURVE
-       ========================================================================== */
-    const dashboard = document.getElementById('live-ai-dashboard');
-    
-    ScrollTrigger.create({
-        trigger: "#about",
-        start: "top center",
-        onEnter: () => { dashboard.style.display = 'block'; gsap.from(dashboard, {x: 100, opacity: 0, duration: 0.5}); }
-    });
-
-    // Simulated convergent loss history (asymptotically approaching ~0.08 loss)
-    let chartData = [0.85, 0.62, 0.45, 0.31, 0.22, 0.16, 0.12, 0.10, 0.09];
-    
-    setInterval(() => {
-        const vram = (22.0 + Math.random() * 0.8).toFixed(1);
-        const latency = Math.floor(10 + Math.random() * 4);
-        const tps = Math.floor(138 + Math.random() * 10);
-        
-        document.querySelector('.gpu-val').textContent = `${vram} GB`;
-        document.querySelector('.latency-val').textContent = `${latency} ms`;
-        document.querySelector('.tps-val').textContent = tps;
-        
-        drawMiniChart();
-    }, 2000);
-
-    const drawMiniChart = () => {
-        const c = document.getElementById('mini-loss-chart');
-        if(!c) return;
-        const ctx = c.getContext('2d');
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.beginPath();
-        ctx.strokeStyle = '#06b6d4';
-        ctx.lineWidth = 2;
-        
-        // Push micro-fluctuations around converged 0.08 threshold
-        const nextLoss = 0.078 + (Math.random() * 0.012);
-        chartData.push(nextLoss);
-        if(chartData.length > 14) chartData.shift();
-        
-        const step = c.width / (chartData.length - 1);
-        chartData.forEach((val, i) => {
-            const x = i * step;
-            const y = val * c.height;
-            if(i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-    };
-
-
-
-    /* ==========================================================================
-       09. CONTACT FORM TRANSMISSION
-       ========================================================================== */
-    /* ==========================================================================
        09. CONTACT FORM TRANSMISSION (API INTEGRATION)
        ========================================================================== */
     const form = document.getElementById('contact-form');
@@ -476,8 +447,8 @@ initHeroModel();
 
     if(form) {
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent page reload
-            submitBtn.textContent = 'Transmitting...';
+            e.preventDefault(); 
+            if (submitBtn) submitBtn.textContent = 'Transmitting...';
             
             const formData = new FormData(form);
 
@@ -491,22 +462,17 @@ initHeroModel();
                 });
 
                 if (response.ok) {
-                    // Success protocol
-                    submitBtn.textContent = 'Execute Transmission';
+                    if (submitBtn) submitBtn.textContent = 'Execute Transmission';
                     form.reset();
-                    successMsg.classList.remove('hidden');
-                    
-                    // Hide success message after 5 seconds
-                    setTimeout(() => successMsg.classList.add('hidden'), 5000);
+                    if (successMsg) successMsg.classList.remove('hidden');
+                    setTimeout(() => { if (successMsg) successMsg.classList.add('hidden') }, 5000);
                 } else {
-                    // Error protocol from server
-                    submitBtn.textContent = 'Transmission Failed';
-                    setTimeout(() => submitBtn.textContent = 'Execute Transmission', 3000);
+                    if (submitBtn) submitBtn.textContent = 'Transmission Failed';
+                    setTimeout(() => { if (submitBtn) submitBtn.textContent = 'Execute Transmission' }, 3000);
                 }
             } catch (error) {
-                // Network error protocol
-                submitBtn.textContent = 'Network Error';
-                setTimeout(() => submitBtn.textContent = 'Execute Transmission', 3000);
+                if (submitBtn) submitBtn.textContent = 'Network Error';
+                setTimeout(() => { if (submitBtn) submitBtn.textContent = 'Execute Transmission' }, 3000);
             }
         });
     }
@@ -517,7 +483,7 @@ initHeroModel();
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     const navLinksContainer = document.querySelector('.nav-links');
 
-    if(mobileToggle) {
+    if(mobileToggle && navLinksContainer) {
         mobileToggle.addEventListener('click', () => {
             navLinksContainer.style.display = navLinksContainer.style.display === 'flex' ? 'none' : 'flex';
             navLinksContainer.style.flexDirection = 'column';
@@ -531,9 +497,4 @@ initHeroModel();
         });
     }
 
-
 });
-
-
-
-
