@@ -95,6 +95,9 @@
             <a href="https://drive.google.com/file/d/1SD1F29iFZrOoMrZMbFnNN2kZtu_9jOzd/view?usp=sharing" target="_blank" class="nav-link">CV</a>
             <a href="#research" class="nav-link" data-section="research">Publications</a>
             <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+            
+            <!-- Add this div for the translate button -->
+            <div id="google_translate_element" style="margin-left: 15px; display: flex; align-items: center;"></div>
         </nav>
         <div class="mobile-menu-toggle">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -582,6 +585,19 @@
             <p class="code-font text-xs text-gray-500">&copy; 2026 Harshit Poddar. All weights converged.</p>
         </div>
     </footer>
+
+<!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'sv,nl,en', // Restricts dropdown to Swedish, Dutch, and English
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script src="script.js"></script>
 </body>

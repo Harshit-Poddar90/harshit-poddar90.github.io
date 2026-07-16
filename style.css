@@ -867,3 +867,21 @@ body.custom-cursor-active #custom-cursor.hovering {
 @media (max-width: 1024px) {
     .hero-canvas-container { display: none; } /* Clean hide on mobile/tablet */
 }
+
+/* Quick styling to make Google Translate blend with the dark theme */
+#google_translate_element select {
+    background: rgba(3, 7, 18, 0.8);
+    color: var(--neon-cyan);
+    border: 1px solid var(--border-glass);
+    border-radius: 4px;
+    padding: 4px;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    outline: none;
+}
+.goog-te-gadget {
+    color: transparent !important;
+}
+.goog-te-gadget span {
+    display: none;
+}
