@@ -931,13 +931,17 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: var(--z-widgets); /* Drops it to 5000, well below the 9999 cursor */
+    z-index: 5000; /* Keeps it in the correct layer */
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
     box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
     background: var(--bg-elevated);
     cursor: pointer;
+    
+    /* THE FIX: Remove the conflicting blur causing the cursor bug */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 #chat-fab:hover {
     transform: scale(1.1);
