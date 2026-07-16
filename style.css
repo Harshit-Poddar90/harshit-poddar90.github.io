@@ -931,7 +931,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 10001;
+    z-index: var(--z-widgets); /* Drops it to 5000, well below the 9999 cursor */
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
