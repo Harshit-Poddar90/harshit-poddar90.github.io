@@ -868,20 +868,61 @@ body.custom-cursor-active #custom-cursor.hovering {
     .hero-canvas-container { display: none; } /* Clean hide on mobile/tablet */
 }
 
-/* Quick styling to make Google Translate blend with the dark theme */
-#google_translate_element select {
-    background: rgba(3, 7, 18, 0.8);
-    color: var(--neon-cyan);
-    border: 1px solid var(--border-glass);
-    border-radius: 4px;
-    padding: 4px;
-    font-family: var(--font-code);
-    font-size: 0.8rem;
-    outline: none;
+/* ==========================================================================
+   GOOGLE TRANSLATE CYBERPUNK OVERRIDE
+   ========================================================================== */
+
+/* 1. Style the main white box to match your navbar */
+.goog-te-gadget-simple {
+    background-color: rgba(15, 23, 42, 0.6) !important; /* Matches --bg-glass */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Matches --border-glass */
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
 }
-.goog-te-gadget {
-    color: transparent !important;
+
+/* Add a neon hover effect to match your buttons */
+.goog-te-gadget-simple:hover {
+    border-color: #06b6d4 !important; /* --neon-cyan */
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.3) !important;
 }
-.goog-te-gadget span {
-    display: none;
+
+/* 2. Style the text inside the box */
+.goog-te-gadget-simple .goog-te-menu-value span {
+    color: #94a3b8 !important; /* Matches --text-muted */
+    font-family: 'Fira Code', monospace !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Change text to bright white on hover */
+.goog-te-gadget-simple:hover .goog-te-menu-value span {
+    color: #f8fafc !important; /* Matches --text-main */
+}
+
+/* 3. Hide the Google "G" Logo */
+.goog-te-gadget-simple img {
+    display: none !important;
+}
+
+/* 4. Fix the divider line inside the box */
+.goog-te-gadget-simple .goog-te-menu-value span[style*="border-left"] {
+    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+    margin-left: 8px !important;
+    padding-left: 8px !important;
+}
+
+/* 5. Hide the top banner Google forces on the screen when translating */
+body {
+    top: 0 !important;
+}
+.skiptranslate iframe {
+    display: none !important;
+}
+#goog-gt-tt {
+    display: none !important;
+    visibility: hidden !important;
 }

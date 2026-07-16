@@ -591,14 +591,14 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                includedLanguages: 'sv,nl,en', // Restricts dropdown to Swedish, Dutch, and English
+                // European Languages + East Asian Languages
+                includedLanguages: 'sq,be,bs,bg,ca,hr,cs,da,nl,en,et,fi,fr,gl,de,el,hu,is,ga,it,lv,lt,mk,mt,no,pl,pt,ro,ru,sr,sk,sl,es,sv,uk,cy,zh-CN,zh-TW,ja,ko', 
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
             }, 'google_translate_element');
         }
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
     <script src="script.js"></script>
 </body>
 </html>
