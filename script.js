@@ -2,36 +2,38 @@
  * HARSHIT PODDAR - AI/ML ENGINEER PORTFOLIO
  * Core JavaScript Architecture (Optimized Build)
  */
-// Global Theme Toggle Function (Bulletproof)
-// Global Theme Toggle Function (Bulletproof & 3D Aware)
+// Global Theme Toggle Function 
 window.toggleTheme = function() {
     const htmlEl = document.documentElement;
     const currentTheme = htmlEl.getAttribute('data-theme');
+    const themeIcon = document.getElementById('theme-icon');
 
     if (currentTheme === 'dark') {
         // --- SWITCH TO LIGHT MODE ---
         htmlEl.setAttribute('data-theme', 'light');
         
-        // Background particles become black
+        // Change Sun to Moon
+        if (themeIcon) {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+        
         if (window.particlesMaterialRef) window.particlesMaterialRef.color.setHex(0x000000); 
-        
-        // 3D Network nodes become dark slate for visibility on white
         if (window.networkNodeMat) window.networkNodeMat.color.setHex(0x0f172a); 
-        
-        // 3D Network lines become a slightly darker rust
         if (window.networkLineMat) window.networkLineMat.color.setHex(0x9e4624); 
 
     } else {
         // --- SWITCH TO DARK MODE ---
         htmlEl.setAttribute('data-theme', 'dark');
         
-        // Background particles become white
+        // Change Moon to Sun
+        if (themeIcon) {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
         if (window.particlesMaterialRef) window.particlesMaterialRef.color.setHex(0xffffff);
-        
-        // 3D Network nodes return to pure white
         if (window.networkNodeMat) window.networkNodeMat.color.setHex(0xffffff); 
-        
-        // 3D Network lines return to bright rust
         if (window.networkLineMat) window.networkLineMat.color.setHex(0xb05b3d); 
     }
 };
@@ -202,10 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const group = new THREE.Group();
 
-            // --- 1. MATERIALS (Exported to window for the Theme Toggle) ---
-            const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Defaults to white
+            // --- 1. MATERIALS ---
+            const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); 
             const lineMaterialBase = new THREE.LineBasicMaterial({
-                color: 0xb05b3d, // Architectural Rust
+                color: 0xb05b3d, 
                 transparent: true,
                 opacity: 0.15
             });
@@ -214,16 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
             window.networkLineMat = lineMaterialBase;
 
             // --- 2. BUILD THE SPHERICAL DISTRIBUTION ---
-            const numNodes = 75; // Density of the network
-            const radius = 1.8;  // Size of the sphere
+            const numNodes = 75; 
+            const radius = 1.8;  
             const nodes = [];
 
             for (let i = 0; i < numNodes; i++) {
-                // Fibonacci sphere algorithm for even distribution
                 const phi = Math.acos(-1 + (2 * i) / numNodes);
                 const theta = Math.sqrt(numNodes * Math.PI) * phi;
-
-                // Add slight organic noise so it's not a perfect rigid ball
                 const noise = 1 + (Math.random() - 0.5) * 0.15;
 
                 const x = radius * Math.cos(theta) * Math.sin(phi) * noise;
@@ -234,14 +233,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 const sphere = new THREE.Mesh(sphereGeo, nodeMaterial);
                 sphere.position.set(x, y, z);
 
-                // Save a random phase so they pulse independently
                 nodes.push({ mesh: sphere, phase: Math.random() * Math.PI * 2 });
                 group.add(sphere);
             }
 
             // --- 3. BUILD THE SYNAPSES ---
             const edges = [];
-            const connectThreshold = 1.1; // Distance required to form a connection
+            const connectThreshold = 1.1; 
 
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
@@ -251,38 +249,73 @@ document.addEventListener("DOMContentLoaded", () => {
                         const points = [nodes[i].mesh.position, nodes[j].mesh.position];
                         const geometry = new THREE.BufferGeometry().setFromPoints(points);
                         
-                        const edgeMat = lineMaterialBase.clone(); // Clone so they pulse individually
+                        const edgeMat = lineMaterialBase.clone(); 
                         const line = new THREE.Line(geometry, edgeMat);
                         
-                        edges.push({ mat: edgeMat, phase: Math.random() * Math.PI * 2 });
+                        // We store the start and end coordinates so our data packets know where to travel
+                        edges.push({ 
+                            mat: edgeMat, 
+                            phase: Math.random() * Math.PI * 2,
+                            start: nodes[i].mesh.position,
+                            end: nodes[j].mesh.position
+                        });
                         group.add(line);
                     }
                 }
             }
 
-            // --- 4. STAGING ---
+            // --- 4. RADIATING DATA PACKETS (The "Electrons") ---
+            const packets = [];
+            // Make them slightly smaller than the main nodes
+            const packetGeo = new THREE.SphereGeometry(0.035, 8, 8); 
+            
+            // Generate 25 high-speed packets
+            for (let i = 0; i < 25; i++) {
+                // They use the nodeMaterial so they instantly support Light/Dark mode!
+                const packet = new THREE.Mesh(packetGeo, nodeMaterial); 
+                group.add(packet);
+                
+                packets.push({
+                    mesh: packet,
+                    edge: edges[Math.floor(Math.random() * edges.length)], // Pick a random starting path
+                    progress: Math.random() // Start at a random point on that path
+                });
+            }
+
+            // --- 5. STAGING ---
             scene.add(group);
             camera.position.z = 5.5;
 
-            // --- 5. THE ANIMATION LOOP (Exciting/De-exciting) ---
+            // --- 6. THE ANIMATION LOOP ---
             let time = 0;
             const animate = () => {
                 requestAnimationFrame(animate);
                 time += 0.015;
 
-                // Smooth organic rotation
+                // Smooth rotation
                 group.rotation.y += 0.003;
                 group.rotation.x = Math.sin(time * 0.5) * 0.1;
 
-                // Breathing/Pulsing effect on the Nodes (Scale)
+                // Breathing Nodes
                 nodes.forEach(node => {
                     const scale = 1 + Math.sin(time * 3 + node.phase) * 0.3;
                     node.mesh.scale.set(scale, scale, scale);
                 });
 
-                // Firing effect on the Synapses (Opacity)
+                // Firing Synapses
                 edges.forEach(edge => {
                     edge.mat.opacity = 0.05 + Math.max(0, Math.sin(time * 4 + edge.phase) * 0.6);
+                });
+
+                // HIGH SPEED DATA TRANSMISSION (Electrons)
+                packets.forEach(p => {
+                    p.progress += 0.02; // Speed of the transmission
+                    if (p.progress >= 1) {
+                        p.progress = 0; // Reset progress
+                        p.edge = edges[Math.floor(Math.random() * edges.length)]; // Grab a completely new random path to travel
+                    }
+                    // Mathematically slide the packet from the start of the line to the end of the line
+                    p.mesh.position.lerpVectors(p.edge.start, p.edge.end, p.progress);
                 });
 
                 renderer.render(scene, camera);
