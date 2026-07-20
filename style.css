@@ -985,3 +985,28 @@ body {
     80% { transform: translate(2px, -2px); text-shadow: -2px 0 var(--neon-cyan); }
     100% { transform: translate(0); }
 }
+
+/* ==========================================================================
+   NEURAL DEEP DIVE BOOT STYLES
+   ========================================================================== */
+.boot-terminal.bottom-console {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    z-index: 20;
+}
+
+.coalescence-text {
+    font-size: 1.2rem;
+    color: #00f0ff; /* Electric Cyan */
+    letter-spacing: 0.25em;
+    font-weight: 800;
+    text-shadow: 0 0 15px #00f0ff;
+    text-transform: uppercase;
+}

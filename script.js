@@ -47,94 +47,191 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add('custom-cursor-active');
     }
 
-    /* ==========================================================================
-       01. BOOT SEQUENCE & MATRIX RAIN
+/* ==========================================================================
+       01. BOOT SEQUENCE: QUANTUM NEURAL ASSEMBLY
        ========================================================================== */
     const bootScreen = document.getElementById('boot-screen');
+    const bootMatrix = document.getElementById('boot-matrix');
     const bootLogs = document.getElementById('boot-logs');
-    const bootProgress = document.getElementById('boot-progress-fill');
-    const bootPercentage = document.getElementById('boot-percentage');
-    
-    const createMatrixRain = () => {
-        const matrixContainer = document.getElementById('boot-matrix');
-        if (!matrixContainer) return null;
-        
+
+    // Clean up default UI elements
+    if(document.querySelector('.boot-progress-bar')) document.querySelector('.boot-progress-bar').style.display = 'none';
+    if(document.getElementById('boot-percentage')) document.getElementById('boot-percentage').style.display = 'none';
+    document.querySelector('.boot-terminal').classList.add('bottom-console');
+
+    bootLogs.innerHTML = '<p id="coal-cmd" class="coalescence-text code-font"></p>';
+    const cmdText = document.getElementById('coal-cmd');
+
+    const createQuantumText = () => {
+        bootMatrix.innerHTML = '';
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        matrixContainer.appendChild(canvas);
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        bootMatrix.appendChild(canvas);
         
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // FIX: Device Pixel Ratio scaling ensures colors and sharpness work on all monitors
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr; 
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        ctx.scale(dpr, dpr);
+
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        // 1. Off-screen text mapping
+        const textCanvas = document.createElement('canvas');
+        const tCtx = textCanvas.getContext('2d', { willReadFrequently: true });
+        textCanvas.width = w; textCanvas.height = h;
+
+        tCtx.fillStyle = 'white';
+        const fontSize = w > 768 ? '10vw' : '15vw'; 
+        tCtx.font = `900 ${fontSize} "Syncopate", sans-serif`;
+        tCtx.textAlign = 'center';
+        tCtx.textBaseline = 'middle';
+        tCtx.fillText('HARSHIT', w/2, h/2 - (w > 768 ? 40 : 25));
+        tCtx.fillText('PODDAR', w/2, h/2 + (w > 768 ? 40 : 25));
+
+        const imgData = tCtx.getImageData(0, 0, w, h).data;
+        const targets = [];
         
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*'.split('');
-        const drops = Array(Math.floor(canvas.width / 14)).fill(1);
+        // High density scan
+        for(let y = 0; y < h; y += 4) {
+            for(let x = 0; x < w; x += 4) {
+                if(imgData[(y * w + x) * 4 + 3] > 128) {
+                    targets.push({x: x, y: y});
+                }
+            }
+        }
+
+        // 2. The Particles (Pure Neon Hex Codes for guaranteed visibility)
+        const particles = [];
+        const colors = ['#00f0ff', '#ff003c', '#7000ff']; // Cyan, Pink, Purple
+
+        targets.forEach(target => {
+            particles.push({
+                x: Math.random() * w, 
+                y: Math.random() * h,
+                targetX: target.x,
+                targetY: target.y,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 2 + 0.5,
+                vx: (Math.random() - 0.5) * 15,
+                vy: (Math.random() - 0.5) * 15,
+                angle: Math.random() * Math.PI * 2,
+                speed: Math.random() * 0.08 + 0.02
+            });
+        });
+
+        let phase = 'SWIRL'; 
+        let shockwaveRadius = 0;
         
+        // 3. The Render Loop
         const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#22c55e'; 
-            ctx.font = '14px monospace';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * 14, drops[i] * 14);
-                if (drops[i] * 14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+            // Standard blend mode for the background clear
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = phase === 'EXPLODE' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(0, 0, w, h);
+
+            // Additive blending makes overlapping colors turn blindingly bright
+            ctx.globalCompositeOperation = 'lighter';
+
+            const cx = w / 2;
+            const cy = h / 2;
+
+            // Optional: Draw Neural Synapses when forming
+            if (phase === 'FORM') {
+                ctx.lineWidth = 0.5;
+                // Only loop a subset to maintain 60fps on all devices
+                for(let i = 0; i < particles.length; i += 3) {
+                    const p1 = particles[i];
+                    const p2 = particles[i+1] || particles[0];
+                    const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+                    if (dist < 15) {
+                        ctx.strokeStyle = p1.color;
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => {
+                if (phase === 'SWIRL') {
+                    p.angle += p.speed;
+                    const radius = 250 + Math.sin(p.angle * 3) * 100;
+                    const targetSwirlX = cx + Math.cos(p.angle) * radius;
+                    const targetSwirlY = cy + Math.sin(p.angle) * radius;
+                    
+                    p.x += (targetSwirlX - p.x) * 0.06;
+                    p.y += (targetSwirlY - p.y) * 0.06;
+                } 
+                else if (phase === 'FORM') {
+                    p.x += (p.targetX - p.x) * 0.12;
+                    p.y += (p.targetY - p.y) * 0.12;
+                } 
+                else if (phase === 'EXPLODE') {
+                    p.x += p.vx * 4;
+                    p.y += p.vy * 4;
+                    p.size += 0.3; 
+                }
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw Shockwave Ring
+            if (phase === 'EXPLODE') {
+                shockwaveRadius += 40;
+                ctx.strokeStyle = 'rgba(0, 240, 255, 0.8)';
+                ctx.lineWidth = 10;
+                ctx.beginPath();
+                ctx.arc(cx, cy, shockwaveRadius, 0, Math.PI * 2);
+                ctx.stroke();
             }
         };
-        return setInterval(draw, 33);
+
+        const interval = setInterval(draw, 16); 
+        return { interval, setPhase: (newPhase) => { phase = newPhase; } };
     };
 
-    const matrixInterval = createMatrixRain();
+    // --- TIMING SEQUENCE ---
+    const engine = createQuantumText();
+    
+    cmdText.textContent = "> PARSING LATENT SPACE...";
+    
+    setTimeout(() => { 
+        cmdText.textContent = "> FORGING NEURAL PATHWAYS..."; 
+        engine.setPhase('FORM'); 
+    }, 2200);
+    
+    setTimeout(() => { 
+        cmdText.textContent = "> INFERENCE MAXIMIZED."; 
+        cmdText.style.color = '#ffffff'; 
+        cmdText.style.textShadow = '0 0 20px #ffffff, 0 0 40px #00f0ff';
+    }, 4500);
 
-    const logs = [
-        "Initializing Neural Network...",
-        "Loading EfficientNet-B3 Model... [OK]",
-        "Connecting GPU Cluster (RTX 4090)... [OK]",
-        "Loading RAG Vector Database...",
-        "Building Knowledge Graph...",
-        "Loading Swin Transformer Attention Maps...",
-        "Optimizing Parameters...",
-        "Launching AI Portfolio... [SUCCESS]"
-    ];
-
-    let logIndex = 0;
-    const runBootSequence = () => {
-        if (logIndex < logs.length) {
-            if (bootLogs) {
-                const p = document.createElement('p');
-                p.textContent = `> ${logs[logIndex]}`;
-                bootLogs.appendChild(p);
-            }
-            
-            const progress = ((logIndex + 1) / logs.length) * 100;
-            if (bootProgress) bootProgress.style.width = `${progress}%`;
-            if (bootPercentage) bootPercentage.textContent = `${Math.floor(progress)}%`;
-            
-            logIndex++;
-            setTimeout(runBootSequence, Math.random() * 300 + 150);
-        } else {
-            setTimeout(() => {
-                clearInterval(matrixInterval);
-                if (bootScreen) {
-                    gsap.to(bootScreen, { 
-                        opacity: 0, 
-                        duration: 1, 
-                        ease: "power2.out",
-                        onComplete: () => {
-                            bootScreen.style.display = 'none';
-                            initHeroAnimations();
-                        }
-                    });
-                } else {
-                    initHeroAnimations();
+    setTimeout(() => { 
+        engine.setPhase('EXPLODE'); 
+        bootScreen.classList.add('shake-active'); // Triggers violent screen shake
+        cmdText.style.display = 'none'; // Hide text instantly on explosion
+        
+        setTimeout(() => {
+            clearInterval(engine.interval);
+            gsap.to(bootScreen, { 
+                opacity: 0, 
+                duration: 0.8, 
+                ease: "power2.out",
+                onComplete: () => {
+                    bootScreen.style.display = 'none';
+                    initHeroAnimations(); 
                 }
-            }, 800);
-        }
-    };
-
-    runBootSequence();
-
+            });
+        }, 500); 
+    }, 5500);
     /* ==========================================================================
        02. CUSTOM CURSOR & MOUSE TRAIL
        ========================================================================== */
@@ -209,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const lineMaterialBase = new THREE.LineBasicMaterial({
                 color: 0xb05b3d, 
                 transparent: true,
-                opacity: 0.15
+                opacity: 0
             });
 
             window.networkNodeMat = nodeMaterial;
@@ -233,7 +330,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const sphere = new THREE.Mesh(sphereGeo, nodeMaterial);
                 sphere.position.set(x, y, z);
 
-                nodes.push({ mesh: sphere, phase: Math.random() * Math.PI * 2 });
+                // Set initial scale to 0 (invisible) for the spawn effect
+                sphere.scale.set(0, 0, 0);
+
+                nodes.push({ 
+                    mesh: sphere, 
+                    phase: Math.random() * Math.PI * 2,
+                    spawned: false,
+                    currentScale: 0
+                });
                 group.add(sphere);
             }
 
@@ -252,12 +357,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         const edgeMat = lineMaterialBase.clone(); 
                         const line = new THREE.Line(geometry, edgeMat);
                         
-                        // We store the start and end coordinates so our data packets know where to travel
                         edges.push({ 
                             mat: edgeMat, 
                             phase: Math.random() * Math.PI * 2,
                             start: nodes[i].mesh.position,
-                            end: nodes[j].mesh.position
+                            end: nodes[j].mesh.position,
+                            spawned: false,
+                            currentOpacity: 0
                         });
                         group.add(line);
                     }
@@ -266,19 +372,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // --- 4. RADIATING DATA PACKETS (The "Electrons") ---
             const packets = [];
-            // Make them slightly smaller than the main nodes
             const packetGeo = new THREE.SphereGeometry(0.035, 8, 8); 
             
-            // Generate 25 high-speed packets
             for (let i = 0; i < 25; i++) {
-                // They use the nodeMaterial so they instantly support Light/Dark mode!
                 const packet = new THREE.Mesh(packetGeo, nodeMaterial); 
+                packet.visible = false; // Hidden until the ignition wave finishes
                 group.add(packet);
                 
                 packets.push({
                     mesh: packet,
-                    edge: edges[Math.floor(Math.random() * edges.length)], // Pick a random starting path
-                    progress: Math.random() // Start at a random point on that path
+                    edge: edges[Math.floor(Math.random() * edges.length)], 
+                    progress: Math.random() 
                 });
             }
 
@@ -288,6 +392,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // --- 6. THE ANIMATION LOOP ---
             let time = 0;
+            let waveY = -2.5; // The "Elden Ring" ignition wave starts below the sphere
+
             const animate = () => {
                 requestAnimationFrame(animate);
                 time += 0.015;
@@ -296,26 +402,51 @@ document.addEventListener("DOMContentLoaded", () => {
                 group.rotation.y += 0.003;
                 group.rotation.x = Math.sin(time * 0.5) * 0.1;
 
-                // Breathing Nodes
+                // Move the ignition wave upward
+                if (waveY < 2.5) {
+                    waveY += 0.04; // Speed of the bottom-up reveal
+                } else {
+                    // Wave is finished, release the electrons!
+                    packets.forEach(p => p.mesh.visible = true);
+                }
+
+                // Ignite & Breathe Nodes
                 nodes.forEach(node => {
-                    const scale = 1 + Math.sin(time * 3 + node.phase) * 0.3;
-                    node.mesh.scale.set(scale, scale, scale);
-                });
+                    // Check if the wave has reached this node's height
+                    if (node.mesh.position.y < waveY) node.spawned = true;
 
-                // Firing Synapses
-                edges.forEach(edge => {
-                    edge.mat.opacity = 0.05 + Math.max(0, Math.sin(time * 4 + edge.phase) * 0.6);
-                });
-
-                // HIGH SPEED DATA TRANSMISSION (Electrons)
-                packets.forEach(p => {
-                    p.progress += 0.02; // Speed of the transmission
-                    if (p.progress >= 1) {
-                        p.progress = 0; // Reset progress
-                        p.edge = edges[Math.floor(Math.random() * edges.length)]; // Grab a completely new random path to travel
+                    if (node.spawned) {
+                        // Smoothly grow to full size, then breathe
+                        const targetScale = 1 + Math.sin(time * 3 + node.phase) * 0.3;
+                        node.currentScale += (targetScale - node.currentScale) * 0.1;
+                        node.mesh.scale.set(node.currentScale, node.currentScale, node.currentScale);
                     }
-                    // Mathematically slide the packet from the start of the line to the end of the line
-                    p.mesh.position.lerpVectors(p.edge.start, p.edge.end, p.progress);
+                });
+
+                // Ignite & Fire Synapses
+                edges.forEach(edge => {
+                    // Check if the wave has reached the midpoint of the connection
+                    const midY = (edge.start.y + edge.end.y) / 2;
+                    if (midY < waveY) edge.spawned = true;
+
+                    if (edge.spawned) {
+                        // Smoothly fade in, then pulse
+                        const targetOpacity = 0.05 + Math.max(0, Math.sin(time * 4 + edge.phase) * 0.6);
+                        edge.currentOpacity += (targetOpacity - edge.currentOpacity) * 0.1;
+                        edge.mat.opacity = edge.currentOpacity;
+                    }
+                });
+
+                // HIGH SPEED DATA TRANSMISSION
+                packets.forEach(p => {
+                    if (p.mesh.visible) {
+                        p.progress += 0.02; 
+                        if (p.progress >= 1) {
+                            p.progress = 0; 
+                            p.edge = edges[Math.floor(Math.random() * edges.length)]; 
+                        }
+                        p.mesh.position.lerpVectors(p.edge.start, p.edge.end, p.progress);
+                    }
                 });
 
                 renderer.render(scene, camera);
@@ -666,7 +797,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+
+
+
+
+        
     }
+
+    
 
 
 
