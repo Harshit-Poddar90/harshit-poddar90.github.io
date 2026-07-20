@@ -2,9 +2,44 @@
  * HARSHIT PODDAR - AI/ML ENGINEER PORTFOLIO
  * Core JavaScript Architecture (Optimized Build)
  */
+// Global Theme Toggle Function (Bulletproof)
+// Global Theme Toggle Function (Bulletproof & 3D Aware)
+window.toggleTheme = function() {
+    const htmlEl = document.documentElement;
+    const currentTheme = htmlEl.getAttribute('data-theme');
+
+    if (currentTheme === 'dark') {
+        // --- SWITCH TO LIGHT MODE ---
+        htmlEl.setAttribute('data-theme', 'light');
+        
+        // Background particles become black
+        if (window.particlesMaterialRef) window.particlesMaterialRef.color.setHex(0x000000); 
+        
+        // 3D Network nodes become dark slate for visibility on white
+        if (window.networkNodeMat) window.networkNodeMat.color.setHex(0x0f172a); 
+        
+        // 3D Network lines become a slightly darker rust
+        if (window.networkLineMat) window.networkLineMat.color.setHex(0x9e4624); 
+
+    } else {
+        // --- SWITCH TO DARK MODE ---
+        htmlEl.setAttribute('data-theme', 'dark');
+        
+        // Background particles become white
+        if (window.particlesMaterialRef) window.particlesMaterialRef.color.setHex(0xffffff);
+        
+        // 3D Network nodes return to pure white
+        if (window.networkNodeMat) window.networkNodeMat.color.setHex(0xffffff); 
+        
+        // 3D Network lines return to bright rust
+        if (window.networkLineMat) window.networkLineMat.color.setHex(0xb05b3d); 
+    }
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+    // Global references for Theme Toggling
+    window.particlesMaterialRef = null;
+    window.heroMaterialRef = null;
     // Safe-mount custom cursor to prevent blocking navigation if CDN fails
     if (window.matchMedia('(pointer: fine)').matches) {
         document.body.classList.add('custom-cursor-active');
@@ -155,46 +190,107 @@ document.addEventListener("DOMContentLoaded", () => {
         animateTrail();
     }
 
-    /* ==========================================================================
-       03. THREE.JS AI BACKGROUND
-       ========================================================================== */
-    const initHeroModel = () => {
+   const initHeroModel = () => {
         try {
             const canvas = document.getElementById('hero-model-canvas');
-            if (!canvas) return;
-            if (typeof THREE === 'undefined') return;
+            if (!canvas || typeof THREE === 'undefined') return;
 
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             renderer.setSize(500, 500);
 
-            const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 16);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x06b6d4,
-                wireframe: true,
+            const group = new THREE.Group();
+
+            // --- 1. MATERIALS (Exported to window for the Theme Toggle) ---
+            const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Defaults to white
+            const lineMaterialBase = new THREE.LineBasicMaterial({
+                color: 0xb05b3d, // Architectural Rust
                 transparent: true,
-                opacity: 0.4
+                opacity: 0.15
             });
-            const knot = new THREE.Mesh(geometry, material);
-            scene.add(knot);
 
-            const light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(1, 1, 1);
-            scene.add(light);
-            scene.add(new THREE.AmbientLight(0x404040));
+            window.networkNodeMat = nodeMaterial;
+            window.networkLineMat = lineMaterialBase;
 
-            camera.position.z = 5;
+            // --- 2. BUILD THE SPHERICAL DISTRIBUTION ---
+            const numNodes = 75; // Density of the network
+            const radius = 1.8;  // Size of the sphere
+            const nodes = [];
 
+            for (let i = 0; i < numNodes; i++) {
+                // Fibonacci sphere algorithm for even distribution
+                const phi = Math.acos(-1 + (2 * i) / numNodes);
+                const theta = Math.sqrt(numNodes * Math.PI) * phi;
+
+                // Add slight organic noise so it's not a perfect rigid ball
+                const noise = 1 + (Math.random() - 0.5) * 0.15;
+
+                const x = radius * Math.cos(theta) * Math.sin(phi) * noise;
+                const y = radius * Math.sin(theta) * Math.sin(phi) * noise;
+                const z = radius * Math.cos(phi) * noise;
+
+                const sphereGeo = new THREE.SphereGeometry(0.06, 16, 16);
+                const sphere = new THREE.Mesh(sphereGeo, nodeMaterial);
+                sphere.position.set(x, y, z);
+
+                // Save a random phase so they pulse independently
+                nodes.push({ mesh: sphere, phase: Math.random() * Math.PI * 2 });
+                group.add(sphere);
+            }
+
+            // --- 3. BUILD THE SYNAPSES ---
+            const edges = [];
+            const connectThreshold = 1.1; // Distance required to form a connection
+
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = nodes[i].mesh.position.distanceTo(nodes[j].mesh.position);
+                    
+                    if (dist < connectThreshold) {
+                        const points = [nodes[i].mesh.position, nodes[j].mesh.position];
+                        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                        
+                        const edgeMat = lineMaterialBase.clone(); // Clone so they pulse individually
+                        const line = new THREE.Line(geometry, edgeMat);
+                        
+                        edges.push({ mat: edgeMat, phase: Math.random() * Math.PI * 2 });
+                        group.add(line);
+                    }
+                }
+            }
+
+            // --- 4. STAGING ---
+            scene.add(group);
+            camera.position.z = 5.5;
+
+            // --- 5. THE ANIMATION LOOP (Exciting/De-exciting) ---
+            let time = 0;
             const animate = () => {
                 requestAnimationFrame(animate);
-                knot.rotation.x += 0.005;
-                knot.rotation.y += 0.005;
+                time += 0.015;
+
+                // Smooth organic rotation
+                group.rotation.y += 0.003;
+                group.rotation.x = Math.sin(time * 0.5) * 0.1;
+
+                // Breathing/Pulsing effect on the Nodes (Scale)
+                nodes.forEach(node => {
+                    const scale = 1 + Math.sin(time * 3 + node.phase) * 0.3;
+                    node.mesh.scale.set(scale, scale, scale);
+                });
+
+                // Firing effect on the Synapses (Opacity)
+                edges.forEach(edge => {
+                    edge.mat.opacity = 0.05 + Math.max(0, Math.sin(time * 4 + edge.phase) * 0.6);
+                });
+
                 renderer.render(scene, camera);
             };
             animate();
+
         } catch (e) {
-            console.error("Hero model initialization bypassed.");
+            console.error("Hero model initialization bypassed.", e);
         }
     };
     
@@ -220,13 +316,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
             const particlesMaterial = new THREE.PointsMaterial({
                 size: 0.015,
-                color: 0x06b6d4,
+                color: 0xffffff, // Set to white for dark mode contrast
                 transparent: true,
                 opacity: 0.8,
                 blending: THREE.AdditiveBlending
             });
+            window.particlesMaterialRef = particlesMaterial; // Save reference
             
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
@@ -496,5 +594,48 @@ document.addEventListener("DOMContentLoaded", () => {
             navLinksContainer.style.border = '1px solid var(--border-glass)';
         });
     }
+
+    /* ==========================================================================
+       11. THEME TOGGLER (LIGHT/DARK MODE)
+       ========================================================================== */
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const htmlEl = document.documentElement;
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const themeIcon = themeToggleBtn.querySelector('i');
+
+            if (currentTheme === 'dark') {
+                // Switch to Light Mode
+                htmlEl.setAttribute('data-theme', 'light');
+                
+                // If using sun/moon icons, swap them. (Ignored if using gear)
+                if(themeIcon && themeIcon.classList.contains('fa-sun')) {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
+                
+                // Make Three.js background particles black for visibility on white bg
+                if (window.particlesMaterialRef) {
+                    window.particlesMaterialRef.color.setHex(0x000000);
+                }
+            } else {
+                // Switch to Dark Mode
+                htmlEl.setAttribute('data-theme', 'dark');
+                
+                if(themeIcon && themeIcon.classList.contains('fa-moon')) {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                }
+                
+                // Make Three.js background particles white for visibility on dark bg
+                if (window.particlesMaterialRef) {
+                    window.particlesMaterialRef.color.setHex(0xffffff);
+                }
+            }
+        });
+    }
+
+
+
 
 });

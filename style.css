@@ -2,18 +2,20 @@
    00. CSS VARIABLES & THEME ARCHITECTURE
    ========================================================================== */
 :root {
-    --bg-base: #030712;
-    --bg-elevated: #0f172a;
+    /* Obsidian Dark (Default) */
+    --bg-base: #0a0a0a;
+    --bg-elevated: #141414;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     
-    --neon-cyan: #06b6d4;
-    --neon-purple: #8b5cf6;
-    --neon-pink: #ec4899;
-    --neon-blue: #3b82f6;
+    /* Architectural Rust Accents */
+    --neon-cyan: #b05b3d;   /* Rust / Burnt Orange */
+    --neon-purple: #8c3b22; /* Deep Maroon/Rust */
+    --neon-pink: #d97a55;   /* Bright Rust Highlight */
+    --neon-blue: #b05b3d;   /* Fallback to Rust to unify the theme */
     
-    --bg-glass: rgba(15, 23, 42, 0.4);
-    --bg-glass-hover: rgba(30, 41, 59, 0.6);
+    --bg-glass: rgba(20, 20, 20, 0.6);
+    --bg-glass-hover: rgba(40, 40, 40, 0.8);
     --border-glass: rgba(255, 255, 255, 0.08);
     --border-glass-highlight: rgba(255, 255, 255, 0.15);
     --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
@@ -36,6 +38,25 @@
     --z-boot: 100000;
 }
 
+/* Light Mode Overrides */
+[data-theme="light"] {
+    --bg-base: #f8fafc;
+    --bg-elevated: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+
+    /* Slightly darker rust for better contrast on white */
+    --neon-cyan: #9e4624; 
+    --neon-purple: #7a2f17;
+    --neon-pink: #c25f38;
+    --neon-blue: #9e4624;
+
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --bg-glass-hover: rgba(240, 240, 240, 0.9);
+    --border-glass: rgba(0, 0, 0, 0.1);
+    --border-glass-highlight: rgba(0, 0, 0, 0.2);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
 /* ==========================================================================
    01. RESET & BASE STYLES
    ========================================================================== */
@@ -211,13 +232,8 @@ body.custom-cursor-active #custom-cursor.hovering {
 }
 
 .aurora-gradient {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    animation: float 20s infinite alternate linear;
+    display: none !important; /* This completely removes the orange background blobs */
 }
-
 .aurora-1 {
     width: 60vw; height: 60vw;
     background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
@@ -880,61 +896,25 @@ body.custom-cursor-active #custom-cursor.hovering {
    GOOGLE TRANSLATE CYBERPUNK OVERRIDE
    ========================================================================== */
 
-/* 1. Style the main white box to match your navbar */
-.goog-te-gadget-simple {
-    background-color: rgba(15, 23, 42, 0.6) !important; /* Matches --bg-glass */
-    border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Matches --border-glass */
-    border-radius: 8px !important;
-    padding: 6px 12px !important;
-    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-/* Add a neon hover effect to match your buttons */
-.goog-te-gadget-simple:hover {
-    border-color: #06b6d4 !important; /* --neon-cyan */
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.3) !important;
-}
-
-/* 2. Style the text inside the box */
-.goog-te-gadget-simple .goog-te-menu-value span {
-    color: #94a3b8 !important; /* Matches --text-muted */
-    font-family: 'Fira Code', monospace !important;
-    font-size: 0.85rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-}
-
-/* Change text to bright white on hover */
-.goog-te-gadget-simple:hover .goog-te-menu-value span {
-    color: #f8fafc !important; /* Matches --text-main */
-}
-
-/* 3. Hide the Google "G" Logo */
-.goog-te-gadget-simple img {
-    display: none !important;
-}
-
-/* 4. Fix the divider line inside the box */
-.goog-te-gadget-simple .goog-te-menu-value span[style*="border-left"] {
-    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
-    margin-left: 8px !important;
-    padding-left: 8px !important;
-}
-/* 5. Hide the top banner Google forces on the screen when translating */
+/* ==========================================================================
+   GOOGLE TRANSLATE SAFETY OVERRIDE
+   ========================================================================== */
+/* 1. Prevent Google from pushing the page down */
 body {
     top: 0 !important;
 }
-/* THE FIX: Only hide the banner iframe, not the translation widget iframe */
-.goog-te-banner-frame.skiptranslate {
+
+/* 2. Safely hide ONLY the top banner frame */
+.goog-te-banner-frame {
     display: none !important;
-}
-#goog-gt-tt {
-    display: none !important;
-    visibility: hidden !important;
 }
 
+/* 3. Give the widget a white background so it is guaranteed visible on your dark navbar */
+#google_translate_element {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    padding: 2px 5px;
+}
 /* ==========================================================================
    AI WIDGET: QUANTUM ORBITAL CORE
    ========================================================================== */
