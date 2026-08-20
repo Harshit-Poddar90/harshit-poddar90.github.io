@@ -1,754 +1,932 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <title>Harshit Poddar | Machine Learning Engineer & AI Researcher</title>
-    <meta name="description" content="Portfolio of Harshit Poddar. Machine Learning Engineer specializing in Computer Vision, Multimodal AI, LLMs, and scalable MLOps.">
-    <meta name="keywords" content="Harshit Poddar, AI Engineer, Machine Learning, Computer Vision, RAG, MLOps, Deep Learning, KTH">
+
+    <title>Harshit Poddar — AI Engineer, Agentic AI &amp; Machine Learning</title>
+    <meta name="description" content="Harshit Poddar builds agentic LLM systems, state-space models and computer-vision pipelines. M.Sc. Machine Learning at KTH Stockholm. Open to a 30 ECTS master thesis (Jan–Jun 2027) and full-time AI roles.">
     <meta name="author" content="Harshit Poddar">
-    
-    <meta property="og:title" content="Harshit Poddar | AI Architect & ML Engineer">
-    <meta property="og:description" content="Explore advanced AI architectures, multimodal pipelines, and research by Harshit Poddar.">
-    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://harshit-poddar90.github.io/">
+
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://harshit-poddar90.github.io/">
+    <meta property="og:title" content="Harshit Poddar — AI Engineer, Agentic AI &amp; Machine Learning">
+    <meta property="og:description" content="Agentic LLM orchestration, state-space models and computer vision. M.Sc. Machine Learning, KTH Stockholm.">
+    <meta property="og:image" content="https://harshit-poddar90.github.io/og-cover.png">
     <meta name="twitter:card" content="summary_large_image">
 
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='54' font-weight='700' fill='%23d97a55' text-anchor='middle'%3Ehp%3C/text%3E%3C/svg%3E">
+
+    <!-- Structured data: lets Google, LinkedIn and AI search tools read the profile directly. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Harshit Poddar",
+      "jobTitle": "AI Engineer",
+      "email": "mailto:harshit10233@gmail.com",
+      "url": "https://harshit-poddar90.github.io/",
+      "address": { "@type": "PostalAddress", "addressLocality": "Stockholm", "addressCountry": "SE" },
+      "alumniOf": [
+        { "@type": "CollegeOrUniversity", "name": "KTH Royal Institute of Technology" },
+        { "@type": "CollegeOrUniversity", "name": "Vellore Institute of Technology" }
+      ],
+      "knowsAbout": ["Agentic AI", "Large Language Models", "State-Space Models", "Computer Vision", "MLOps", "Retrieval-Augmented Generation"],
+      "sameAs": [
+        "https://github.com/Harshit-Poddar90",
+        "https://www.linkedin.com/in/harshit-poddar-5b6587218/",
+        "https://scholar.google.com/citations?user=MQZBTE4AAAAJ&hl=en"
+      ]
+    }
+    </script>
+
+    <!-- No SRI on Google Fonts or Translate: both serve per-request bodies,
+         so a pinned hash would break them on the next CSS revision. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Runs before first paint so the page never flashes the wrong theme.
+         js/theme.js owns everything after this. -->
+    <script>
+        (function () {
+            var stored;
+            try { stored = localStorage.getItem('hp.theme'); } catch (e) { /* private mode */ }
+            var theme = stored
+                || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
 
-    <div id="boot-screen">
-        <div class="boot-matrix-bg" id="boot-matrix"></div>
-        <div class="boot-terminal code-font">
-            <div id="boot-logs"></div>
-            <div class="boot-progress-bar">
-                <div id="boot-progress-fill"></div>
-            </div>
-            <div class="boot-percentage" id="boot-percentage">0%</div>
-        </div>
-    </div>
+<a href="#main" class="skip-link">Skip to content</a>
 
-    <div id="custom-cursor"></div>
-    <div id="cursor-trail-canvas-container">
-        <canvas id="cursor-trail-canvas"></canvas>
-    </div>
+<!-- Agent sprite, defined once and referenced with <use> wherever it appears.
+     <use> builds a shadow tree that querySelector cannot enter, so every live
+     property is passed in as a CSS custom variable on the host .agent-sprite
+     (custom properties DO inherit across the shadow boundary).
+       data-state  what it is doing   — owned by js/assistant.js
+       data-mood   how it reacts      — owned by js/companion.js
+       The character does not move: no float, no gaze, no blink. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <!-- Chibi proportions on purpose: oversized round head, tiny body, big
+         eyes with glints. That combination is what reads as "cute" rather
+         than "corporate mascot". -->
+    <symbol id="agent-glyph" viewBox="0 0 40 44">
+        <g class="ag-rig">
+            <!-- feet -->
+            <ellipse class="ag-body ag-foot" cx="15.5" cy="40.5" rx="3.6" ry="2.6"/>
+            <ellipse class="ag-body ag-foot" cx="24.5" cy="40.5" rx="3.6" ry="2.6"/>
+            <!-- arms: little rounded stubs -->
+            <g class="ag-arm ag-arm-l"><rect class="ag-body" x="7.6" y="29" width="3.2" height="7.4" rx="1.6"/></g>
+            <g class="ag-arm ag-arm-r"><rect class="ag-body" x="29.2" y="29" width="3.2" height="7.4" rx="1.6"/></g>
+            <!-- tiny torso -->
+            <rect class="ag-body" x="13.5" y="30" width="13" height="9.5" rx="4.2"/>
+            <circle class="ag-spark ag-chest" cx="20" cy="34.4" r="1.5"/>
+            <!-- antenna -->
+            <rect class="ag-body" x="19.2" y="1.8" width="1.6" height="4.6" rx="0.8"/>
+            <circle class="ag-spark" cx="20" cy="2" r="2.4"/>
+            <!-- ears -->
+            <ellipse class="ag-body" cx="4.6" cy="19" rx="2.4" ry="4"/>
+            <ellipse class="ag-body" cx="35.4" cy="19" rx="2.4" ry="4"/>
+            <!-- big round head -->
+            <rect class="ag-body" x="4" y="6" width="32" height="26" rx="12.5"/>
+            <rect class="ag-visor" x="7.4" y="9.6" width="25.2" height="17.6" rx="8.8"/>
+            <!-- cheeks sit under the eyes -->
+            <ellipse class="ag-blush" cx="11.6" cy="22.4" rx="2.4" ry="1.5"/>
+            <ellipse class="ag-blush" cx="28.4" cy="22.4" rx="2.4" ry="1.5"/>
+            <!-- eyes: the group translates (gaze), the shapes scale (blink) -->
+            <g class="ag-eyes">
+                <rect class="ag-eye" x="12.4" y="14.2" width="5.6" height="7" rx="2.8"/>
+                <rect class="ag-eye" x="22" y="14.2" width="5.6" height="7" rx="2.8"/>
+                <circle class="ag-glint" cx="16.6" cy="16.3" r="1.25"/>
+                <circle class="ag-glint" cx="26.2" cy="16.3" r="1.25"/>
+            </g>
+            <path class="ag-smile" d="M17.2 24.4 q2.8 2.3 5.6 0"/>
+        </g>
+    </symbol>
+</svg>
 
-    <div class="global-backgrounds">
-        <canvas id="three-ai-canvas"></canvas>
-        <div class="aurora-gradient aurora-1"></div>
-        <div class="aurora-gradient aurora-2"></div>
-        <div class="noise-overlay"></div>
-    </div>
+<!-- ============================================================
+     BOOT SEQUENCE — shown once per session, skippable, and
+     disabled entirely under prefers-reduced-motion.
+     ============================================================ -->
+<div id="boot-screen" hidden>
+    <div class="boot-canvas-host" id="boot-canvas-host" aria-hidden="true"></div>
+    <p class="boot-caption code-font" id="boot-caption">Parsing latent space…</p>
+    <button type="button" class="boot-skip code-font" id="boot-skip">Skip intro</button>
+</div>
 
-    <div id="scroll-progress-bar"></div>
+<div id="custom-cursor" aria-hidden="true"></div>
+<div class="cursor-trail-host" aria-hidden="true"><canvas id="cursor-trail-canvas"></canvas></div>
 
-    <!-- Vertical Dot Navigation -->
-    <div id="dot-nav" class="dot-navigation">
-        <a href="#hero" class="dot-link active" aria-label="Hero"></a>
-        <a href="#about" class="dot-link" aria-label="About"></a>
-        <a href="#experience" class="dot-link" aria-label="Experience"></a>
-        <a href="#projects" class="dot-link" aria-label="Projects"></a>
-        <a href="#skills" class="dot-link" aria-label="Skills"></a>
-        <a href="#research" class="dot-link" aria-label="Research"></a>
-        <a href="#contact" class="dot-link" aria-label="Contact"></a>
-    </div>
+<div class="global-backgrounds" aria-hidden="true">
+    <canvas id="three-ai-canvas"></canvas>
+    <div class="noise-overlay"></div>
+</div>
 
-    <button id="back-to-top" class="glass-btn glow-hover" aria-label="Back to Top">
-        <i class="fa-solid fa-rocket"></i>
-    </button>
+<div id="scroll-progress-bar" aria-hidden="true"></div>
 
-    <header id="navbar" class="glass-nav">
-        <div class="nav-brand">
-            <a href="#hero" class="brand-text">hpoddar<span class="neon-accent">.engine()</span></a>
-        </div>
-        
-        <nav class="nav-links code-font">
-            <a href="#about" class="nav-link" data-section="about">About</a>
-            <a href="#experience" class="nav-link" data-section="experience">Experience</a>
-            <a href="#skills" class="nav-link" data-section="skills">Skills</a>
-            <a href="#projects" class="nav-link" data-section="projects">Projects</a>
-            <a href="https://drive.google.com/file/d/1SD1F29iFZrOoMrZMbFnNN2kZtu_9jOzd/view?usp=sharing" target="_blank" class="nav-link">CV</a>
-            <a href="#research" class="nav-link" data-section="research">Publications</a>
-            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
-        </nav>
+<nav class="dot-navigation" id="dot-nav" aria-label="Section navigation">
+    <a href="#hero" class="dot-link is-active" aria-label="Top"></a>
+    <a href="#about" class="dot-link" aria-label="About"></a>
+    <a href="#education" class="dot-link" aria-label="Education"></a>
+    <a href="#experience" class="dot-link" aria-label="Experience"></a>
+    <a href="#projects" class="dot-link" aria-label="Projects"></a>
+    <a href="#skills" class="dot-link" aria-label="Skills"></a>
+    <a href="#research" class="dot-link" aria-label="Research"></a>
+    <a href="#contact" class="dot-link" aria-label="Contact"></a>
+</nav>
 
-        <div class="nav-controls" style="display: flex; align-items: center; gap: 15px; position: relative; z-index: 99999;">
-            <button id="theme-toggle" class="glass-btn" onclick="toggleTheme()" style="width: 40px; height: 40px; cursor: pointer;" aria-label="Toggle Theme">
-                <i id="theme-icon" class="fa-solid fa-sun" style="pointer-events: none;"></i>
-            </button>
-            <div id="google_translate_element"></div>
-        </div>
+<button id="back-to-top" class="glass-btn glow-hover" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+</button>
 
-        <div class="mobile-menu-toggle">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-    </header>
+<header id="navbar" class="glass-nav">
+    <a href="#hero" class="brand-text">hpoddar<span class="accent-color">.engine()</span></a>
 
-    <main>
-        
-        <section id="hero" class="fullscreen-section">
-            <div class="hero-content">
+    <nav class="nav-links code-font" id="nav-links" aria-label="Main">
+        <a href="#about"      class="nav-link">About</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#projects"   class="nav-link">Projects</a>
+        <a href="#skills"     class="nav-link">Skills</a>
+        <a href="#research"   class="nav-link">Research</a>
+        <a href="#contact"    class="nav-link">Contact</a>
+        <a href="CV.pdf" class="nav-link nav-link-cv" target="_blank" rel="noopener">CV <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+    </nav>
 
-                <div class="hero-canvas-container">
-                    <canvas id="hero-model-canvas"></canvas>
-                </div>
-
-                <div class="status-badge glass-panel fade-up">
-                    <span class="status-dot"></span> OPEN FOR ROLES// STOCKHOLM, SE
-                </div>
-                <h1 class="glitch-title fade-up" data-text="HARSHIT PODDAR">HARSHIT <span class="neon-gradient-text">PODDAR</span></h1>
-                <h2 class="role-subtitle code-font fade-up">
-                    &gt; <span id="typed-roles"></span><span class="typed-cursor">|</span>
-                </h2>
-                
-                <div class="hero-cta fade-up">
-                    <a href="#projects" class="btn btn-primary premium-glow"><i class="fa-solid fa-network-wired"></i> View Architectures</a>
-                    <a href="https://drive.google.com/file/d/1SD1F29iFZrOoMrZMbFnNN2kZtu_9jOzd/view?usp=sharing" target="_blank" class="btn btn-glass"><i class="fa-solid fa-download"></i> Extract Weights (CV)</a>
-                </div>
-                
-                <div class="hero-socials fade-up">
-                    <a href="https://github.com/Harshit-Poddar90" target="_blank" class="social-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/harshit-poddar-5b6587218/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://scholar.google.com/citations?user=MQZBTE4AAAAJ&hl=en&authuser=2" target="_blank" class="social-icon" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
-                    <a href="mailto:harshit10233@gmail.com" class="social-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="mouse"></div>
-                <span class="code-font text-xs">SCROLL</span>
-            </div>
-        </section>
-
-        <section id="about" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 01. INTRO</span>
-                <h2 class="syncopate-title">About Me</h2>
-            </div>
-            
-            <div class="about-grid">
-                <div class="about-text glass-panel reveal-card">
-                    <p>I build intelligent, scalable systems. As a Machine Learning Engineer and M.Sc. student at KTH Royal Institute of Technology, I specialize in transforming complex multimodal AI and computer vision research into deployable, high-performance architectures.</p>
-                    
-                    <p>My technical foundation is built on hands-on R&D across top-tier aerospace, defense, and academic labs. Whether it's architecting RAG pipelines, automating scene graphs for autonomous agents etc. I focus on solving data-heavy challenges with precision engineering.</p>
-                    
-                    <p class="text-neon-cyan mt-4"><strong>Actively seeking Master's Thesis collaborations and Full-Time engineering roles to build the next generation of AI solutions.</strong></p>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card glass-panel tilt-3d reveal-card">
-                        <i class="fa-solid fa-book-journal-whills stat-icon"></i>
-                        <h3><span class="counter" data-target="10">0</span>+</h3>
-                        <p class="code-font">Publications</p>
-                    </div>
-                    <div class="stat-card glass-panel tilt-3d reveal-card">
-                        <i class="fa-solid fa-certificate stat-icon"></i>
-                        <h3 class="counter" data-target="2">0</h3>
-                        <p class="code-font">Patents Filed</p>
-                    </div>
-                    <div class="stat-card glass-panel tilt-3d reveal-card">
-                        <i class="fa-solid fa-microscope stat-icon"></i>
-                        <h3><span class="counter" data-target="5">0</span>+</h3>
-                        <p class="code-font">Lab & Industry Roles</p>
-                    </div>
-                    <div class="stat-card glass-panel tilt-3d reveal-card">
-                        <i class="fa-solid fa-trophy stat-icon"></i>
-                        <h3 class="counter" data-target="2">0</h3>
-                        <p class="code-font">Awards Won</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 02. KNOWLEDGE GRAPH</span>
-                <h2 class="syncopate-title">Academic Base</h2>
-            </div>
-            
-            <div class="cards-layout">
-                <div class="edu-card glass-panel tilt-3d reveal-card">
-                    <div class="edu-header">
-                        <i class="fa-solid fa-building-columns text-neon-blue text-3xl"></i>
-                        <span class="code-font date-badge badge-pill"><span class="ongoing-dot"></span> 2025 - 2027 (Ongoing)</span>
-                    </div>
-                    <h3 class="font-bold text-2xl mt-4">M.Sc. in Machine Learning</h3>
-                    <h4 class="text-gray-400 mt-1">KTH Royal Institute of Technology | Stockholm, SE</h4>
-                </div>
-                
-                <div class="edu-card glass-panel tilt-3d reveal-card delay-1">
-                    <div class="edu-header">
-                        <i class="fa-solid fa-microchip text-neon-purple text-3xl"></i>
-                        <span class="code-font date-badge">2021 - 2025</span>
-                    </div>
-                    <h3 class="font-bold text-2xl mt-4">B.Tech in Electronics & Communication</h3>
-                    <h4 class="text-gray-400 mt-1">Vellore Institute of Technology | Vellore, IN</h4>
-                    <p class="mt-2 code-font text-sm text-neon-pink">CGPA: 4.4/5</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 03. OPTIMIZATION LOGS</span>
-                <h2 class="syncopate-title">Career Trajectory</h2>
-            </div>
-            
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-blue"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Student Researcher</h3>
-                                <h4>Robotics Perception and Learning (RPL) Lab</h4>
-                            </div>
-                            <span class="code-font timeline-date"><span class="ongoing-dot"></span> Sep 2025 - Ongoing</span>
-                        </div>
-                        <p>Prototyping and optimizing a real-time, multimodal AI navigation system integrating computer vision and audio processing. Constructing dynamic scene graphs alongside researchers to enable spatial reasoning for autonomous agents. This is in collaboration with KTH AI Society</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-purple"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Systems Simulation Engineer</h3>
-                                <h4>AESIR (KTH Rocketry)</h4>
-                            </div>
-                            <span class="code-font timeline-date"><span class="ongoing-dot"></span> Sep 2025 - Ongoing</span>
-                        </div>
-                        <p>Developing the Freyja HIL (Hardware-in-the-Loop) system to simulate real-time aerospace sub-systems; performing rigorous Test Development & System Validation for embedded flight software to ensure mission reliability.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-pink"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Summer Internship</h3>
-                                <h4>Defence Research & Development Organisation (DRDO)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Jun 2024 - Jul 2024</span>
-                        </div>
-                        <p>Engineered an 8x60 phased array antenna and real-time GUI in MATLAB, achieving 25% efficiency gain and 15% loss reduction while performing radar degradation analysis for fault-tolerant system design.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-blue"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Internship</h3>
-                                <h4>TATA Memorial Hospital, ACTREC</h4>
-                            </div>
-                            <span class="code-font timeline-date">Nov 2023 - Dec 2023</span>
-                        </div>
-                        <p>Deployed U-Net and YOLOv8L for multi-organ nuclei segmentation on the MoNuSeg dataset, achieving 30% higher accuracy with U-Net and 20% faster inference with YOLOv8L through performance trade-off analysis.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-purple"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Internship</h3>
-                                <h4>Indian Space Research Organisation (ISRO)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Sep 2023 - Oct 2023</span>
-                        </div>
-                        <p>Led the optimization of a 16x16 Phased Antenna Array for MEOSAR satellite signals, achieving >20% SNR improvement through Ansys HFSS simulations and beamforming algorithms (MVDR, LCMV).</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item reveal-timeline">
-                    <div class="timeline-dot glow-pink"></div>
-                    <div class="timeline-content glass-panel expand-on-hover">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Research Assistant</h3>
-                                <h4>Indian Institute of Management (IIM)</h4>
-                            </div>
-                            <span class="code-font timeline-date">Mar 2023 - Jun 2023</span>
-                        </div>
-                        <p>Developed Python scripts for ETL processes for 5,000+ audience responses and 200+ TV ads; applied NLP sentiment scoring and statistical modelling to quantify emotional impact on 10+ persuasion metrics.</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="projects" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 04. DEPLOYED MODELS</span>
-                <h2 class="syncopate-title">AI Architectures</h2>
-            </div>
-            
-            <div class="projects-grid">
-                
-                <article class="project-card glass-panel tilt-3d reveal-card">
-                    <div class="project-glow bg-blue"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-laptop-medical proj-icon"></i>
-                            <div class="proj-links">
-                                <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                            </div>
-                        </div>
-                        <h3>LungMate: AI-Driven Lung Cancer Diagnosis</h3>
-                        <p>Hybrid Computer Vision system for multi-metric tumor quantification, integrated with a PyQt GUI for real-time image enhancement and automated diagnostic visualization.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-chart-line"></i> Hybrid Vision</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">EfficientNet-B3</span>
-                            <span class="tag">Swin Transformer</span>
-                            <span class="tag">CBAM</span>
-                            <span class="tag">YOLOv11</span>
-                            <span class="tag">PyQt</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel tilt-3d reveal-card delay-1">
-                    <div class="project-glow bg-purple"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-network-wired proj-icon"></i>
-                            <div class="proj-links">
-                                <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                            </div>
-                        </div>
-                        <h3>AI-Driven Protocol Diagnostic Suite</h3>
-                        <p>Architecting a Generative AI pipeline to automate the interpretation of LoRaWan/Physical layer anomalies in telemetry logs (Unstructured Data Processing) through RAG-based diagnostics.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-database"></i> RAG Pipeline</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">LangChain</span>
-                            <span class="tag">MLflow</span>
-                            <span class="tag">Generative AI</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel tilt-3d reveal-card">
-                    <div class="project-glow bg-pink"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-helmet-safety proj-icon"></i>
-                            <div class="proj-links">
-                                <span class="patent-badge code-font"><i class="fa-solid fa-certificate"></i> Patent Filed</span>
-                            </div>
-                        </div>
-                        <h3>Industrial IoT Safety Wearable</h3>
-                        <p>Engineered a real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse Sensor) and LoRaWAN connectivity for critical safety telemetry in hazardous environments.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-tower-broadcast"></i> LoRaWAN</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">ESP32</span>
-                            <span class="tag">Sensor Fusion</span>
-                            <span class="tag">C++</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card glass-panel tilt-3d reveal-card delay-1">
-                    <div class="project-glow bg-blue"></div>
-                    <div class="project-inner">
-                        <div class="proj-header">
-                            <i class="fa-solid fa-plane-departure proj-icon"></i>
-                            <div class="proj-links">
-                                <span class="patent-badge code-font"><i class="fa-solid fa-certificate"></i> Patent Filed</span>
-                            </div>
-                        </div>
-                        <h3>High-Altitude Autonomous Safety System</h3>
-                        <p>Designed a real-time Embedded System for fall detection utilizing Sensor Fusion and automated actuator deployment for high-reliability safety applications.</p>
-                        
-                        <div class="proj-metrics code-font">
-                            <span><i class="fa-solid fa-gears"></i> Automated Actuation</span>
-                        </div>
-                        
-                        <div class="tech-stack code-font text-xs">
-                            <span class="tag">Embedded Systems</span>
-                            <span class="tag">Hardware-in-the-Loop</span>
-                        </div>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-
-        <section id="skills" class="content-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 05. CAPABILITIES</span>
-                <h2 class="syncopate-title" style="font-size: 1.5rem; letter-spacing: 0.2em;">TOOLS & TECHNOLOGIES</h2>
-            </div>
-            
-            <div class="floating-skills-container reveal-card">
-                <!-- Languages -->
-                <div class="skill-pill"><i class="fa-brands fa-python" style="color: #4ade80;"></i> Python</div>
-                <div class="skill-pill"><i class="fa-solid fa-calculator" style="color: #f87171;"></i> MATLAB</div>
-                <div class="skill-pill"><i class="fa-solid fa-database" style="color: #60a5fa;"></i> SQL</div>
-                
-                <!-- AI & ML -->
-                <div class="skill-pill"><i class="fa-solid fa-fire-flame-curved" style="color: #f97316;"></i> PyTorch</div>
-                <div class="skill-pill"><i class="fa-solid fa-eye" style="color: #a855f7;"></i> YOLO (v8/v11)</div>
-                <div class="skill-pill"><i class="fa-solid fa-network-wired" style="color: #ec4899;"></i> U-Net</div>
-                <div class="skill-pill"><i class="fa-solid fa-link" style="color: #3b82f6;"></i> LangChain (RAG)</div>
-                <div class="skill-pill"><i class="fa-solid fa-face-smile" style="color: #facc15;"></i> Hugging Face</div>
-                <div class="skill-pill"><i class="fa-solid fa-camera-retro" style="color: #14b8a6;"></i> Computer Vision</div>
-                
-                <!-- Cloud & MLOps -->
-                <div class="skill-pill"><i class="fa-brands fa-google" style="color: #ef4444;"></i> GCP</div>
-                <div class="skill-pill"><i class="fa-solid fa-chart-line" style="color: #3b82f6;"></i> MLflow</div>
-                <div class="skill-pill"><i class="fa-brands fa-github" style="color: #e2e8f0;"></i> Git/GitHub</div>
-                <div class="skill-pill"><i class="fa-brands fa-linux" style="color: #fcd34d;"></i> Linux</div>
-                
-                <!-- Data & Engineering -->
-                <div class="skill-pill"><i class="fa-solid fa-arrows-spin" style="color: #8b5cf6;"></i> Agile</div>
-                <div class="skill-pill"><i class="fa-solid fa-shield-check" style="color: #10b981;"></i> System Validation</div>
-                <div class="skill-pill"><i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Power BI</div>
-                <div class="skill-pill"><i class="fa-solid fa-chart-bar" style="color: #3b82f6;"></i> Tableau</div>
-                <div class="skill-pill"><i class="fa-solid fa-file-code" style="color: #cbd5e1;"></i> LaTeX</div>
-            </div>
-        </section>
-
-        <section id="research" class="content-section">
-            <div class="section-heading reveal-text">
-                <span class="code-font accent-color">// 07. R&D OUTPUT</span>
-                <h2 class="syncopate-title">Patents & Publications</h2>
-            </div>
-            
-            <div class="rd-grid">
-                
-                <div class="patents-column">
-                    <h3 class="rd-col-title code-font"><i class="fa-solid fa-fingerprint"></i> Intellectual Property</h3>
-                    
-                    <!-- Changed to Patent Filed -->
-                    <div class="blueprint-card glass-panel reveal-card">
-                        <div class="blueprint-bg"></div>
-                        <div class="patent-seal"><i class="fa-solid fa-stamp"></i></div>
-                        <div class="blueprint-content">
-                            <span class="mono-tag">PATENT FILED</span>
-                            <h4>IoT Helmet & Safety Wearable</h4>
-                            <p>Real-time Embedded System on ESP32 utilizing Sensor Fusion (MQ2 Gas, NEO-6M GPS, Pulse Sensor) and LoRaWAN connectivity.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Changed to Patent Granted -->
-                    <div class="blueprint-card glass-panel reveal-card delay-1 granted-blueprint">
-                        <div class="blueprint-bg"></div>
-                        <div class="patent-seal granted-seal"><i class="fa-solid fa-stamp"></i></div>
-                        <div class="blueprint-content">
-                            <span class="mono-tag granted-tag"><i class="fa-solid fa-check-double"></i> PATENT GRANTED</span>
-                            <h4>High-Altitude Fall Protection</h4>
-                            <p>Real-time Embedded System for fall detection utilizing Sensor Fusion and automated actuator deployment for high-reliability safety applications.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pubs-column">
-                    <h3 class="rd-col-title code-font"><i class="fa-solid fa-book-open-reader"></i> Academic Literature</h3>
-                    
-                    <div class="pub-card glass-panel reveal-card">
-                        <div class="pub-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <div class="pub-details">
-                            <h4>15+ Published Research Papers</h4>
-                            <p class="pub-venues">Journals: <span class="highlight-blue">IEEE</span>, <span class="highlight-purple">Springer</span>, <span class="highlight-pink">Elsevier</span></p>
-                            <p class="mt-2 text-sm text-gray-400">Encompassing advanced signal processing, medical computer vision, array optimization, and neural network architectures.</p>
-                        </div>
-                    </div>
-
-                    <h3 class="rd-col-title code-font mt-10"><i class="fa-solid fa-trophy"></i> Recognitions</h3>
-                    
-                    <div class="achievements-list glass-panel reveal-card">
-                        <div class="achievement-item">
-                            <div class="achiev-icon glow-yellow"><i class="fa-solid fa-medal"></i></div>
-                            <div class="achiev-text">
-                                <strong>2× Raman Award Winner</strong>
-                                <span>Excellence in research and innovation.</span>
-                            </div>
-                        </div>
-                        <div class="achievement-item">
-                            <div class="achiev-icon glow-blue"><i class="fa-solid fa-robot"></i></div>
-                            <div class="achiev-text">
-                                <strong>LLM Evaluation Participant</strong>
-                                <span>Google DeepMind & Andon Labs (Paid Honorarium).</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-
-                <section id="contact" class="content-section">
-            <div class="section-heading text-center reveal-text">
-                <span class="code-font accent-color">// 09. HANDSHAKE PROTOCOL</span>
-                <h2 class="syncopate-title">Initiate Contact</h2>
-            </div>
-            
-            <div class="contact-container">
-                <div class="contact-info reveal-card">
-                    <h3 class="text-3xl font-bold mb-6">Let's build the future of AI.</h3>
-                    <p class="text-gray-400 mb-8">Currently open to research collaborations, MLOps architect roles, and challenging engineering problems.</p>
-                    
-                    <ul class="contact-links-list code-font">
-                        <li><a href="mailto:harshit10233@gmail.com" class="magnetic-btn"><i class="fa-regular fa-envelope"></i> harshit10233@gmail.com</a></li>
-                        <li><span class="magnetic-btn"><i class="fa-solid fa-location-dot"></i> Stockholm, Sweden</span></li>
-                        <li><a href="https://www.linkedin.com/in/harshit-poddar-5b6587218/" target="_blank" class="magnetic-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn Profile</a></li>
-                        <li><a href="https://github.com/Harshit-Poddar90" target="_blank" class="magnetic-btn"><i class="fa-brands fa-github"></i> GitHub Repositories</a></li>
-                    </ul>
-                </div>
-                
-                <form id="contact-form" class="glass-form glass-panel reveal-card delay-1" action="https://formspree.io/f/maqgpdob" method="POST">
-                    <div class="form-group">
-                        <input type="text" id="sender-name" name="name" required placeholder=" ">
-                        <label for="sender-name">Identifier (Name)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="sender-email" name="email" required placeholder=" ">
-                        <label for="sender-email">Secure Address (Email)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="sender-subject" name="subject" required placeholder=" ">
-                        <label for="sender-subject">Data Subject</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="sender-message" name="message" rows="4" required placeholder=" "></textarea>
-                        <label for="sender-message">Payload (Message)</label>
-                        <div class="form-glow-line"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary submit-btn">
-                        <span class="btn-text">Execute Transmission</span>
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <div class="form-success-msg hidden code-font text-neon-blue mt-4">
-                        <i class="fa-solid fa-check"></i> 200 OK: Payload Delivered Successfully.
-                    </div>
-                </form>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="glass-footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <span class="brand-text">hpoddar<span class="neon-accent">.engine()</span></span>
-                <p class="code-font mt-2 text-gray-400">Machine Learning Engineer | Researcher</p>
-            </div>
-            <div class="footer-tags code-font text-xs">
-                <span>Computer Vision</span>
-                <span>LLMs</span>
-                <span>RAG</span>
-                <span>Multimodal AI</span>
-            </div>
-        </div>
-        <div class="footer-bottom border-t border-white-10 mt-8 pt-8 flex justify-between items-center">
-            <p class="code-font text-xs text-gray-500">Made with <i class="fa-solid fa-heart text-neon-pink pulse-icon"></i> and Artificial Intelligence.</p>
-            <p class="code-font text-xs text-gray-500">&copy; 2026 Harshit Poddar. All weights converged.</p>
-        </div>
-    </footer>
-
-<!-- Google Translate Script -->
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'sq,be,bs,bg,ca,hr,cs,da,nl,en,et,fi,fr,gl,de,el,hu,is,ga,it,lv,lt,mk,mt,no,pl,pt,ro,ru,sr,sk,sl,es,sv,uk,cy,zh-CN,zh-TW,ja,ko', 
-                autoDisplay: false
-                // THE FIX: The 'layout' parameter has been deleted so it defaults to the standard dropdown
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="script.js"></script>
-
-
-  <!-- ==========================================
-         BULLETPROOF AI CHAT WIDGET
-         ========================================== -->
-    <div id="ai-chat-widget">
-        <!-- 1. Hardcoded onclick so it never fails to click -->
-        <button id="chat-fab" class="glass-btn" onclick="toggleChatWindow()">
-            <i class="fa-solid fa-comment-dots"></i>
+    <div class="nav-controls">
+        <button id="theme-toggle" class="glass-btn glass-btn-sm" aria-label="Switch colour theme">
+            <i id="theme-icon" class="fa-solid fa-moon" aria-hidden="true"></i>
         </button>
 
-        <div id="chat-box" class="glass-panel" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 350px; height: 500px; flex-direction: column; z-index: 5000; overflow: hidden;">
-            <div class="dash-header" style="padding: 1rem; border-bottom: 1px solid var(--border-glass);">
-                <i class="fa-solid fa-robot"></i> <span>HARSHIT_ASSISTANT</span>
-                <!-- 2. Hardcoded onclick for the close button -->
-                <button id="close-chat" onclick="toggleChatWindow()" style="margin-left: auto; cursor: pointer; background: transparent; border: none; color: white;">&times;</button>
-            </div>
-            <div id="chat-history" style="flex: 1; padding: 1rem; overflow-y: auto; color: var(--text-muted);">
-            </div>
-            <div style="padding: 1rem; border-top: 1px solid var(--border-glass); display: flex; gap: 5px;">
-                <input type="text" id="chat-input" placeholder="How can I help?" style="flex: 1; background: var(--bg-base); border: 1px solid var(--border-glass); padding: 0.5rem; color: white; border-radius: 4px;">
-                <!-- 3. Hardcoded onclick for the send button -->
-                <button id="send-btn" class="glass-btn" onclick="handleChatSend()" style="width: 40px; height: 40px;"><i class="fa-solid fa-paper-plane"></i></button>
+        <!-- Google's own widget is mounted but visually removed; js/translate.js
+             drives its hidden <select> from the styled picker below. -->
+        <div id="google_translate_element" aria-hidden="true"></div>
+
+        <div class="lang-picker">
+            <button id="lang-toggle" class="glass-btn glass-btn-sm" aria-label="Change language"
+                    aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
+                <i class="fa-solid fa-language" aria-hidden="true"></i>
+            </button>
+            <div id="lang-menu" class="lang-menu glass-panel" role="menu" hidden>
+                <p class="lang-menu-head code-font">Translate page</p>
+                <button type="button" role="menuitem" data-lang="en" class="is-active">English</button>
+                <button type="button" role="menuitem" data-lang="sv">Svenska</button>
+                <button type="button" role="menuitem" data-lang="de">Deutsch</button>
+                <button type="button" role="menuitem" data-lang="fr">Français</button>
+                <button type="button" role="menuitem" data-lang="es">Español</button>
+                <button type="button" role="menuitem" data-lang="nl">Nederlands</button>
+                <button type="button" role="menuitem" data-lang="da">Dansk</button>
+                <button type="button" role="menuitem" data-lang="fi">Suomi</button>
+                <button type="button" role="menuitem" data-lang="hi">हिन्दी</button>
+                <button type="button" role="menuitem" data-lang="zh-CN">中文</button>
+                <button type="button" role="menuitem" data-lang="ja">日本語</button>
+                <p class="lang-menu-foot code-font">Machine translation by Google</p>
             </div>
         </div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle"
+                aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<main id="main">
+
+    <!-- ===================== HERO ===================== -->
+    <section id="hero" class="fullscreen-section">
+        <div class="hero-canvas-host" aria-hidden="true"><canvas id="hero-model-canvas"></canvas></div>
+
+        <div class="hero-content">
+            <p class="status-badge glass-panel fade-up">
+                <span class="status-dot" aria-hidden="true"></span>
+                Open to a 30 ECTS master thesis (Jan–Jun 2027) &amp; full-time AI roles · Stockholm
+            </p>
+
+            <h1 class="hero-title fade-up">Harshit <span class="accent-gradient-text">Poddar</span></h1>
+
+            <p class="role-subtitle code-font fade-up">
+                &gt; <span id="typed-roles"></span><span class="typed-cursor" aria-hidden="true">|</span>
+            </p>
+
+            <p class="hero-summary fade-up">
+                I build <strong>agentic LLM systems</strong> that hold up in production — typed tool-calling
+                endpoints, output validation, retry and fallback routing, and a trace for every run.
+                Currently an M.Sc. Machine Learning student at <strong>KTH Stockholm</strong>, working on
+                agent orchestration at Massive Dynamic and state-space generative models at Karolinska Institutet.
+            </p>
+
+            <div class="hero-cta fade-up">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> See the work
+                </a>
+                <a href="CV.pdf" target="_blank" rel="noopener" class="btn btn-glass">
+                    <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Download CV
+                </a>
+                <button type="button" class="btn btn-glass" data-open-assistant>
+                    <i class="fa-solid fa-comment-dots" aria-hidden="true"></i> Ask about my work
+                </button>
+            </div>
+
+            <ul class="hero-socials fade-up">
+                <li><a href="https://github.com/Harshit-Poddar90" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/harshit-poddar-5b6587218/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a></li>
+                <li><a href="https://scholar.google.com/citations?user=MQZBTE4AAAAJ&hl=en" target="_blank" rel="noopener" class="social-icon" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></a></li>
+                <li><a href="mailto:harshit10233@gmail.com" class="social-icon" aria-label="Email"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">
+            <span class="mouse"></span>
+            <span class="code-font">scroll</span>
+        </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="content-section">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">01 — Intro</p>
+            <h2 class="syncopate-title">About</h2>
+        </header>
+
+        <div class="about-grid">
+            <div class="about-text glass-panel reveal-card">
+                <p>
+                    I work on the engineering side of AI: turning research-grade models into systems
+                    other people can actually run. Right now that means agentic LLM orchestration —
+                    decomposing a manual pipeline into tool-calling agents behind typed FastAPI
+                    endpoints, with validation, fallback routing and run tracing so every output is
+                    reproducible and auditable.
+                </p>
+                <p>
+                    My background is deliberately broad: generative time-series modelling at
+                    Karolinska Institutet, medical computer vision at Tata Memorial Hospital, and
+                    phased-array signal processing at ISRO and DRDO. That mix is why I gravitate to
+                    problems where the data is messy and the physics matters.
+                </p>
+                <p class="about-callout">
+                    <strong>Currently looking for:</strong> a 30 ECTS master thesis for Jan–Jun 2027
+                    in generative or agentic AI, and full-time roles from mid-2027. Thesis agreements
+                    can be executed through KTH. Open to relocation.
+                </p>
+            </div>
+
+            <ul class="stats-grid">
+                <li class="stat-card glass-panel reveal-card">
+                    <i class="fa-solid fa-book-open stat-icon" aria-hidden="true"></i>
+                    <p class="stat-value"><span class="counter" data-target="10">0</span>+</p>
+                    <p class="stat-label code-font">Publications</p>
+                </li>
+                <li class="stat-card glass-panel reveal-card">
+                    <i class="fa-solid fa-certificate stat-icon" aria-hidden="true"></i>
+                    <p class="stat-value"><span class="counter" data-target="2">0</span></p>
+                    <p class="stat-label code-font">Patents · 1 filed, 1 granted</p>
+                </li>
+                <li class="stat-card glass-panel reveal-card">
+                    <i class="fa-solid fa-flask stat-icon" aria-hidden="true"></i>
+                    <p class="stat-value"><span class="counter" data-target="6">0</span></p>
+                    <p class="stat-label code-font">Research &amp; industry roles</p>
+                </li>
+                <li class="stat-card glass-panel reveal-card">
+                    <i class="fa-solid fa-medal stat-icon" aria-hidden="true"></i>
+                    <p class="stat-value"><span class="counter" data-target="2">0</span>×</p>
+                    <p class="stat-label code-font">Raman Award</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ===================== EDUCATION ===================== -->
+    <section id="education" class="content-section">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">02 — Education</p>
+            <h2 class="syncopate-title">Academic base</h2>
+        </header>
+
+        <div class="cards-layout">
+            <article class="edu-card glass-panel reveal-card">
+                <div class="edu-header">
+                    <i class="fa-solid fa-building-columns edu-icon" aria-hidden="true"></i>
+                    <span class="code-font date-badge"><span class="ongoing-dot" aria-hidden="true"></span> Aug 2025 – Jun 2027</span>
+                </div>
+                <h3>M.Sc. Machine Learning</h3>
+                <p data-agent-say="M.Sc. Machine Learning at KTH — generative models, multi-agent systems, the works." class="edu-org">KTH Royal Institute of Technology · Stockholm, Sweden</p>
+                <p class="edu-detail">Relevant coursework:</p>
+                <ul class="tech-stack code-font">
+                    <li class="tag">Advanced ML (DD2434)</li>
+                    <li class="tag">Deep Learning in Data Science (DD2424)</li>
+                    <li class="tag">Advanced Deep Learning (DD2610)</li>
+                    <li class="tag">Deep Generative Models (DD2601)</li>
+                    <li class="tag">AI &amp; Multi-Agent Systems (DD2438)</li>
+                </ul>
+            </article>
+
+            <article class="edu-card glass-panel reveal-card">
+                <div class="edu-header">
+                    <i class="fa-solid fa-microchip edu-icon" aria-hidden="true"></i>
+                    <span class="code-font date-badge">2021 – 2025</span>
+                </div>
+                <h3>B.Tech. Electronics &amp; Communication Engineering</h3>
+                <p class="edu-org">Vellore Institute of Technology · Vellore, India</p>
+                <ul class="tech-stack code-font">
+                    <li class="tag">Signal processing</li>
+                    <li class="tag">Embedded systems</li>
+                    <li class="tag">Antenna &amp; array design</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience" class="content-section">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">03 — Experience</p>
+            <h2 class="syncopate-title">Where I've worked</h2>
+        </header>
+
+        <ol class="timeline-container">
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>AI Engineer <span class="exp-tag">part-time</span></h3>
+                            <p data-agent-say="He&#39;s building this one right now — agentic workflows, in production." class="exp-org">Massive Dynamic Sweden AB · Stockholm</p>
+                        </div>
+                        <span class="code-font timeline-date"><span class="ongoing-dot" aria-hidden="true"></span> Jul 2026 – Present</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Building the AI orchestration layer for <strong>O-LISTIC</strong>, an automated cybersecurity-policy platform — converting a manual pipeline into an end-to-end agentic workflow. 1 of 6 policy-generation stages migrated to tool-calling agents so far.</li>
+                        <li>Each migrated stage is exposed as a tool-calling agent behind typed FastAPI endpoints, with output validation, retry and fallback routing, and run tracing so every generated policy is reproducible and auditable.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">Python</li><li class="tag">FastAPI</li><li class="tag">LLM APIs</li>
+                        <li class="tag">Agent orchestration</li><li class="tag">PostgreSQL</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Summer Intern</h3>
+                            <p data-agent-say="5,000+ synthetic eye-movement sequences, modelled with state-space nets." class="exp-org">Karolinska Institutet · Stockholm</p>
+                        </div>
+                        <span class="code-font timeline-date"><span class="ongoing-dot" aria-hidden="true"></span> Jun 2026 – Present</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Generated <strong>5,000+ synthetic fixational eye-movement sequences</strong> by simulation — far more labelled data than lab measurement supplies — and own the simulation-to-training pipeline: parameter sweeps, labelling, versioning, reproducible configs.</li>
+                        <li>Modelling the resulting time series with a <strong>state-space architecture</strong> in PyTorch, benchmarked against diffusion, DiffWave and GAN baselines on distributional agreement with recorded data. <span class="muted">(Project details confidential.)</span></li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">PyTorch</li><li class="tag">State-space models</li>
+                        <li class="tag">Flow Matching</li><li class="tag">Linux</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Student Researcher</h3>
+                            <p class="exp-org">Robotics, Perception &amp; Learning (RPL) Lab, KTH · Stockholm</p>
+                        </div>
+                        <span class="code-font timeline-date">Sep 2025 – Jun 2026</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Prototyped a real-time multimodal navigation system combining computer vision and audio processing, building dynamic scene graphs to give autonomous agents spatial reasoning. In collaboration with the KTH AI Society.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">Multimodal AI</li><li class="tag">Scene graphs</li><li class="tag">Computer vision</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Systems Simulation Engineer</h3>
+                            <p class="exp-org">AESIR — KTH Rocketry · Stockholm</p>
+                        </div>
+                        <span class="code-font timeline-date">Sep 2025 – Jun 2026</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Developed the <strong>Freyja</strong> hardware-in-the-loop system to simulate real-time aerospace sub-systems, and ran test development and system validation for embedded flight software.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">Hardware-in-the-loop</li><li class="tag">System validation</li><li class="tag">Embedded</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Research Intern</h3>
+                            <p class="exp-org">Tata Memorial Hospital (ACTREC) · India</p>
+                        </div>
+                        <span class="code-font timeline-date">Nov 2023 – Dec 2023</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Benchmarked U-Net against YOLOv8-L for nuclei segmentation on <strong>MoNuSeg</strong> (37 H&amp;E slides, 7 organs): U-Net reached <strong>0.82 recall / 0.63 IoU</strong> with cleaner boundaries, while YOLOv8-L ran <strong>~24% faster (61 ms vs 80 ms)</strong> at comparable precision.</li>
+                        <li>Applied Grad-CAM and SHAP so clinicians could review what the models were keying on.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">U-Net</li><li class="tag">YOLOv8</li><li class="tag">Grad-CAM / SHAP</li><li class="tag">Histopathology</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Summer Intern</h3>
+                            <p data-agent-say="DRDO — phased arrays and radar degradation analysis." class="exp-org">Defence Research &amp; Development Organisation (DRDO) · India</p>
+                        </div>
+                        <span class="code-font timeline-date">Jun 2024 – Jul 2024</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Built an <strong>8 × 60 phased-array model</strong> with a real-time MATLAB GUI, plus radar-degradation analysis feeding fault-tolerant system design.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">MATLAB</li><li class="tag">Phased arrays</li><li class="tag">Radar analysis</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Research Intern</h3>
+                            <p data-agent-say="Yes, that ISRO. Satellite beamforming in Ansys HFSS." class="exp-org">Indian Space Research Organisation (ISRO) · India</p>
+                        </div>
+                        <span class="code-font timeline-date">Sep 2023 – Oct 2023</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Optimised a <strong>16 × 16 phased array</strong> for MEOSAR satellite signals in Ansys HFSS, using MVDR and LCMV beamforming to improve SNR by over 20%.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">Ansys HFSS</li><li class="tag">MVDR / LCMV</li><li class="tag">Beamforming</li>
+                    </ul>
+                </article>
+            </li>
+
+            <li class="timeline-item reveal-timeline">
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="timeline-content glass-panel">
+                    <div class="exp-header">
+                        <div>
+                            <h3>Research Assistant</h3>
+                            <p class="exp-org">Indian Institute of Management, Trichy · India</p>
+                        </div>
+                        <span class="code-font timeline-date">Mar 2023 – Jun 2023</span>
+                    </div>
+                    <ul class="exp-points">
+                        <li>Built an ETL and NLP sentiment pipeline over <strong>5,000+ survey responses and 200+ TV advertisements</strong>, quantifying emotional impact across 10+ persuasion metrics.</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">Python</li><li class="tag">ETL</li><li class="tag">NLP sentiment</li>
+                    </ul>
+                </article>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section id="projects" class="content-section">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">04 — Projects</p>
+            <h2 class="syncopate-title">Things I've built</h2>
+        </header>
+
+        <div class="projects-grid">
+
+            <article data-agent-say="Hey — this one&#39;s PatchPilot. It reads a Python traceback and patches itself. Pretty cool, right?" class="project-card glass-panel reveal-card is-featured">
+                <span class="project-glow" aria-hidden="true"></span>
+                <img class="project-thumb" src="assets/patchpilot.svg" width="640" height="320"
+                     loading="lazy" decoding="async"
+                     alt="PatchPilot's LangGraph state machine: run, catch traceback, embed and search pgvector, then either replay a cached fix or ask Gemini for a patch, gated by human approval before any file write.">
+                <div class="project-inner">
+                    <div class="proj-header">
+                        <i class="fa-solid fa-robot proj-icon" aria-hidden="true"></i>
+                        <div class="proj-links">
+                            <span class="badge badge-accent code-font">Flagship</span>
+                            <a href="https://github.com/Harshit-Poddar90/PatchPilot-Autonomous-Agent" target="_blank" rel="noopener" aria-label="PatchPilot on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <h3>PatchPilot — autonomous code-healing agent</h3>
+                    <p>
+                        A LangGraph state machine that runs a Python program, intercepts the traceback, and
+                        either returns a verified past fix from semantic memory (pgvector, similarity &gt; 0.90)
+                        or asks Gemini 2.5 Flash for a patch — so an already-solved bug costs no LLM call.
+                        A human-in-the-loop gate guards every file write; the fix is re-executed and written
+                        back as new memory. MLflow traces every prompt, token count and node latency.
+                    </p>
+                    <ul class="proj-metrics code-font">
+                        <li><i class="fa-solid fa-memory" aria-hidden="true"></i> Semantic fix cache</li>
+                        <li><i class="fa-solid fa-user-shield" aria-hidden="true"></i> Human-in-the-loop</li>
+                        <li><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Full run tracing</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">LangGraph</li><li class="tag">Gemini API</li>
+                        <li class="tag">Supabase / pgvector</li><li class="tag">MLflow</li><li class="tag">Streamlit</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="project-card glass-panel reveal-card">
+                <span class="project-glow" aria-hidden="true"></span>
+                <img data-agent-say="91.05% mAP across 6,789 CT scans. This is the one he&#39;s first author on." class="project-thumb" src="assets/lungmate.svg" width="640" height="320"
+                     loading="lazy" decoding="async"
+                     alt="Lung CT slice with a malignant nodule detected at 0.91 confidence and a benign one at 0.74, beside a quantitative readout of tumour diameter, area, perimeter, volume and mass.">
+                <div class="project-inner">
+                    <div class="proj-header">
+                        <i class="fa-solid fa-lungs proj-icon" aria-hidden="true"></i>
+                        <div class="proj-links">
+                            <span class="badge code-font">IEEE SENNET 2025</span>
+                            <a href="https://github.com/Harshit-Poddar90/LungMate-AI-Driven-Lung-Cancer-Diagnosis-" target="_blank" rel="noopener" aria-label="LungMate on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <h3>LungMate — lung-cancer detection with quantitative assessment</h3>
+                    <p>
+                        Hybrid detector replacing the YOLOv11s backbone with EfficientNet-B3 + Swin Transformer
+                        + CBAM, trained on 6,789 annotated CT scans across four lung-cancer classes. Tumour
+                        diameter, area, perimeter, volume and mass are derived from 2D bounding boxes via a
+                        calibrated pixel-to-cm factor, removing the need for 3D reconstruction. Shipped as a
+                        PyQt5 desktop tool with 15 image-processing modes.
+                    </p>
+                    <ul class="proj-metrics code-font">
+                        <li><i class="fa-solid fa-bullseye" aria-hidden="true"></i> 91.05% mAP@0.5</li>
+                        <li><i class="fa-solid fa-crosshairs" aria-hidden="true"></i> 90.12% precision</li>
+                        <li><i class="fa-solid fa-bolt" aria-hidden="true"></i> 2.35 ms inference</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">PyTorch</li><li class="tag">EfficientNet-B3</li>
+                        <li class="tag">Swin + CBAM</li><li class="tag">YOLOv11</li>
+                        <li class="tag">OpenCV</li><li class="tag">PyQt5</li><li class="tag">DICOM</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="project-card glass-panel reveal-card">
+                <span class="project-glow" aria-hidden="true"></span>
+                <img data-agent-say="Two patents sitting in this card — one filed, one granted." class="project-thumb" src="assets/embedded.svg" width="640" height="320"
+                     loading="lazy" decoding="async"
+                     alt="ESP32 board fusing MQ2 gas, NEO-6M GPS, pulse and IMU sensors, transmitting over LoRaWAN to a gateway dashboard, alongside the high-altitude fall-detection trigger chain.">
+                <div class="project-inner">
+                    <div class="proj-header">
+                        <i class="fa-solid fa-helmet-safety proj-icon" aria-hidden="true"></i>
+                        <div class="proj-links">
+                            <span class="badge code-font">1 filed</span>
+                            <span class="badge badge-granted code-font"><i class="fa-solid fa-check" aria-hidden="true"></i> 1 granted</span>
+                            <a href="https://github.com/Harshit-Poddar90/Yolo_Fall_Detection_System" target="_blank" rel="noopener" aria-label="Fall-detection system on GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <h3>Embedded safety systems</h3>
+                    <p>
+                        Two patented devices. An ESP32 + LoRaWAN industrial safety wearable streaming gas,
+                        GPS and pulse telemetry out of hazardous environments — <strong>patent filed</strong>.
+                        Alongside it, a high-altitude autonomous fall-detection system using sensor fusion
+                        and automated actuator deployment — <strong>design patent granted</strong>, code on
+                        <a href="https://github.com/Harshit-Poddar90/Yolo_Fall_Detection_System" target="_blank" rel="noopener">GitHub</a>.
+                    </p>
+                    <ul class="proj-metrics code-font">
+                        <li><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i> LoRaWAN telemetry</li>
+                        <li><i class="fa-solid fa-gears" aria-hidden="true"></i> Automated actuation</li>
+                    </ul>
+                    <ul class="tech-stack code-font">
+                        <li class="tag">ESP32</li><li class="tag">Sensor fusion</li>
+                        <li class="tag">Embedded C</li><li class="tag">LoRaWAN</li>
+                    </ul>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section id="skills" class="content-section">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">05 — Skills</p>
+            <h2 class="syncopate-title">Toolbox</h2>
+        </header>
+
+        <div class="skills-layout">
+            <article class="skill-group glass-panel reveal-card">
+                <h3 class="skill-group-title code-font"><i class="fa-solid fa-brain" aria-hidden="true"></i> ML &amp; deep learning</h3>
+                <ul class="tech-stack code-font">
+                    <li class="tag">PyTorch</li><li class="tag">State-space models</li><li class="tag">Transformers</li>
+                    <li class="tag">U-Net</li><li class="tag">EfficientNet</li><li class="tag">YOLOv8 / v11</li>
+                    <li class="tag">Grad-CAM</li><li class="tag">SHAP</li><li class="tag">Hugging Face</li>
+                    <li class="tag">Flow Matching</li>
+                </ul>
+            </article>
+
+            <article class="skill-group glass-panel reveal-card">
+                <h3 class="skill-group-title code-font"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> LLM systems &amp; agents</h3>
+                <ul class="tech-stack code-font">
+                    <li class="tag">LangGraph</li><li class="tag">LangChain</li><li class="tag">RAG</li>
+                    <li class="tag">Tool-calling agents</li><li class="tag">Gemini APIs</li>
+                    <li class="tag">pgvector</li><li class="tag">ChromaDB</li><li class="tag">Structured output validation</li>
+                </ul>
+            </article>
+
+            <article class="skill-group glass-panel reveal-card">
+                <h3 class="skill-group-title code-font"><i class="fa-solid fa-server" aria-hidden="true"></i> Engineering &amp; MLOps</h3>
+                <ul class="tech-stack code-font">
+                    <li class="tag">Python</li><li class="tag">Docker</li><li class="tag">FastAPI</li>
+                    <li class="tag">SQL</li><li class="tag">PostgreSQL / Supabase</li><li class="tag">Streamlit</li>
+                    <li class="tag">MLflow</li><li class="tag">GCP</li><li class="tag">Git</li>
+                    <li class="tag">Linux</li><li class="tag">PyQt5</li><li class="tag">MATLAB</li><li class="tag">LaTeX</li>
+                </ul>
+            </article>
+
+            <article class="skill-group glass-panel reveal-card">
+                <h3 class="skill-group-title code-font"><i class="fa-solid fa-wave-square" aria-hidden="true"></i> Scientific &amp; domain</h3>
+                <ul class="tech-stack code-font">
+                    <li class="tag">Signal processing</li><li class="tag">Ansys HFSS</li>
+                    <li class="tag">DICOM</li><li class="tag">FHIR</li><li class="tag">OMOP</li>
+                </ul>
+            </article>
+
+            <article class="skill-group glass-panel reveal-card">
+                <h3 class="skill-group-title code-font"><i class="fa-solid fa-language" aria-hidden="true"></i> Languages</h3>
+                <ul class="tech-stack code-font">
+                    <li class="tag">English — native</li><li class="tag">Hindi — native</li><li class="tag">Swedish — beginner</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- ===================== RESEARCH ===================== -->
+    <section id="research" class="content-section" data-agent-say="First author at IEEE SENNET 2025.">
+        <header class="section-heading reveal-text">
+            <p class="code-font accent-color eyebrow">06 — Research output</p>
+            <h2 class="syncopate-title">Publications &amp; patents</h2>
+        </header>
+
+        <div class="rd-grid">
+
+            <div class="rd-column">
+                <h3 class="rd-col-title code-font"><i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> Selected publications</h3>
+
+                <ol class="pub-list">
+                    <li class="pub-card glass-panel reveal-card">
+                        <span class="pub-rank code-font" title="Author position">1st author</span>
+                        <h4>LungMate: AI-driven lung cancer diagnosis with quantitative cancer assessment</h4>
+                        <p class="pub-authors">Poddar, H., Sivakumar, R.</p>
+                        <p class="pub-venue code-font"><span class="venue-chip">IEEE SENNET</span> 2025</p>
+                    </li>
+
+                    <li class="pub-card glass-panel reveal-card">
+                        <span class="pub-rank code-font" title="Author position">4th author</span>
+                        <h4>A hyperdimensional framework: RBP and GSN within CNNs for brain tumour classification</h4>
+                        <p class="pub-authors">Ramalakshmi, K., Rajagopal, S., Kulkarni, M. B., Poddar, H.</p>
+                        <p class="pub-venue code-font"><span class="venue-chip">Elsevier</span> Biomedical Signal Processing and Control, 96(B), 2024</p>
+                    </li>
+
+                    <li class="pub-card glass-panel reveal-card">
+                        <span class="pub-rank code-font" title="Author position">7th author</span>
+                        <h4>Analysis of banana plant health using machine learning techniques</h4>
+                        <p class="pub-authors">Thiagarajan, J. D. et al. (incl. Poddar, H.)</p>
+                        <p class="pub-venue code-font"><span class="venue-chip">Nature</span> Scientific Reports, 14:15041, 2024</p>
+                    </li>
+                </ol>
+
+                <a class="btn btn-glass scholar-link" href="https://scholar.google.com/citations?user=MQZBTE4AAAAJ&hl=en" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Full list on Google Scholar
+                </a>
+            </div>
+
+            <div class="rd-column">
+                <h3 class="rd-col-title code-font"><i class="fa-solid fa-fingerprint" aria-hidden="true"></i> Patents</h3>
+
+                <article class="blueprint-card glass-panel reveal-card">
+                    <span class="blueprint-bg" aria-hidden="true"></span>
+                    <div class="blueprint-content">
+                        <span class="mono-tag">Patent filed</span>
+                        <h4>IoT safety helmet &amp; wearable</h4>
+                        <p>ESP32 platform fusing MQ2 gas, NEO-6M GPS and pulse sensing, streamed over LoRaWAN for hazardous-environment telemetry.</p>
+                    </div>
+                </article>
+
+                <article class="blueprint-card glass-panel reveal-card is-granted">
+                    <span class="blueprint-bg" aria-hidden="true"></span>
+                    <div class="blueprint-content">
+                        <span class="mono-tag granted-tag"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Design patent granted</span>
+                        <h4>High-altitude fall protection</h4>
+                        <p>Real-time embedded system for fall detection using sensor fusion with automated actuator deployment.</p>
+                    </div>
+                </article>
+
+                <h3 class="rd-col-title code-font"><i class="fa-solid fa-trophy" aria-hidden="true"></i> Recognition</h3>
+
+                <ul class="achievements-list glass-panel reveal-card">
+                    <li class="achievement-item">
+                        <span class="achiev-icon glow-yellow" aria-hidden="true"><i class="fa-solid fa-medal"></i></span>
+                        <div>
+                            <strong>Raman Award (2×)</strong>
+                            <span>Vellore Institute of Technology — excellence in research and innovation.</span>
+                        </div>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achiev-icon" aria-hidden="true"><i class="fa-solid fa-robot"></i></span>
+                        <div>
+                            <strong>LLM evaluation participant</strong>
+                            <span>Google DeepMind &amp; Andon Labs — paid honorarium.</span>
+                        </div>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achiev-icon" aria-hidden="true"><i class="fa-solid fa-users"></i></span>
+                        <div>
+                            <strong>Member</strong>
+                            <span>KTH AI Society and AESIR (KTH Rocketry).</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="content-section" data-agent-say="Thesis slot open for Jan–Jun 2027. Say hi?">
+        <header class="section-heading text-center reveal-text">
+            <p class="code-font accent-color eyebrow">07 — Contact</p>
+            <h2 class="syncopate-title">Get in touch</h2>
+        </header>
+
+        <div class="contact-container">
+            <div class="contact-info reveal-card">
+                <h3>Hiring, or supervising a thesis?</h3>
+                <p class="contact-lede">
+                    I'm looking for a 30 ECTS master thesis for <strong>Jan–Jun 2027</strong> in generative or
+                    agentic AI, and full-time roles from mid-2027. Thesis agreements can be executed through KTH.
+                    I usually reply within a day.
+                </p>
+
+                <ul class="contact-links-list code-font">
+                    <li><a href="mailto:harshit10233@gmail.com" class="contact-link"><i class="fa-regular fa-envelope" aria-hidden="true"></i> harshit10233@gmail.com</a></li>
+                    <li><span class="contact-link is-static"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Stockholm, Sweden · open to relocation</span></li>
+                    <li><a href="https://www.linkedin.com/in/harshit-poddar-5b6587218/" target="_blank" rel="noopener" class="contact-link"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+                    <li><a href="https://github.com/Harshit-Poddar90" target="_blank" rel="noopener" class="contact-link"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a></li>
+                </ul>
+            </div>
+
+            <form id="contact-form" class="glass-form glass-panel reveal-card" action="https://formspree.io/f/maqgpdob" method="POST">
+                <div class="form-group">
+                    <input type="text" id="sender-name" name="name" required placeholder=" " autocomplete="name">
+                    <label for="sender-name">Your name</label>
+                    <span class="form-glow-line" aria-hidden="true"></span>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="sender-email" name="email" required placeholder=" " autocomplete="email">
+                    <label for="sender-email">Email</label>
+                    <span class="form-glow-line" aria-hidden="true"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="sender-subject" name="subject" required placeholder=" ">
+                    <label for="sender-subject">Subject</label>
+                    <span class="form-glow-line" aria-hidden="true"></span>
+                </div>
+                <div class="form-group">
+                    <textarea id="sender-message" name="message" rows="4" required placeholder=" "></textarea>
+                    <label for="sender-message">Message</label>
+                    <span class="form-glow-line" aria-hidden="true"></span>
+                </div>
+                <button type="submit" class="btn btn-primary submit-btn">
+                    <span class="btn-text">Send message</span>
+                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                </button>
+                <p class="form-status code-font" id="form-status" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<footer class="glass-footer">
+    <div class="footer-top">
+        <div>
+            <span class="brand-text">hpoddar<span class="accent-color">.engine()</span></span>
+            <p class="code-font footer-tagline">AI Engineer · Agentic systems &amp; machine learning</p>
+        </div>
+        <ul class="footer-tags code-font">
+            <li>Agentic AI</li><li>LLM orchestration</li><li>State-space models</li><li>Computer vision</li>
+        </ul>
+    </div>
+    <div class="footer-bottom code-font">
+        <p>Built with vanilla JS, Three.js and a RAG backend. <a href="https://github.com/Harshit-Poddar90/harshit-poddar90.github.io" target="_blank" rel="noopener">Source on GitHub</a>.</p>
+        <p>&copy; <span id="footer-year">2026</span> Harshit Poddar</p>
+    </div>
+</footer>
+
+<!-- ============================================================
+     AI ASSISTANT
+     Instant answers come from data/faq.json (zero latency).
+     Free-form questions go to the RAG backend.
+     ============================================================ -->
+<div id="assistant">
+    <!-- Avatar and speech bubble share a wrapper so the bubble is positioned
+         against the character rather than against the viewport. -->
+    <div id="agent-avatar">
+        <div id="agent-bubble" class="agent-bubble glass-panel" role="status" aria-live="polite" hidden>
+            <p id="agent-bubble-text"></p>
+            <button type="button" id="agent-bubble-close" aria-label="Dismiss and stop these tips">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- The character IS the control. No button chrome — it stands on the
+             page with its own contact shadow, label only on approach. -->
+        <button id="assistant-fab" type="button" aria-label="Ask the portfolio agent about Harshit"
+                aria-expanded="false" aria-controls="assistant-panel">
+            <span class="agent-shadow" aria-hidden="true"></span>
+            <span class="agent-sprite agent-sprite-lg" id="agent-fab-sprite" data-state="idle" aria-hidden="true">
+                <svg viewBox="0 0 40 46"><use href="#agent-glyph"/></svg>
+            </span>
+            <span class="agent-tip code-font" aria-hidden="true">Ask me</span>
+        </button>
     </div>
 
-    <!-- 4. STANDALONE CHATBOT SCRIPT (TOKEN STREAMING UPGRADE) -->
-    <script>
-        function toggleChatWindow() {
-            const chatBox = document.getElementById('chat-box');
-            const chatHistory = document.getElementById('chat-history');
-            
-            const isHidden = chatBox.style.display === 'none';
-            chatBox.style.display = isHidden ? 'flex' : 'none';
-            
-            if(isHidden && chatHistory.children.length === 0) {
-                // Instantly type out the first greeting
-                addChatMessage("SYSTEM INITIATED. I am the AI architect acting on behalf of Harshit. Ask me about his tech stack, models, or research.", "AI", true);
-                
-                setTimeout(() => {
-                    addChatMessage("⏳ Cold Start Protocol: My inference engine runs on a serverless tier. My first generation might take ~50 seconds.", "AI", true);
-                }, 1500);
-            }
-        }
+    <section id="assistant-panel" class="glass-panel" role="dialog" aria-modal="false"
+             aria-labelledby="assistant-title" hidden>
+        <header class="assistant-header">
+            <span class="agent-sprite agent-sprite-sm" id="agent-header-sprite" data-state="idle" aria-hidden="true">
+                <svg viewBox="0 0 40 46"><use href="#agent-glyph"/></svg>
+            </span>
+            <div class="assistant-heading">
+                <h2 id="assistant-title" class="code-font">Portfolio agent</h2>
+                <p class="assistant-substatus code-font" id="assistant-substatus">idle</p>
+            </div>
+            <span class="assistant-status-dot" id="assistant-status-dot" aria-hidden="true"></span>
+            <button type="button" id="assistant-close" class="assistant-close" aria-label="Close assistant">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </header>
 
-        // Asynchronous Typewriter Effect for Token Streaming
-        async function typeWriterEffect(element, text, speed = 15) {
-            element.innerHTML = ''; 
-            const chatHistory = document.getElementById('chat-history');
-            
-            for (let i = 0; i < text.length; i++) {
-                element.innerHTML += text.charAt(i);
-                chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll as it types
-                await new Promise(r => setTimeout(r, speed));
-            }
-        }
+        <div id="assistant-log" class="assistant-log" role="log" aria-live="polite" aria-atomic="false"></div>
 
-        function addChatMessage(text, sender, animate = false) {
-            const chatHistory = document.getElementById('chat-history');
-            const isBot = sender === "AI";
-            
-            const wrapper = document.createElement('div');
-            wrapper.style.display = 'flex';
-            wrapper.style.marginBottom = '15px';
-            wrapper.style.justifyContent = isBot ? 'flex-start' : 'flex-end';
+        <div class="assistant-chips code-font" id="assistant-chips"></div>
 
-            const bubble = document.createElement('div');
-            bubble.style.maxWidth = '85%';
-            bubble.style.padding = '12px 16px';
-            bubble.style.borderRadius = '12px';
-            bubble.style.fontSize = '0.9rem';
-            bubble.style.lineHeight = '1.5';
-            bubble.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-            bubble.style.fontFamily = 'var(--font-body)';
+        <form class="assistant-input-row" id="assistant-form">
+            <label class="sr-only" for="assistant-input">Your question</label>
+            <input type="text" id="assistant-input" autocomplete="off"
+                   placeholder="e.g. What did he do at Karolinska?" maxlength="400">
+            <button type="submit" id="assistant-send" aria-label="Send question">
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+            </button>
+        </form>
 
-            const header = `<strong style="font-family: var(--font-code); font-size: 0.75rem; opacity: 0.7; display: block; margin-bottom: 4px; color: ${isBot ? 'var(--neon-cyan)' : 'var(--neon-pink)'};">${sender}</strong>`;
-            
-            const textContainer = document.createElement('span');
+        <p class="assistant-foot code-font">
+            Answers are generated from a vector index of this CV. Verify anything important against the CV.
+        </p>
+    </section>
+</div>
 
-            if (!isBot) {
-                bubble.style.background = 'rgba(236, 72, 153, 0.1)'; 
-                bubble.style.border = '1px solid rgba(236, 72, 153, 0.3)';
-                bubble.style.color = '#fff';
-                bubble.style.borderBottomRightRadius = '2px';
-                textContainer.innerHTML = text; // User text appears instantly
-            } else {
-                bubble.style.background = 'rgba(6, 182, 212, 0.1)'; 
-                bubble.style.border = '1px solid rgba(6, 182, 212, 0.3)';
-                bubble.style.color = '#fff';
-                bubble.style.borderTopLeftRadius = '2px';
-                
-                // Trigger the typing animation if it's the bot
-                if (animate) {
-                    typeWriterEffect(textContainer, text);
-                } else {
-                    textContainer.innerHTML = text;
-                }
-            }
+<!-- Third-party libraries. defer keeps them off the critical rendering path. -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+        integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"
+        integrity="sha384-NMn9+T8zIKnDUstqb5le7vdLNSyAgSU9DtEPT/b7ks9NJQpPk4Dc9b1tI8oyzimc" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            bubble.innerHTML = header;
-            bubble.appendChild(textContainer);
-            wrapper.appendChild(bubble);
-            chatHistory.appendChild(wrapper);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-            
-            return wrapper; // Return the wrapper so we can delete the "Thinking..." bubble later
-        }
+<script>
+    // Must be a global — Google's script calls it by name via the ?cb= param.
+    // The language list here must stay a superset of the buttons in #lang-menu.
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,sv,de,fr,es,nl,da,fi,hi,zh-CN,ja',
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-        async function handleChatSend() {
-            const chatInput = document.getElementById('chat-input');
-            const question = chatInput.value.trim();
-            if(!question) return;
-            
-            chatInput.value = '';
-            addChatMessage(question, "You", false);
-            
-            // Add a temporary "Thinking..." bubble
-            const thinkingBubble = addChatMessage("Processing vector embeddings...", "AI", false);
-            
-            try {
-                const response = await fetch('https://portfolio-rag-api-o416.onrender.com/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question: question })
-                });
-                
-                const data = await response.json();
-                
-                // Remove the thinking bubble
-                thinkingBubble.remove();
-                
-                if (!response.ok) {
-                    addChatMessage(`Exception caught: ${data.detail || "Server unavailable."}`, "AI", true);
-                    return;
-                }
-                
-                if (data.answer) {
-                    // Pass 'true' to trigger the token streaming typewriter!
-                    addChatMessage(data.answer, "AI", true);
-                } else {
-                    addChatMessage("Null response from model.", "AI", true);
-                }
-                
-            } catch (e) {
-                thinkingBubble.remove();
-                addChatMessage("Transmission error. Connection to backend failed. Try again.", "AI", true);
-            }
-        }
+<!-- Application code. type="module" defers automatically and scopes every file. -->
+<script type="module" src="js/main.js"></script>
 
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') handleChatSend();
-        });
-    </script>
-    
-    <!-- Your main script stays at the very bottom -->
-    <script src="script.js"></script>
 </body>
 </html>

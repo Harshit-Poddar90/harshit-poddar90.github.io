@@ -1,32 +1,49 @@
+"""Inspect what the vector index actually returns for a question.
+
+Use this before blaming the model: if the retrieved chunks are wrong, no
+prompt change will fix the answer.
+
+    python query_db.py "What did Harshit do at ISRO?"
+"""
+
+from __future__ import annotations
+
+import sys
+
 import chromadb
-from chromadb.utils import embedding_functions
+from dotenv import load_dotenv
 
-def query_knowledge_base(user_question):
-    # 1. Connect to the existing persistent database
-    client = chromadb.PersistentClient(path="./portfolio_db")
-    
-    # 2. Load the same embedding model
-    embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="all-MiniLM-L6-v2"
-    )
-    
-    # 3. Access your collection
+from embeddings import COLLECTION_NAME, DB_PATH, GeminiEmbeddingFunction
+
+load_dotenv()
+
+DEFAULT_QUESTION = "What kind of work did Harshit do at ISRO?"
+
+
+def query_knowledge_base(question: str, n_results: int = 4) -> None:
+    client = chromadb.PersistentClient(path=DB_PATH)
+
+    # The previous version loaded a SentenceTransformer model here while the
+    # index was built with Gemini embeddings — different dimensions, so every
+    # result was meaningless. Always use the shared function.
     collection = client.get_collection(
-        name="harshit_portfolio",
-        embedding_function=embedding_func
+        name=COLLECTION_NAME, embedding_function=GeminiEmbeddingFunction()
     )
 
-    # 4. Perform the semantic search
-    results = collection.query(
-        query_texts=[user_question],
-        n_results=2 # Return the top 2 most relevant chunks
-    )
+    results = collection.query(query_texts=[question], n_results=n_results)
 
-    print(f"\nUser Question: {user_question}")
-    print("-" * 50)
-    for i, doc in enumerate(results['documents'][0]):
-        print(f"Retrieved Context {i+1}: {doc}")
+    documents = results["documents"][0]
+    distances = results["distances"][0]
+    metadatas = results["metadatas"][0]
+
+    print(f"\nQuestion: {question}")
+    print("-" * 72)
+    for rank, (doc, distance, meta) in enumerate(zip(documents, distances, metadatas), start=1):
+        print(f"\n[{rank}] distance={distance:.4f}  section={meta.get('section', '?')}")
+        print(doc)
+    print("-" * 72)
+    print("Lower distance = closer match. main.py drops anything above MAX_CONTEXT_DISTANCE.")
+
 
 if __name__ == "__main__":
-    # Test it with a question a recruiter might ask
-    query_knowledge_base("What kind of work did Harshit do at ISRO?")
+    query_knowledge_base(" ".join(sys.argv[1:]) or DEFAULT_QUESTION)

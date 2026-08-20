@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img"
+     aria-label="PatchPilot LangGraph state machine: run, catch traceback, search semantic memory, then either replay a cached fix or call Gemini, gated by a human approval step before writing the file.">
+  <defs>
+    <marker id="pp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#7a6a62"/>
+    </marker>
+    <marker id="pp-arrow-hot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#e0906c"/>
+    </marker>
+    <clipPath id="pp-frame"><rect width="640" height="320" rx="10"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#pp-frame)" font-family="ui-monospace, 'Fira Code', monospace">
+    <rect width="640" height="320" fill="#0d0b0a"/>
+    <g stroke="#c9724f" stroke-opacity="0.06">
+      <path d="M0 32h640M0 64h640M0 96h640M0 128h640M0 160h640M0 192h640M0 224h640M0 256h640M0 288h640"/>
+      <path d="M32 0v320M96 0v320M160 0v320M224 0v320M288 0v320M352 0v320M416 0v320M480 0v320M544 0v320M608 0v320"/>
+    </g>
+
+    <text x="20" y="28" font-size="10" letter-spacing="1.8" fill="#8a7a72">LANGGRAPH STATE MACHINE</text>
+    <path d="M20 38h600" stroke="#3a2f2a"/>
+
+    <!-- edges -->
+    <g fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)">
+      <path d="M108 78h44"/>
+      <path d="M264 78h44"/>
+      <path d="M362 100v34"/>
+      <path d="M420 152h56"/>
+      <path d="M362 190v30"/>
+      <path d="M308 238H196"/>
+      <path d="M132 220v-118"/>
+    </g>
+    <!-- cache-hit path -->
+    <g fill="none" stroke="#e0906c" stroke-width="2" marker-end="url(#pp-arrow-hot)">
+      <path d="M304 152h-42"/>
+    </g>
+
+    <!-- run -->
+    <rect x="20" y="58" width="88" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="64" y="76" font-size="11" fill="#d8cac2" text-anchor="middle">run</text>
+    <text x="64" y="89" font-size="8.5" fill="#7a6a62" text-anchor="middle">exec target.py</text>
+
+    <!-- traceback -->
+    <rect x="152" y="58" width="112" height="40" rx="6" fill="#2a1613" stroke="#a8563a"/>
+    <text x="208" y="76" font-size="11" fill="#e0906c" text-anchor="middle">catch traceback</text>
+    <text x="208" y="89" font-size="8.5" fill="#9c7c6c" text-anchor="middle">TypeError line 42</text>
+
+    <!-- embed -->
+    <rect x="308" y="58" width="108" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="362" y="76" font-size="11" fill="#d8cac2" text-anchor="middle">embed + search</text>
+    <text x="362" y="89" font-size="8.5" fill="#7a6a62" text-anchor="middle">pgvector</text>
+
+    <!-- decision diamond -->
+    <path d="M362 134 420 152 362 170 304 152z" fill="#181413" stroke="#c9724f" stroke-width="1.6"/>
+    <text x="362" y="150" font-size="9.5" fill="#f5c6a5" text-anchor="middle">similarity</text>
+    <text x="362" y="161" font-size="9.5" fill="#f5c6a5" text-anchor="middle">&gt; 0.90 ?</text>
+
+    <!-- cached fix -->
+    <rect x="154" y="132" width="108" height="40" rx="6" fill="#1a2018" stroke="#7f9c8a"/>
+    <text x="208" y="150" font-size="11" fill="#a9c4b4" text-anchor="middle">replay fix</text>
+    <text x="208" y="163" font-size="8.5" fill="#6f8a7a" text-anchor="middle">0 LLM calls</text>
+    <text x="270" y="142" font-size="8.5" fill="#e0906c">yes</text>
+
+    <!-- gemini -->
+    <rect x="476" y="132" width="140" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="546" y="150" font-size="11" fill="#d8cac2" text-anchor="middle">Gemini · patch</text>
+    <text x="546" y="163" font-size="8.5" fill="#7a6a62" text-anchor="middle">generate diff</text>
+    <text x="432" y="145" font-size="8.5" fill="#7a6a62">no</text>
+
+    <!-- human gate -->
+    <rect x="308" y="220" width="112" height="40" rx="6" fill="#241a12" stroke="#c9a24f"/>
+    <text x="364" y="238" font-size="11" fill="#e8c877" text-anchor="middle">human gate</text>
+    <text x="364" y="251" font-size="8.5" fill="#9c8a5c" text-anchor="middle">approve write</text>
+
+    <!-- apply + store -->
+    <rect x="84" y="220" width="112" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="140" y="238" font-size="11" fill="#d8cac2" text-anchor="middle">apply + re-run</text>
+    <text x="140" y="251" font-size="8.5" fill="#7a6a62" text-anchor="middle">store as memory</text>
+
+    <!-- feedback label -->
+    <text x="140" y="196" font-size="8.5" fill="#7a6a62" text-anchor="middle">verified</text>
+
+    <!-- gemini -> gate -->
+    <path d="M546 172v48h-126" fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)"/>
+
+    <!-- mlflow strip -->
+    <rect x="20" y="278" width="600" height="26" rx="6" fill="#151110" stroke="#3a2f2a"/>
+    <circle cx="36" cy="291" r="3.5" fill="#e0906c"/>
+    <text x="48" y="294.5" font-size="9" fill="#8a7a72">MLflow trace</text>
+    <text x="150" y="294.5" font-size="9" fill="#b9a89f">prompt</text>
+    <text x="222" y="294.5" font-size="9" fill="#b9a89f">tokens</text>
+    <text x="294" y="294.5" font-size="9" fill="#b9a89f">node latency</text>
+    <text x="404" y="294.5" font-size="9" fill="#b9a89f">retries</text>
+    <text x="612" y="294.5" font-size="9" fill="#e0906c" text-anchor="end" font-weight="700">reproducible</text>
+
+    <rect x="0.5" y="0.5" width="639" height="319" rx="10" fill="none" stroke="#3a2f2a"/>
+  </g>
+</svg>

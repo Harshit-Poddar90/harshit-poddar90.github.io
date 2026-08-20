@@ -1,73 +1,241 @@
-import os
-import chromadb
-from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from dotenv import load_dotenv
+"""Rebuild the portfolio vector index.
 
-# Load your local Google API Key
+Run this whenever the CV changes:
+
+    python build_db.py
+
+The index is committed to the repo so Render does not need a Google API key at
+build time — only at query time.
+
+Keep KNOWLEDGE in sync with index.html and js/faq.js. Each entry is one
+self-contained fact: retrieval works far better on short, standalone chunks
+than on long paragraphs that mix three roles together.
+"""
+
+from __future__ import annotations
+
+import chromadb
+from dotenv import load_dotenv
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from embeddings import COLLECTION_NAME, DB_PATH, GeminiEmbeddingFunction
+
 load_dotenv()
 
+# (section, text) — the section becomes metadata so answers can be traced back.
+KNOWLEDGE: list[tuple[str, str]] = [
+    # ---------------------------------------------------------------- profile
+    (
+        "profile",
+        "Harshit Poddar is an AI engineer based in Stockholm, Sweden, studying for an "
+        "M.Sc. in Machine Learning at KTH Royal Institute of Technology (August 2025 to "
+        "June 2027). He specialises in generative AI, agentic AI, state-space models, "
+        "agentic LLM orchestration, computer vision, physical AI and scientific machine "
+        "learning. He is open to relocation.",
+    ),
+    (
+        "availability",
+        "Harshit is seeking a 30 ECTS master thesis project running January to June 2027 "
+        "in generative AI, agentic AI or machine learning, and full-time graduate roles "
+        "after that. Official thesis agreements can be executed through KTH. Contact him "
+        "by email at harshit10233@gmail.com. Do not share any phone number.",
+    ),
+    # ------------------------------------------------------------- experience
+    (
+        "experience:massive-dynamic",
+        "At Massive Dynamic Sweden AB in Stockholm, Harshit has worked as a part-time AI "
+        "Engineer since July 2026. He builds the AI orchestration layer for O-LISTIC, an "
+        "automated cybersecurity-policy platform, converting a manual pipeline into an "
+        "end-to-end agentic workflow. One of six policy-generation stages has been migrated "
+        "to tool-calling agents so far. Each migrated stage is exposed as a tool-calling "
+        "agent behind typed FastAPI endpoints with output validation, retry and fallback "
+        "routing, and run tracing, so every generated policy is reproducible and auditable. "
+        "Stack: Python, FastAPI, LLM APIs, agent orchestration, PostgreSQL, Git.",
+    ),
+    (
+        "experience:karolinska",
+        "At Karolinska Institutet in Stockholm, Harshit has been a summer intern since June "
+        "2026. He generates over 5,000 synthetic realistic fixational eye-movement sequences "
+        "by simulation, far more labelled sequences than lab measurement supplies, and owns "
+        "the simulation-to-training pipeline including parameter sweeps, labelling, versioning "
+        "and reproducible configs. He models the resulting time series with a state-space "
+        "architecture in PyTorch, benchmarked against diffusion, DiffWave and GAN baselines on "
+        "distributional agreement with recorded data. Further project details are confidential. "
+        "Stack: Python, PyTorch, state-space models, Flow Matching, Linux.",
+    ),
+    (
+        "experience:rpl",
+        "From September 2025 to June 2026 Harshit was a Student Researcher at the Robotics, "
+        "Perception and Learning (RPL) Lab at KTH, prototyping a real-time multimodal AI "
+        "navigation system combining computer vision and audio processing, and building "
+        "dynamic scene graphs to give autonomous agents spatial reasoning. This was in "
+        "collaboration with the KTH AI Society.",
+    ),
+    (
+        "experience:aesir",
+        "From September 2025 to June 2026 Harshit was a Systems Simulation Engineer at AESIR, "
+        "the KTH Rocketry team. He developed the Freyja hardware-in-the-loop system to simulate "
+        "real-time aerospace sub-systems and ran test development and system validation for "
+        "embedded flight software.",
+    ),
+    (
+        "experience:tata-memorial",
+        "At Tata Memorial Hospital (ACTREC) in India, Harshit was a research intern from "
+        "November to December 2023. He benchmarked U-Net against YOLOv8-L for nuclei "
+        "segmentation on the MoNuSeg dataset of 37 H&E slides across 7 organs. U-Net reached "
+        "0.82 recall and 0.63 IoU with stronger boundary delineation, while YOLOv8-L ran about "
+        "24 percent faster at 61 ms versus 80 ms with comparable precision. He applied Grad-CAM "
+        "and SHAP so clinicians could review the models' reasoning.",
+    ),
+    (
+        "experience:drdo",
+        "At DRDO (Defence Research and Development Organisation) in India, Harshit was a summer "
+        "intern from June to July 2024. He built an 8 by 60 phased-array model with a real-time "
+        "MATLAB GUI and performed radar-degradation analysis for fault-tolerant system design.",
+    ),
+    (
+        "experience:isro",
+        "At ISRO (Indian Space Research Organisation), Harshit was a research intern from "
+        "September to October 2023. He optimised a 16 by 16 phased antenna array for MEOSAR "
+        "satellite signals in Ansys HFSS, using MVDR and LCMV beamforming algorithms to achieve "
+        "over 20 percent SNR improvement.",
+    ),
+    (
+        "experience:iim",
+        "At the Indian Institute of Management, Trichy, Harshit was a research assistant from "
+        "March to June 2023. He built Python ETL and NLP sentiment pipelines over 5,000-plus "
+        "survey responses and 200-plus TV advertisements, using statistical modelling to "
+        "quantify emotional impact across more than 10 persuasion metrics.",
+    ),
+    # ---------------------------------------------------------------- projects
+    (
+        "project:patchpilot",
+        "PatchPilot is Harshit's autonomous code-healing agent, started June 2026. It is a "
+        "LangGraph state machine that runs a Python program, intercepts the traceback, and "
+        "either returns a verified past fix from semantic memory in pgvector when similarity "
+        "exceeds 0.90, or asks Gemini 2.5 Flash for a patch, so an already-solved bug costs no "
+        "LLM call. A human-in-the-loop gate guards every file write; the fix is then re-executed "
+        "and written back as new memory. MLflow traces every prompt, token count and node "
+        "latency. Stack: Python, LangGraph, Gemini API, Supabase with PostgreSQL and pgvector, "
+        "MLflow, Streamlit.",
+    ),
+    (
+        "project:lungmate",
+        "LungMate is Harshit's AI-driven lung cancer diagnosis system, built November 2024 to "
+        "April 2025. It is a hybrid detector replacing the YOLOv11s backbone with EfficientNet-B3, "
+        "a Swin Transformer and CBAM attention, trained on 6,789 annotated CT scans across four "
+        "lung-cancer classes. It reaches 91.05 percent mAP at IoU 0.5, 90.12 percent precision, "
+        "84 percent accuracy and 2.35 ms inference. It derives tumour diameter, area, perimeter, "
+        "volume and mass from 2D bounding boxes via a calibrated pixel-to-centimetre factor, "
+        "removing the need for 3D reconstruction, and ships as a PyQt5 GUI with 15 "
+        "image-processing modes. It was published at IEEE SENNET 2025.",
+    ),
+    (
+        "project:embedded-safety",
+        "Harshit built two patented embedded safety systems between January and December 2024: "
+        "a high-altitude autonomous fall-detection system using sensor fusion with automated "
+        "actuator deployment, for which a design patent has been granted; and an ESP32 plus "
+        "LoRaWAN industrial safety wearable with MQ2 gas, NEO-6M GPS and pulse sensing for "
+        "hazardous-environment telemetry, for which a patent has been filed. Stack: ESP32, "
+        "LoRaWAN, sensor fusion, embedded C.",
+    ),
+    (
+        "project:protocol-diagnostics",
+        "Harshit is building an AI-driven protocol diagnostic suite: a retrieval-augmented "
+        "generation pipeline that interprets LoRaWAN and physical-layer anomalies in raw "
+        "telemetry logs, turning unstructured log data into ranked likely causes with the "
+        "supporting log lines cited. Stack: LangChain, vector search, MLflow.",
+    ),
+    # ------------------------------------------------------------------ skills
+    (
+        "skills:ml",
+        "Harshit's machine learning and deep learning skills: PyTorch, state-space models, "
+        "transformers, convolutional networks including U-Net, EfficientNet and YOLOv8 and "
+        "YOLOv11, explainable AI with Grad-CAM and SHAP, Hugging Face, and Flow Matching.",
+    ),
+    (
+        "skills:llm",
+        "Harshit's LLM systems and agent skills: LangGraph, LangChain, retrieval-augmented "
+        "generation, tool-calling agents, Gemini APIs, vector search with pgvector and ChromaDB, "
+        "and structured-output validation.",
+    ),
+    (
+        "skills:engineering",
+        "Harshit's engineering and MLOps skills: Python, Docker, SQL, FastAPI, Streamlit, "
+        "PostgreSQL and Supabase, Git, Linux, MLflow, Google Cloud Platform, PyQt5, MATLAB and "
+        "LaTeX. Scientific and domain skills: signal processing, Ansys HFSS, DICOM, FHIR and OMOP.",
+    ),
+    (
+        "skills:languages",
+        "Harshit speaks English natively, Hindi natively, and Swedish at beginner level.",
+    ),
+    # --------------------------------------------------------------- education
+    (
+        "education:kth",
+        "Harshit is studying for an M.Sc. in Machine Learning at KTH Royal Institute of "
+        "Technology in Stockholm from August 2025 to an expected June 2027. Relevant coursework: "
+        "Machine Learning Advanced (DD2434), Deep Learning in Data Science (DD2424), Deep "
+        "Learning Advanced Course (DD2610), Deep Generative Models and Synthesis (DD2601), and "
+        "Artificial Intelligence and Multi-Agent Systems (DD2438).",
+    ),
+    (
+        "education:vit",
+        "Harshit holds a B.Tech in Electronics and Communication Engineering from Vellore "
+        "Institute of Technology in India, 2021 to 2025.",
+    ),
+    # ----------------------------------------------------- research and awards
+    (
+        "publications",
+        "Selected publications by Harshit Poddar: 'LungMate: AI-driven lung cancer diagnosis "
+        "with quantitative cancer assessment' with R. Sivakumar, IEEE SENNET 2025, where he is "
+        "first author; 'A hyperdimensional framework: RBP and GSN within CNNs for brain tumour "
+        "classification' with K. Ramalakshmi, S. Rajagopal and M. B. Kulkarni, Biomedical Signal "
+        "Processing and Control (Elsevier) volume 96(B), 2024, where he is fourth author; and "
+        "'Analysis of banana plant health using machine learning techniques' by J. D. Thiagarajan "
+        "et al., Scientific Reports (Nature) 14:15041, 2024, where he is seventh author. The full "
+        "list is on Google Scholar.",
+    ),
+    (
+        "awards",
+        "Harshit has one design patent granted and one patent filed for an IoT safety helmet. He "
+        "won the Raman Award twice at Vellore Institute of Technology for excellence in research "
+        "and innovation. He was a paid LLM evaluation participant for Google DeepMind and Andon "
+        "Labs, and is a member of the KTH AI Society and AESIR, the KTH Rocketry team.",
+    ),
+]
 
-class LangchainGeminiEmbeddingFunction(EmbeddingFunction):
-    def __init__(self):
-        api_key = os.environ.get("GOOGLE_API_KEY")
-        if not api_key:
-            raise ValueError("GOOGLE_API_KEY is missing! Check your .env file.")
-            
-        # FIX: Use the new standard model gemini-embedding-001
-        self.encoder = GoogleGenerativeAIEmbeddings(
-            model="gemini-embedding-001",
-            google_api_key=api_key
-        )
-        
-    def __call__(self, input: Documents) -> Embeddings:
-        return self.encoder.embed_documents(input)
 
-def build_knowledge_base():
-    client = chromadb.PersistentClient(path="./portfolio_db")
-    
-    # Use our custom LangChain wrapper instead!
-    embedding_func = LangchainGeminiEmbeddingFunction()
-    
-    # Wipe the old database if it exists
+def build_knowledge_base() -> None:
+    client = chromadb.PersistentClient(path=DB_PATH)
+    embedding_func = GeminiEmbeddingFunction()
+
     try:
-        client.delete_collection("harshit_portfolio")
+        client.delete_collection(COLLECTION_NAME)
+        print(f"Removed existing collection '{COLLECTION_NAME}'.")
     except Exception:
-        pass
+        pass  # first run — nothing to delete
 
     collection = client.create_collection(
-        name="harshit_portfolio",
-        embedding_function=embedding_func
+        name=COLLECTION_NAME, embedding_function=embedding_func
     )
 
-    # Your raw portfolio data
-    raw_data = [
-        "Harshit Poddar is a Machine Learning Engineer and M.Sc. student at KTH Royal Institute of Technology in Stockholm. He specializes in Computer Vision, Multimodal AI, LLMs, and scalable MLOps.",
-        "Harshit works as a Systems Simulation Engineer at AESIR (KTH Rocketry), developing the Freyja HIL system to simulate aerospace sub-systems and validate embedded flight software.",
-        "Harshit is a Student Researcher at the Robotics Perception and Learning (RPL) Lab, prototyping a multimodal AI navigation system integrating computer vision and audio processing alongside the KTH AI Society.",
-        "Harshit developed LungMate, a hybrid Computer Vision system utilizing EfficientNet-B3, Swin Transformer, and YOLOv11 for multi-metric lung cancer diagnosis, integrated with a PyQt GUI.",
-        "During his Research Internship at ISRO, Harshit optimized a 16x16 Phased Antenna Array for MEOSAR satellite signals, achieving over 20% SNR improvement using MVDR and LCMV beamforming algorithms.",
-        "At TATA Memorial Hospital (ACTREC), Harshit deployed U-Net and YOLOv8L for multi-organ nuclei segmentation on the MoNuSeg dataset, achieving higher accuracy and faster inference while using Grad-CAM and SHAP for explainability.",
-        "Harshit engineered an Industrial IoT Safety Wearable using an ESP32, Sensor Fusion (MQ2 Gas, NEO-6M GPS), and LoRaWAN connectivity. A patent has been filed for this device."
-    ]
+    # Most entries fit in one chunk; the splitter only kicks in for the long ones.
+    splitter = RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=80)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
-    
-    documents = []
-    metadatas = []
-    ids = []
+    documents: list[str] = []
+    metadatas: list[dict] = []
+    ids: list[str] = []
 
-    for i, text in enumerate(raw_data):
-        chunks = text_splitter.split_text(text)
-        for j, chunk in enumerate(chunks):
+    for section, text in KNOWLEDGE:
+        for i, chunk in enumerate(splitter.split_text(text)):
             documents.append(chunk)
-            metadatas.append({"source": f"portfolio_section_{i}"})
-            ids.append(f"doc_{i}_chunk_{j}")
+            metadatas.append({"section": section})
+            ids.append(f"{section}::{i}")
 
-    print("Sending text to Google Gemini for vector embedding...")
+    print(f"Embedding {len(documents)} chunks from {len(KNOWLEDGE)} entries…")
     collection.upsert(documents=documents, metadatas=metadatas, ids=ids)
-    print("Database successfully rebuilt using Google Embeddings via LangChain!")
+    print(f"Done. Collection '{COLLECTION_NAME}' holds {collection.count()} chunks at {DB_PATH}.")
+
 
 if __name__ == "__main__":
     build_knowledge_base()
