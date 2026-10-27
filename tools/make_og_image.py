@@ -70,7 +70,7 @@ def build() -> Image.Image:
     pill = [pad, 64, pad + 470, 106]
     rounded(d, pill, 21, fill=(28, 21, 18), outline=(90, 60, 45))
     d.ellipse([pad + 20, 79, pad + 32, 91], fill=GREEN)
-    d.text((pad + 44, 76), "OPEN TO MASTER THESIS 2027 + FULL-TIME AI ROLES",
+    d.text((pad + 44, 76), "OPEN TO GRADUATE + FULL-TIME AI ROLES · EUROPE",
            font=font("mono", 15), fill=ACCENT_BRIGHT)
 
     # Name

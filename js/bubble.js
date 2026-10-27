@@ -24,10 +24,10 @@ const SILENCED_KEY = 'hp.agent.silenced';
 const GREETING = "Hi — I'm Harshit's agent. Scroll on, I'll point out the good bits.";
 
 const PITCHES = [
-    'Harshit is after a 30 ECTS master thesis for Jan–Jun 2027. Got one going?',
-    'Also open to full-time AI roles from mid-2027 — Stockholm, or relocating.',
-    'Hiring, or supervising? Click me and ask me anything about his work.',
-    '17 papers, 159 citations, two patents. He has been busy.',
+    'Harshit is after graduate and full-time AI roles from summer 2027. Hiring?',
+    'Based in Stockholm, happy to relocate anywhere in Europe.',
+    'Hiring? Click me and ask me anything about his work.',
+    '17 papers, 170+ citations, two patents. He has been busy.',
 ];
 
 /** Wait for the boot intro to clear, then greet. */

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img"
+     aria-label="Text-to-SQL pipeline: a plain-English question goes through schema linking, an LLM, AST guardrails and a read-only SQLite database, producing SQL and the answer 76 loans; a DELETE query is blocked.">
+  <defs>
+    <marker id="ns-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#7a6a62"/>
+    </marker>
+    <clipPath id="ns-frame"><rect width="640" height="320" rx="10"/></clipPath>
+    <clipPath id="ns-ask"><rect x="20" y="50" width="600" height="30" rx="6"/></clipPath>
+    <!-- The question types in, each stage lights up in turn, then the SQL and answer appear. -->
+    <style>
+      .flow { stroke-dasharray: 5 5; animation: flow 0.8s linear infinite; }
+      .type { animation: type 8s steps(34) infinite; }
+      .tick { opacity: 0; animation: tick 8s infinite; }
+      .show { opacity: 0; animation: show 8s infinite; }
+      .blink { animation: blink 1.2s steps(2, jump-none) infinite; }
+      @keyframes flow { to { stroke-dashoffset: -10; } }
+      @keyframes type { 0% { transform: translateX(0); } 12%, 100% { transform: translateX(240px); } }
+      @keyframes tick { 0%, 13%, 100% { opacity: 0; } 2%, 10% { opacity: 1; } }
+      @keyframes show { 0% { opacity: 0; } 3%, 40% { opacity: 1; } 45%, 100% { opacity: 0; } }
+      @keyframes blink { 50% { opacity: 0.2; } }
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; }
+        .show { opacity: 1; }
+        .type { display: none; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#ns-frame)" font-family="ui-monospace, 'Fira Code', monospace">
+    <rect width="640" height="320" fill="#0d0b0a"/>
+    <g stroke="#c9724f" stroke-opacity="0.06">
+      <path d="M0 32h640M0 64h640M0 96h640M0 128h640M0 160h640M0 192h640M0 224h640M0 256h640M0 288h640"/>
+      <path d="M32 0v320M96 0v320M160 0v320M224 0v320M288 0v320M352 0v320M416 0v320M480 0v320M544 0v320M608 0v320"/>
+    </g>
+
+    <text x="20" y="28" font-size="10" letter-spacing="1.8" fill="#8a7a72">TEXT-TO-SQL · 1,084,180 ROWS · READ-ONLY</text>
+    <path d="M20 38h600" stroke="#3a2f2a"/>
+
+    <!-- question -->
+    <rect x="20" y="50" width="600" height="30" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="34" y="69" font-size="10" fill="#7a6a62">ask ›</text>
+    <text x="78" y="69" font-size="11" fill="#f5c6a5">"How many loans were never repaid?"</text>
+    <g clip-path="url(#ns-ask)"><rect class="type" x="76" y="54" width="250" height="22" fill="#181413"/></g>
+
+    <!-- edges -->
+    <g class="flow" fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#ns-arrow)">
+      <path d="M72 80v18"/>
+      <path d="M124 120h18"/>
+      <path d="M248 120h18"/>
+      <path d="M372 120h18"/>
+      <path d="M496 120h18"/>
+      <path d="M320 140v16H196v-14"/>
+    </g>
+    <text x="258" y="170" font-size="8.5" fill="#7a6a62" text-anchor="middle">self-repair · max 2</text>
+
+    <!-- stages -->
+    <rect x="20" y="100" width="104" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="72" y="118" font-size="10.5" fill="#d8cac2" text-anchor="middle">schema linker</text>
+    <text x="72" y="131" font-size="8" fill="#7a6a62" text-anchor="middle">BM25 + embeddings</text>
+
+    <rect x="144" y="100" width="104" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="196" y="118" font-size="10.5" fill="#d8cac2" text-anchor="middle">LLM · Gemini</text>
+    <text x="196" y="131" font-size="8" fill="#7a6a62" text-anchor="middle">5 few-shot examples</text>
+
+    <rect x="268" y="100" width="104" height="40" rx="6" fill="#241a12" stroke="#c9a24f"/>
+    <text x="320" y="118" font-size="10.5" fill="#e8c877" text-anchor="middle">guardrails</text>
+    <text x="320" y="131" font-size="8" fill="#9c8a5c" text-anchor="middle">sqlglot AST check</text>
+
+    <rect x="392" y="100" width="104" height="40" rx="6" fill="#1a2018" stroke="#7f9c8a"/>
+    <text x="444" y="118" font-size="10.5" fill="#a9c4b4" text-anchor="middle">SQLite</text>
+    <text x="444" y="131" font-size="8" fill="#6f8a7a" text-anchor="middle">read-only · 30 s cap</text>
+
+    <rect x="516" y="100" width="104" height="40" rx="6" fill="#181413" stroke="#4a403c"/>
+    <text x="568" y="118" font-size="10.5" fill="#d8cac2" text-anchor="middle">answer</text>
+    <text x="568" y="131" font-size="8" fill="#7a6a62" text-anchor="middle">+ SQL + rows</text>
+
+    <!-- execution highlight, one stage per second after the question -->
+    <g fill="none" stroke="#f5c6a5" stroke-width="2.4">
+      <rect class="tick" style="animation-delay:1s" x="20" y="100" width="104" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:2s" x="144" y="100" width="104" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:3s" x="268" y="100" width="104" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:4s" x="392" y="100" width="104" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:5s" x="516" y="100" width="104" height="40" rx="6"/>
+    </g>
+
+    <!-- generated SQL -->
+    <rect x="20" y="182" width="380" height="88" rx="6" fill="#151110" stroke="#3a2f2a"/>
+    <text x="34" y="198" font-size="8.5" letter-spacing="1.2" fill="#8a7a72">GENERATED SQL</text>
+    <g font-size="10.5" fill="#d8cac2">
+      <text class="show" style="animation-delay:3s" x="34" y="216"><tspan fill="#e0906c">SELECT</tspan> COUNT(*) <tspan fill="#e0906c">AS</tspan> count</text>
+      <text class="show" style="animation-delay:3.25s" x="34" y="231"><tspan fill="#e0906c">FROM</tspan> loan</text>
+      <text class="show" style="animation-delay:3.5s" x="34" y="246"><tspan fill="#e0906c">WHERE</tspan> is_defaulted = 1</text>
+      <text class="show" style="animation-delay:3.75s" x="34" y="261"><tspan fill="#e0906c">LIMIT</tspan> 1000 <tspan fill="#7a6a62">-- injected by guardrails</tspan></text>
+    </g>
+
+    <!-- answer -->
+    <rect x="412" y="182" width="208" height="40" rx="6" fill="#1a2018" stroke="#7f9c8a"/>
+    <text x="426" y="198" font-size="8.5" letter-spacing="1.2" fill="#6f8a7a">ANSWER</text>
+    <text class="show" style="animation-delay:5.2s" x="426" y="214" font-size="12" font-weight="700" fill="#a9c4b4">76 loans.</text>
+
+    <!-- blocked -->
+    <rect x="412" y="230" width="208" height="40" rx="6" fill="#2a1613" stroke="#a8563a"/>
+    <circle class="blink" cx="427" cy="245" r="3.5" fill="#e0906c"/>
+    <text x="437" y="248" font-size="10" fill="#e0906c">DELETE FROM loan</text>
+    <text x="426" y="262" font-size="8" fill="#9c7c6c">blocked before it reaches the DB</text>
+
+    <!-- audit strip -->
+    <rect x="20" y="280" width="600" height="26" rx="6" fill="#151110" stroke="#3a2f2a"/>
+    <circle cx="36" cy="293" r="3.5" fill="#e0906c"/>
+    <text x="48" y="296.5" font-size="9" fill="#8a7a72">audit log</text>
+    <text x="130" y="296.5" font-size="9" fill="#b9a89f">question</text>
+    <text x="200" y="296.5" font-size="9" fill="#b9a89f">SQL</text>
+    <text x="242" y="296.5" font-size="9" fill="#b9a89f">timings</text>
+    <text x="306" y="296.5" font-size="9" fill="#b9a89f">tokens</text>
+    <text x="364" y="296.5" font-size="9" fill="#b9a89f">cost</text>
+    <text x="612" y="296.5" font-size="9" fill="#e0906c" text-anchor="end" font-weight="700">70-question benchmark</text>
+
+    <rect x="0.5" y="0.5" width="639" height="319" rx="10" fill="none" stroke="#3a2f2a"/>
+  </g>
+</svg>

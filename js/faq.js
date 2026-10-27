@@ -13,8 +13,8 @@ export const FAQ = [
         question: 'What are you available for and when?',
         keywords: ['available', 'availability', 'thesis', 'hiring', 'looking', 'open', 'start', 'when', 'notice'],
         answer:
-            'Two things: a 30 ECTS master thesis for Jan–Jun 2027 (agreements can be executed through KTH), ' +
-            'and full-time roles from mid-2027 after the M.Sc. finishes. Based in Stockholm and open to relocation. ' +
+            'Graduate and full-time roles in AI and ML engineering, starting summer 2027 when the M.Sc. finishes. ' +
+            'Based in Stockholm and open to relocating anywhere in Europe. ' +
             'Right now I work part-time as an AI Engineer at Massive Dynamic Sweden AB.',
     },
     {

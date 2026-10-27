@@ -8,6 +8,16 @@
       <path d="M0 0 10 5 0 10z" fill="#e0906c"/>
     </marker>
     <clipPath id="pp-frame"><rect width="640" height="320" rx="10"/></clipPath>
+    <!-- Edges march, and each node lights up in execution order. -->
+    <style>
+      .flow { stroke-dasharray: 5 5; animation: flow 0.8s linear infinite; }
+      .tick { opacity: 0; animation: tick 7s infinite; }
+      .blink { animation: blink 1.4s ease-in-out infinite; }
+      @keyframes flow { to { stroke-dashoffset: -10; } }
+      @keyframes tick { 0%, 15%, 100% { opacity: 0; } 3%, 11% { opacity: 1; } }
+      @keyframes blink { 50% { opacity: 0.25; } }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+    </style>
   </defs>
 
   <g clip-path="url(#pp-frame)" font-family="ui-monospace, 'Fira Code', monospace">
@@ -21,7 +31,7 @@
     <path d="M20 38h600" stroke="#3a2f2a"/>
 
     <!-- edges -->
-    <g fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)">
+    <g class="flow" fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)">
       <path d="M108 78h44"/>
       <path d="M264 78h44"/>
       <path d="M362 100v34"/>
@@ -31,7 +41,7 @@
       <path d="M132 220v-118"/>
     </g>
     <!-- cache-hit path -->
-    <g fill="none" stroke="#e0906c" stroke-width="2" marker-end="url(#pp-arrow-hot)">
+    <g class="flow" fill="none" stroke="#e0906c" stroke-width="2" marker-end="url(#pp-arrow-hot)">
       <path d="M304 152h-42"/>
     </g>
 
@@ -81,11 +91,22 @@
     <text x="140" y="196" font-size="8.5" fill="#7a6a62" text-anchor="middle">verified</text>
 
     <!-- gemini -> gate -->
-    <path d="M546 172v48h-126" fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)"/>
+    <path class="flow" d="M546 172v48h-126" fill="none" stroke="#7a6a62" stroke-width="1.4" marker-end="url(#pp-arrow)"/>
+
+    <!-- execution highlight, one node per second -->
+    <g fill="none" stroke="#f5c6a5" stroke-width="2.4">
+      <rect class="tick" x="20" y="58" width="88" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:1s" x="152" y="58" width="112" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:2s" x="308" y="58" width="108" height="40" rx="6"/>
+      <path class="tick" style="animation-delay:3s" d="M362 134 420 152 362 170 304 152z"/>
+      <rect class="tick" style="animation-delay:4s" x="476" y="132" width="140" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:5s" x="308" y="220" width="112" height="40" rx="6"/>
+      <rect class="tick" style="animation-delay:6s" x="84" y="220" width="112" height="40" rx="6"/>
+    </g>
 
     <!-- mlflow strip -->
     <rect x="20" y="278" width="600" height="26" rx="6" fill="#151110" stroke="#3a2f2a"/>
-    <circle cx="36" cy="291" r="3.5" fill="#e0906c"/>
+    <circle class="blink" cx="36" cy="291" r="3.5" fill="#e0906c"/>
     <text x="48" y="294.5" font-size="9" fill="#8a7a72">MLflow trace</text>
     <text x="150" y="294.5" font-size="9" fill="#b9a89f">prompt</text>
     <text x="222" y="294.5" font-size="9" fill="#b9a89f">tokens</text>

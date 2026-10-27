@@ -31,14 +31,14 @@ KNOWLEDGE: list[tuple[str, str]] = [
         "M.Sc. in Machine Learning at KTH Royal Institute of Technology (August 2025 to "
         "June 2027). He specialises in generative AI, agentic AI, state-space models, "
         "agentic LLM orchestration, computer vision, physical AI and scientific machine "
-        "learning. He is open to relocation.",
+        "learning. He is open to relocating anywhere in Europe.",
     ),
     (
         "availability",
-        "Harshit is seeking a 30 ECTS master thesis project running January to June 2027 "
-        "in generative AI, agentic AI or machine learning, and full-time graduate roles "
-        "after that. Official thesis agreements can be executed through KTH. Contact him "
-        "by email at harshit10233@gmail.com. Do not share any phone number.",
+        "Harshit is seeking graduate and full-time roles in AI and machine learning "
+        "engineering (agentic AI, generative AI, applied ML), starting summer 2027 when his "
+        "M.Sc. finishes, in Sweden or anywhere in Europe. Contact him by email at "
+        "harshit10233@gmail.com. Do not share any phone number.",
     ),
     # ------------------------------------------------------------- experience
     (
@@ -62,14 +62,6 @@ KNOWLEDGE: list[tuple[str, str]] = [
         "architecture in PyTorch, benchmarked against diffusion, DiffWave and GAN baselines on "
         "distributional agreement with recorded data. Further project details are confidential. "
         "Stack: Python, PyTorch, state-space models, Flow Matching, Linux.",
-    ),
-    (
-        "experience:rpl",
-        "From September 2025 to June 2026 Harshit was a Student Researcher at the Robotics, "
-        "Perception and Learning (RPL) Lab at KTH, prototyping a real-time multimodal AI "
-        "navigation system combining computer vision and audio processing, and building "
-        "dynamic scene graphs to give autonomous agents spatial reasoning. This was in "
-        "collaboration with the KTH AI Society.",
     ),
     (
         "experience:aesir",
@@ -140,6 +132,46 @@ KNOWLEDGE: list[tuple[str, str]] = [
         "LoRaWAN, sensor fusion, embedded C.",
     ),
     (
+        "project:nl2sql-bank",
+        "Ask the Bank (nl2sql-bank) is Harshit's text-to-SQL system over a real anonymised Czech "
+        "bank database of 1,084,180 rows (9 tables and 3 views). Schema linking with BM25, "
+        "embeddings and a value index, merged by reciprocal rank fusion, selects the relevant "
+        "tables; the LLM writes SQL from five retrieved few-shot examples; a sqlglot syntax-tree "
+        "validator allows only a single read-only SELECT and injects a row limit; the query runs "
+        "on a read-only SQLite database with a timeout. Failed queries are repaired from the exact "
+        "error, at most twice, and every question is audit-logged. It has a 70-question benchmark, "
+        "a CLI, a FastAPI service, a Streamlit demo, Docker and CI, and supports Gemini, OpenAI, "
+        "Anthropic, Ollama or an offline generator. "
+        "GitHub: https://github.com/Harshit-Poddar90/nl2sql-bank",
+    ),
+    (
+        "project:vehicle-trajectories",
+        "Constrained Flow Matching for vehicle trajectories is a KTH course project Harshit worked "
+        "on. It studies when physical rules should enter the sampling of a generative model. A "
+        "conditional Flow Matching model generates "
+        "6-second vehicle futures at an Aachen intersection, trained on 14,540 windows of inD "
+        "drone data. Without rules 28 percent of futures leave the road. Soft guidance with "
+        "lambda 10 reaches 99.9 percent rule-feasible paths without extra jerk, while repeated "
+        "hard projection doubles the jerk and a single terminal projection multiplies it by five. "
+        "A torus experiment showed the opposite ranking, because equality and inequality "
+        "constraints behave differently. Data: the inD dataset by ika, RWTH Aachen University, "
+        "distributed by levelXdata (Bock et al., IEEE IV 2020). "
+        "GitHub: https://github.com/Harshit-Poddar90/vehicle-trajectory-generation",
+    ),
+    (
+        "project:rhythm-or-tempo",
+        "Rhythm or Just Tempo? is a KTH course project Harshit worked on. It tests whether "
+        "ballroom-dance classifiers learn the dance style or just the tempo. Random Forest and SVM "
+        "models are trained on 698 Ballroom clips in 8 dances, then tested on the same music "
+        "time-stretched by up to plus or minus 10 percent with the pitch unchanged, using nested "
+        "5-fold cross-validation. Rhythm features fall from 82 percent to 18 percent macro-F1 at "
+        "+10 percent tempo, tempo alone from 65 to 13 percent, while timbral features (MFCC, "
+        "zero-crossing rate and spectral centroid, implemented from scratch in NumPy) stay near "
+        "47 percent. Timbre combined with tempo-free rhythm features holds 66 to 70 percent under "
+        "stretching. GitHub: "
+        "https://github.com/Harshit-Poddar90/music-informatics-project/tree/from-scratch-timbral",
+    ),
+    (
         "project:protocol-diagnostics",
         "Harshit is building an AI-driven protocol diagnostic suite: a retrieval-augmented "
         "generation pipeline that interprets LoRaWAN and physical-layer anomalies in raw "
@@ -167,7 +199,7 @@ KNOWLEDGE: list[tuple[str, str]] = [
     ),
     (
         "skills:languages",
-        "Harshit speaks English natively, Hindi natively, and Swedish at beginner level.",
+        "Harshit speaks English natively, Hindi natively, and Swedish at beginner level (CEFR A1), which he is currently studying.",
     ),
     # --------------------------------------------------------------- education
     (
@@ -177,6 +209,13 @@ KNOWLEDGE: list[tuple[str, str]] = [
         "Machine Learning Advanced (DD2434), Deep Learning in Data Science (DD2424), Deep "
         "Learning Advanced Course (DD2610), Deep Generative Models and Synthesis (DD2601), and "
         "Artificial Intelligence and Multi-Agent Systems (DD2438).",
+    ),
+    (
+        "education:kth-ambassador",
+        "Since 2026 Harshit has been a KTH International Student Ambassador for the M.Sc. "
+        "Machine Learning programme, representing it to prospective international students. "
+        "KTH features his student profile on the programme's website: "
+        "https://www.kth.se/en/studies/master/machine-learning/students/harshit-1.1485330",
     ),
     (
         "education:vit",

@@ -20,6 +20,7 @@ import { initTranslate } from './translate.js';
 import { initCompanion, initScrollHints } from './companion.js';
 import { initBubble, startChatter } from './bubble.js';
 import { initNoticing } from './notice.js';
+import { initCarousel } from './carousel.js';
 
 /** One broken module must never take the whole page down with it. */
 function safely(name, fn) {
@@ -33,6 +34,7 @@ function safely(name, fn) {
 safely('theme', initTheme);
 safely('nav', initNav);
 safely('contact form', initContactForm);
+safely('carousel', initCarousel);
 safely('assistant', initAssistant);
 safely('translate', initTranslate);
 safely('companion', initCompanion);
